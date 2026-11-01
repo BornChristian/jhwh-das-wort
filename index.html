@@ -142,6 +142,37 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .ev-place{margin:.1rem 0 .2rem}
 .evrow .hint{font-size:.9rem}
 .evrow .btns{margin-top:.35rem;gap:.4rem}
+.sub-seg{margin:.2rem 0 .4rem}
+.tree-h{font-size:1.1rem;margin:1.4rem 0 .3rem}
+.treechart{display:block;width:100%;height:auto;margin:.5rem 0}
+.t-grid{stroke:var(--line);stroke-width:.6}
+.t-axis{font-size:8px;fill:var(--muted);text-anchor:middle;font-family:"Source Sans 3",system-ui,sans-serif}
+.t-flood{stroke:var(--nt);stroke-width:1;stroke-dasharray:3 2}
+.t-flood-l{font-size:8px;fill:var(--nt);text-anchor:end;font-family:"Source Sans 3",system-ui,sans-serif}
+.t-name{font-size:9px;fill:var(--ink);text-anchor:end;font-family:"Source Sans 3",system-ui,sans-serif}
+.t-bar{fill:var(--at);opacity:.75}
+.t-bar.cross{fill:var(--nt)}
+.facts{margin:.3rem 0 0;padding-left:1.2rem;color:var(--muted);font-size:.93rem}
+.tree{margin-top:.6rem}
+.t-era{border-left:3px solid var(--at);padding:.1rem 0 .9rem .9rem;margin-left:.2rem}
+.t-era-h{display:flex;flex-wrap:wrap;gap:.1rem .6rem;align-items:baseline;margin-bottom:.35rem}
+.t-era-h span{font-size:.85rem;color:var(--muted)}
+.t-note{margin:.1rem 0 .4rem;font-size:.88rem}
+.t-cols{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:.8rem}
+.t-main{list-style:none;margin:0;padding:0}
+.t-main li{position:relative;padding:.15rem 0 .35rem 1rem}
+.t-main li::before{content:"";position:absolute;left:0;top:.62rem;width:.5rem;height:.5rem;border-radius:50%;background:var(--at)}
+.t-main li.jesus::before{background:var(--nt);width:.65rem;height:.65rem;left:-.07rem}
+.t-p{background:none;border:0;padding:0;font-weight:700;font-size:1rem;color:var(--ink);text-align:left}
+button.t-p{text-decoration:underline dotted;text-decoration-color:var(--at);text-underline-offset:3px}
+.jesus .t-p{color:var(--nt);font-size:1.1rem}
+.t-role{display:block;font-size:.82rem;color:var(--muted);line-height:1.3}
+.t-ref{background:none;border:0;padding:0;font-size:.78rem;color:var(--nt);font-weight:600}
+.t-side{display:flex;flex-wrap:wrap;gap:.3rem;align-content:flex-start}
+.t-s{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:.2rem .6rem;font-size:.85rem;font-weight:600;color:var(--muted)}
+.t-s.plain{color:var(--muted)}
+.lg{display:inline-block;width:.8rem;height:.55rem;border-radius:2px;margin:0 .3rem 0 .5rem;vertical-align:.05em;opacity:.8}
+.lg.at{background:var(--at);margin-left:0}.lg.nt{background:var(--nt)}
 .pl-now{font-size:1.05rem;margin:.5rem 0 .2rem}
 a.primary{text-decoration:none}
 a.small{display:inline-block;color:var(--nt);text-decoration:none}
@@ -32122,6 +32153,18 @@ P('Hiob',[['Hiob','Frommer Mann, der alles verlor und mit Gott um den Sinn seine
 P('Esther,Ester',[['Esther','Jüdin, die Königin am persischen Hof wurde und ihr Volk vor der Vernichtung rettete.','Vetter und Pflegevater: Mardochai.','Est 2,17; Est 4,14; Est 7,3']]),
 P('Esra',[['Esra','Priester und Schriftgelehrter, kehrte aus Babylon zurück und lehrte das Gesetz.','','Esr 7,6; Neh 8,1']]),
 P('Nehemia',[['Nehemia','Mundschenk des Perserkönigs, der die Mauern Jerusalems wieder aufbaute.','','Neh 1,1; Neh 2,17; Neh 6,15']]),
+P('Henoch',[['Henoch','Lebte mit Gott und wurde von ihm entrückt, ohne zu sterben. Vater Methusalahs.','Vater: Jared. Sohn: Methusalah.','1Mo 5,24; Hebr 11,5; Jud 1,14'],['Henoch, Sohn Kains','Nach ihm benannte Kain eine Stadt.','Vater: Kain.','1Mo 4,17']]),
+P('Methusalah,Methusala',[['Methusalah','Mit 969 Jahren der älteste Mensch der Bibel. Starb nach den Zahlen in 1. Mose im Jahr der Sintflut.','Vater: Henoch. Sohn: Lamech. Enkel: Noah.','1Mo 5,21; 1Mo 5,27']]),
+P('Rahab',[['Rahab','Frau in Jericho, die die Kundschafter Israels versteckte und gerettet wurde. Im Stammbaum Jesu genannt.','Mann: Salmon. Sohn: Boas.','Jos 2,1; Jos 6,25; Mt 1,5; Hebr 11,31']]),
+P('Natan,Nathan',[['Natan, der Prophet','Prophet am Hof Davids. Überbrachte die Verheißung eines ewigen Königtums und stellte David nach der Sache mit Bathseba zur Rede.','','2Sam 7,2; 2Sam 12,7'],['Natan, Sohn Davids','Über ihn führt der Stammbaum Jesu in Lukas 3.','Eltern: David und Bathseba.','2Sam 5,14; Lk 3,31']]),
+P('Rehabeam',[['Rehabeam','Sohn Salomos, König von Juda (ca. 931–913 v. Chr.). Unter ihm zerbrach das Reich in Nord und Süd.','Vater: Salomo.','1Kön 12,14; 1Kön 14,21']]),
+P('Serubbabel',[['Serubbabel','Führte nach dem Exil die Rückkehrer an und baute als Statthalter den Tempel wieder auf. Im Stammbaum Jesu genannt.','Vater: Salatiel (Schealtiel).','Esr 3,8; Hag 2,23; Mt 1,12']]),
+P('Amos',[['Amos','Viehhirte aus Tekoa und Prophet im Nordreich um 760 v. Chr. Rief zu Recht und Gerechtigkeit.','','Am 1,1; Am 5,24; Am 7,14']]),
+P('Hosea',[['Hosea','Prophet im Nordreich im 8. Jh. v. Chr. Seine Ehe wurde zum Bild für Gottes treue Liebe.','','Hos 1,1; Hos 11,1']]),
+P('Micha',[['Micha, der Prophet','Prophet in Juda im 8. Jh. v. Chr. Kündigte den Herrscher aus Bethlehem an.','','Mi 1,1; Mi 5,2; Mi 6,8'],['Micha im Richterbuch','Mann aus Ephraim mit einem eigenen Götzenbild.','','Ri 17,1']]),
+P('Haggai',[['Haggai','Prophet nach dem Exil (520 v. Chr.), rief zum Wiederaufbau des Tempels auf.','','Hag 1,1; Esr 5,1']]),
+P('Sacharja',[['Sacharja, der Prophet','Prophet nach dem Exil ab 520 v. Chr., Zeitgenosse Haggais. Kündigte den König auf dem Esel an.','','Sach 1,1; Sach 9,9; Esr 5,1']]),
+P('Maleachi',[['Maleachi','Letzter Prophet des AT, um 450 v. Chr. Kündigte den Boten an, der dem Herrn den Weg bereitet.','','Mal 1,1; Mal 3,1']]),
 P('Melchisedek',[['Melchisedek','König von Salem und Priester Gottes, der Abraham segnete. Der Hebräerbrief sieht in ihm ein Vorbild auf Christus.','','1Mo 14,18; Ps 110,4; Hebr 7,1']]),
 P('Maria',[['Maria, die Mutter Jesu','Junge Frau aus Nazareth, der der Engel die Geburt Jesu ankündigte. Stand unter dem Kreuz.','Mann: Joseph. Verwandte: Elisabeth.','Lk 1,26; Lk 1,46; Lk 2,7; Joh 19,25'],['Maria Magdalena','Folgte Jesus aus Galiläa und begegnete als Erste dem Auferstandenen.','','Lk 8,2; Joh 20,1; Joh 20,16'],['Maria von Bethanien','Saß Jesus zu Füßen und salbte ihn mit kostbarem Öl.','Geschwister: Martha und Lazarus.','Lk 10,39; Joh 11,1; Joh 12,3']]),
 P('Elisabeth',[['Elisabeth','Frau des Priesters Zacharias, bekam im Alter Johannes den Täufer. Verwandte Marias.','Mann: Zacharias. Sohn: Johannes der Täufer.','Lk 1,5; Lk 1,41; Lk 1,57']]),
@@ -32666,15 +32709,90 @@ function eventsHTML(){
     <p class="hint" id="evnone" hidden>Nichts gefunden.</p>`;
 }
 
+/* ---------- Stammbaum von Adam bis Jesus ---------- */
+// [Name, Alter des Vaters bei der Geburt, Lebensjahre, Anmerkung]
+const EARLY = [
+['Adam',0,930,''],['Seth',130,912,''],['Enos',105,905,''],['Kenan',90,910,''],['Mahalaleel',70,895,''],['Jared',65,962,''],
+['Henoch',162,365,'wurde entrückt'],['Methusalah',65,969,'der älteste Mensch der Bibel'],['Lamech',187,777,''],['Noah',182,950,''],
+['Sem',502,600,'zwei Jahre nach der Flut 100 Jahre alt'],['Arphachsad',100,438,''],['Schelach',35,433,''],['Eber',30,464,''],['Peleg',34,239,''],
+['Regu',30,239,''],['Serug',32,230,''],['Nahor',30,148,''],['Terach',29,205,''],['Abraham',70,175,''],['Isaak',100,180,''],['Jakob',60,147,'']
+];
+(() => { let y = 0; EARLY.forEach((p, i) => { y = i ? y + p[1] : 0; p.born = y; p.died = y + p[2]; }); })();
+const FLOOD = 1656;
+// Abraham bis Jesus: [Name, Rolle, Zeit, Bibelstelle]; Abschnitte mit Nebenpersonen
+const LINE = [
+{ era:'Die Erzväter', time:'traditionell ca. 2000–1700 v. Chr.', main:[['Abraham','Stammvater Israels','1Mo 12,1'],['Isaak','Sohn der Verheißung','1Mo 21,3'],['Jakob','Israel','1Mo 32,28'],['Juda','Sohn Jakobs und Leas','1Mo 29,35'],['Perez','Sohn Judas und Tamars','1Mo 38,29']],
+  side:['Sara','Hagar','Ismael','Lot','Rebekka','Esau','Lea','Rahel','Joseph','Benjamin'] },
+{ era:'Ägypten und Wüste', time:'umstritten, oft 13. Jh. v. Chr.', main:[['Hezron','','Rut 4,18'],['Aram','im AT: Ram','Rut 4,19'],['Aminadab','','Rut 4,19'],['Nahasson','im AT: Nachschon, Fürst des Stammes Juda in der Wüste','4Mo 1,7']],
+  side:['Mose','Aaron','Mirjam','Josua'] },
+{ era:'Landnahme und Richterzeit', time:'ca. 1200–1050 v. Chr.', main:[['Salmon','Mann der Rahab','Mt 1,5'],['Boas','Mann der Rut','Rut 4,13'],['Obed','Sohn von Boas und Rut','Rut 4,17'],['Isai','Vater Davids','1Sam 16,1']],
+  side:['Rahab','Debora','Gideon','Simson','Rut','Hanna','Samuel'] },
+{ era:'Das vereinte Königreich', time:'ca. 1050–930 v. Chr.', main:[['David','König, ca. 1010–970 v. Chr.','2Sam 5,3'],['Salomo','König, ca. 970–930 v. Chr.','1Kön 1,39']],
+  side:['Saul','Jonathan','Goliath','Bathseba','Absalom','Natan'] },
+{ era:'Die Könige von Juda', time:'930–587 v. Chr.', note:'Matthäus lässt hier drei Könige aus (Ahasja, Joas, Amazja), um auf dreimal vierzehn Generationen zu kommen (Mt 1,17).',
+  main:[['Rehabeam','König, ca. 931–913','1Kön 12,17'],['Abia','auch Abija, König ca. 913–911','1Kön 15,1'],['Asa','König, ca. 911–870','1Kön 15,9'],['Josaphat','König, ca. 870–848','1Kön 22,41'],['Joram','König, ca. 848–841','2Kön 8,16'],['Usia','auch Ussija oder Asarja, König ca. 792–740','2Kön 15,1'],['Jotam','König, ca. 750–732','2Kön 15,32'],['Ahas','König, ca. 735–715','2Kön 16,1'],['Hiskia','König, ca. 715–686','2Kön 18,1'],['Manasse','König, ca. 697–642','2Kön 21,1'],['Amon','König, ca. 642–640','2Kön 21,19'],['Josia','König, ca. 640–609','2Kön 22,1'],['Jechonja','auch Jojachin, König 597, dann ins Exil','2Kön 24,8']],
+  side:['Elia','Elisa','Ahab','Isebel','Jona','Amos','Hosea','Jesaja','Micha','Jeremia'] },
+{ era:'Exil und Rückkehr', time:'587–ca. 400 v. Chr.', main:[['Salatiel','im AT: Schealtiel, geboren im Exil','1Chr 3,17'],['Serubbabel','Statthalter, Wiederaufbau des Tempels um 520 v. Chr.','Esr 3,8']],
+  side:['Nebukadnezar','Daniel','Hesekiel','Esther','Esra','Nehemia','Haggai','Sacharja','Maleachi'] },
+{ era:'Zwischen AT und NT', time:'ca. 400 v. Chr. bis Christi Geburt', note:'Diese Namen kennen wir nur aus dem Stammbaum in Matthäus 1.',
+  main:[['Abiud','','Mt 1,13'],['Eliakim','','Mt 1,13'],['Azor','','Mt 1,13'],['Sadok','','Mt 1,14'],['Achim','','Mt 1,14'],['Eliud','','Mt 1,14'],['Eleazar','','Mt 1,15'],['Mattan','','Mt 1,15'],['Jakob','Vater Josephs','Mt 1,16']],
+  side:[] },
+{ era:'Die Zeitenwende', time:'ca. 7–4 v. Chr.', main:[['Joseph','Mann der Maria','Mt 1,16'],['Jesus','„der Christus genannt wird“','Mt 1,16']],
+  side:['Maria','Elisabeth','Zacharias','Johannes','Herodes','Simeon','Hanna'] }
+];
+function personBtn(name, cls){
+  const t = TERMS[name];
+  if (t && t[0] === 'ps') return `<button class="${cls}" data-ps="${t[1]}">${esc(name)}</button>`;
+  return `<span class="${cls} plain">${esc(name)}</span>`;
+}
+function earlyChart(){
+  const n = EARLY.length, rowH = 15, top = 22, labW = 74, W = 360, plotW = W - labW - 8, maxY = 2300;
+  const X = y => (labW + y / maxY * plotW).toFixed(1), H = top + n * rowH + 8;
+  let g = '';
+  for (let y = 0; y <= maxY; y += 500) g += `<line x1="${X(y)}" y1="${top - 4}" x2="${X(y)}" y2="${H - 6}" class="t-grid"/><text x="${X(y)}" y="${top - 8}" class="t-axis">${y}</text>`;
+  g += `<line x1="${X(FLOOD)}" y1="${top - 4}" x2="${X(FLOOD)}" y2="${H - 6}" class="t-flood"/><text x="${X(FLOOD) - 2}" y="${H - 1}" class="t-flood-l">Flut ${FLOOD}</text>`;
+  EARLY.forEach((p, i) => {
+    const y = top + i * rowH;
+    g += `<text x="${labW - 4}" y="${y + 9}" class="t-name">${p[0]}</text><rect x="${X(p.born)}" y="${y + 2}" width="${(X(p.died) - X(p.born)).toFixed(1)}" height="${rowH - 5}" rx="2" class="t-bar ${p.died > FLOOD && p.born < FLOOD ? 'cross' : ''}"><title>${p[0]}: Jahr ${p.born} bis ${p.died}, ${p[2]} Jahre${p[3] ? ', ' + p[3] : ''}</title></rect>`;
+  });
+  return `<svg class="treechart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Lebenszeiten von Adam bis Jakob">${g}</svg>`;
+}
+function treeHTML(){
+  const ab = EARLY.find(p => p[0] === 'Abraham'), no = EARLY.find(p => p[0] === 'Noah'), se = EARLY.find(p => p[0] === 'Sem');
+  let h = `<p class="hint" style="margin-top:.6rem">Der Stammbaum folgt der Linie in 1. Mose 5 und 11, Rut 4 und Matthäus 1. Lukas 3 führt die Linie über Davids Sohn Nathan und nennt andere Namen.</p>
+    <div class="btns">${['1Mo 5,1','1Mo 11,10','Rut 4,18','Mt 1,1','Lk 3,23'].map(r => { const x = parseLoose(r); return `<button class="small" data-goto="${x.b},${x.c},${x.v}">${r}</button>`; }).join('')}</div>
+    <h3 class="tree-h">Von Adam bis Jakob</h3>
+    <p class="hint">Lebenszeiten nach den Zahlen in 1. Mose, gezählt in Jahren nach der Erschaffung Adams. Die Jahre stammen aus dem hebräischen Text; die griechische Übersetzung (Septuaginta) nennt teils andere Zahlen.</p>
+    ${earlyChart()}
+    <p class="hint" style="font-size:.85rem;margin:0 0 .3rem"><span class="lg at"></span>Lebenszeit <span class="lg nt"></span>lebte vor und nach der Flut</p>
+    <ul class="facts">
+      <li>Methusalah starb im Jahr der Flut (${FLOOD}).</li>
+      <li>Noah lebte nach der Flut noch ${no.died - FLOOD} Jahre und starb, als Abraham ${no.died - ab.born} Jahre alt war.</li>
+      <li>Sem überlebte Abraham um ${se.died - ab.died} Jahre.</li>
+    </ul>
+    <h3 class="tree-h">Von Abraham bis Jesus</h3>
+    <p class="hint">Links die direkte Linie, rechts weitere wichtige Personen der Zeit. Die Jahreszahlen sind ungefähr, für die frühe Zeit gibt es unterschiedliche Datierungen. Tippe auf einen Namen für mehr Infos.</p>
+    <div class="tree">`;
+  LINE.forEach(sec => {
+    h += `<div class="t-era"><div class="t-era-h"><strong>${esc(sec.era)}</strong><span>${esc(sec.time)}</span></div>${sec.note ? `<p class="hint t-note">${esc(sec.note)}</p>` : ''}<div class="t-cols"><ol class="t-main">`;
+    sec.main.forEach(([n, role, ref]) => { const r = parseLoose(ref);
+      h += `<li class="${n === 'Jesus' ? 'jesus' : ''}">${n === 'Jesus' ? `<span class="t-p plain">${n}</span>` : personBtn(n, 't-p')}${role ? `<span class="t-role">${esc(role)}</span>` : ''}${r ? `<button class="t-ref" data-goto="${r.b},${r.c},${r.v}">${esc(ref)}</button>` : ''}</li>`; });
+    h += `</ol><div class="t-side">${sec.side.map(n => personBtn(n, 't-s')).join('')}</div></div></div>`;
+  });
+  return h + `</div>`;
+}
+
 
 /* ---------- Entdecken ---------- */
-let moreView = 'time';
+let moreView = 'time', timeSub = 'epochs';
 function setMore(v){ moreView = v; document.querySelectorAll('#moreSeg button').forEach(x => x.classList.toggle('on', x.dataset.m === v)); renderMore(); }
 function renderMore(){
   let h = '';
   if (moreView === 'notes'){ $('#moreBody').innerHTML = renderNotesList(); return; }
   if (moreView === 'events'){ $('#moreBody').innerHTML = eventsHTML(); return; }
   if (moreView === 'time'){
+    h += `<div class="seg sub-seg"><button data-ts="epochs" class="${timeSub === 'epochs' ? 'on' : ''}">Epochen</button><button data-ts="tree" class="${timeSub === 'tree' ? 'on' : ''}">Stammbaum Jesus</button></div>`;
+    if (timeSub === 'tree'){ $('#moreBody').innerHTML = h + treeHTML(); return; }
     const cur = LOADED ? epochOf(st.b, st.c) : -1;
     h += `<p class="hint">Alle Angaben sind ungefähr. Besonders für die frühe Zeit gibt es unterschiedliche Datierungen.</p><ol class="tl">`;
     EPOCHS.forEach((e, k) => {
@@ -33009,6 +33127,7 @@ document.addEventListener('click', async e => {
   if (d.ep != null){ openEpoch(+d.ep); return; }
   if (d.intro){ const b0 = +d.intro; openSheet(`<div class="sh-head"><strong style="font-size:1.2rem">${esc(BOOKS[b0-1][1])}</strong><button class="close" data-act="close">Schließen</button></div>` + bookInfoHTML(b0, true)); return; }
   if (d.m){ setMore(d.m); return; }
+  if (d.ts){ timeSub = d.ts; renderMore(); return; }
   if (d.mark){ MARKS[d.mark] = !MARKS[d.mark]; lsSet('marks', MARKS); renderData(); renderChapter(); return; }
   if (d.ver){ closeSheet(); switchTo(d.ver); return; }
   if (d.par != null){ closeSheet(); setPar(d.par); return; }
