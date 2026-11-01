@@ -104,7 +104,7 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .markui textarea{width:100%;font:inherit;font-size:16px;padding:.6rem .7rem;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);resize:vertical;margin-bottom:.5rem}
 .dot{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;margin-right:.4rem;vertical-align:-.05em;border:1px solid var(--line)}
 .notetxt{display:block;margin-top:.35rem;padding:.4rem .6rem;border-left:3px solid var(--at);background:var(--at-soft);border-radius:0 6px 6px 0;font-size:.95rem}
-.small-seg button{font-size:.8rem;padding:.5rem .1rem}
+.small-seg button{font-size:.76rem;padding:.5rem .05rem}
 #reader.swipe-l{animation:inL .22s ease-out}
 #reader.swipe-r{animation:inR .22s ease-out}
 @keyframes inL{from{transform:translateX(28px);opacity:.3}to{transform:none;opacity:1}}
@@ -137,6 +137,11 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .hebrow .btns{margin-top:.4rem}
 .hb{text-decoration:underline dotted;text-decoration-color:var(--hb);text-underline-offset:3px;text-decoration-thickness:1.5px;cursor:pointer}
 .hb:active{background:var(--line);border-radius:3px}
+.evrow{padding:.75rem 0;border-bottom:1px solid var(--line)}
+.ev-title{font-weight:700;font-size:1.02rem}
+.ev-place{margin:.1rem 0 .2rem}
+.evrow .hint{font-size:.9rem}
+.evrow .btns{margin-top:.35rem;gap:.4rem}
 .pl-now{font-size:1.05rem;margin:.5rem 0 .2rem}
 a.primary{text-decoration:none}
 a.small{display:inline-block;color:var(--nt);text-decoration:none}
@@ -304,7 +309,7 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 .05em}
     <header class="bar"><h2>Entdecken</h2></header>
     <div class="wrap">
       <div class="seg small-seg" id="moreSeg" style="margin-top:1rem">
-        <button data-m="notes">Notizen</button><button data-m="time" class="on">Zeit</button><button data-m="routes">Reisen</button><button data-m="persons">Personen</button><button data-m="words">Begriffe</button>
+        <button data-m="notes">Notizen</button><button data-m="time" class="on">Zeit</button><button data-m="events">Orte</button><button data-m="routes">Reisen</button><button data-m="persons">Personen</button><button data-m="words">Begriffe</button>
       </div>
       <div id="moreBody"></div>
     </div>
@@ -32558,6 +32563,109 @@ function openEpoch(k){
   showTab('more'); setMore('time');
   const el = document.getElementById('ep' + k); if (el) requestAnimationFrame(() => el.scrollIntoView({ block:'center' }));
 }
+/* ---------- Wichtige Orte biblischer Ereignisse ---------- */
+const E = (title, ref, place, lat, lon, modern, note) => ({ title, ref, place, lat, lon, modern, note: note || '' });
+const EVENTS_AT = [
+E('Der Garten Eden','1Mo 2,8','Eden',31.0,47.4,'Lage unbekannt','Die Bibel nennt Euphrat und Tigris unter den Flüssen; gezeigt ist deren Mündungsgebiet im Südirak.'),
+E('Die Arche landet','1Mo 8,4','Gebirge Ararat',39.70,44.30,'Hochland von Armenien (Türkei, Armenien, Iran)','Die Bibel nennt kein bestimmtes Gipfelziel.'),
+E('Turmbau zu Babel','1Mo 11,9','Babel',32.536,44.421,'Ruinen von Babylon bei Hilla, Irak'),
+E('Abraham folgt Gottes Ruf','1Mo 12,4','Haran',36.865,39.031,'Harran, Südosttürkei'),
+E('Gott verheißt Abraham das Land','1Mo 12,7','Sichem',32.213,35.282,'Tell Balata bei Nablus, Westjordanland'),
+E('Drei Männer besuchen Abraham','1Mo 18,1','Mamre',31.558,35.104,'Ramat el-Chalil bei Hebron','Überlieferter Ort'),
+E('Untergang von Sodom und Gomorra','1Mo 19,24','Sodom',31.05,35.40,'vermutet am Südende des Toten Meeres','Lage unbekannt'),
+E('Abraham soll Isaak opfern','1Mo 22,2','Berg Morija',31.778,35.2354,'Tempelberg in Jerusalem','Nach Überlieferung derselbe Berg wie der spätere Tempelberg (2Chr 3,1).'),
+E('Grab von Abraham, Isaak und Jakob','1Mo 23,19','Höhle Machpela',31.5246,35.1107,'Patriarchengrab in Hebron','Überlieferter Ort'),
+E('Jakobs Traum von der Himmelsleiter','1Mo 28,12','Bethel',31.930,35.222,'Beitin, Westjordanland','Lage wahrscheinlich'),
+E('Jakob ringt mit Gott','1Mo 32,24','Pniel am Jabbok',32.18,35.69,'am Fluss Zarqa, Jordanien','Lage von Pniel nicht sicher.'),
+E('Rahels Grab','1Mo 35,19','bei Bethlehem',31.719,35.202,'Rahelsgrab am Nordrand von Bethlehem','Überlieferter Ort'),
+E('Joseph wird von seinen Brüdern verkauft','1Mo 37,17','Dothan',32.414,35.240,'Tel Dotan, Westjordanland'),
+E('Der brennende Dornbusch','2Mo 3,2','Horeb',28.5559,33.9760,'Katharinenkloster am Dschebel Musa, Ägypten','Überlieferter Ort, die Lage des Horeb ist umstritten.'),
+E('Durchzug durchs Schilfmeer','2Mo 14,21','Schilfmeer',30.0,32.55,'zwischen Nildelta und Sinai, Ägypten','Lage umstritten; vorgeschlagen werden u. a. die Bitterseen und der Golf von Sues.'),
+E('Die Zehn Gebote','2Mo 20,1','Berg Sinai',28.539,33.975,'Dschebel Musa, Ägypten','Überlieferter Ort, die Lage ist umstritten.'),
+E('Die Kundschafter kehren zurück','4Mo 13,26','Kades-Barnea',30.65,34.43,'Ain el-Qudeirat, Sinai-Halbinsel'),
+E('Mose sieht das Gelobte Land','5Mo 34,1','Berg Nebo',31.768,35.725,'Berg Nebo, Jordanien'),
+E('Israel zieht durch den Jordan','Jos 3,16','Jordan bei Jericho',31.837,35.550,'Taufstelle am Jordan'),
+E('Die Mauern Jerichos fallen','Jos 6,20','Jericho',31.871,35.444,'Tell es-Sultan bei Jericho, Westjordanland'),
+E('Sonne und Mond stehen still','Jos 10,12','Gibeon und Tal Ajalon',31.847,35.185,'al-Dschib, Westjordanland'),
+E('Landtag zu Sichem: „Ich und mein Haus“','Jos 24,15','Sichem',32.213,35.282,'Tell Balata bei Nablus'),
+E('Debora und Barak siegen','Ri 4,14','Berg Tabor',32.687,35.390,'Berg Tabor, Israel'),
+E('Gideon und seine 300 Mann','Ri 7,1','Quelle Harod am Gilboa',32.551,35.357,'Ein Harod, Israel'),
+E('Der Geist des HERRN treibt Simson','Ri 13,25','zwischen Zora und Esthaol',31.772,34.995,'westlich von Jerusalem, Israel'),
+E('Simsons Tod im Dagon-Tempel','Ri 16,30','Gaza',31.50,34.47,'Gaza-Stadt'),
+E('Rut liest Ähren bei Boas','Rut 2,3','Bethlehem',31.705,35.200,'Bethlehem, Westjordanland'),
+E('Gott ruft den jungen Samuel','1Sam 3,10','Silo',32.055,35.290,'Tel Schilo, Westjordanland'),
+E('Die Bundeslade kehrt zurück','1Sam 6,13','Beth-Semes',31.751,34.976,'Tel Bet Schemesch, Israel'),
+E('David wird zum König gesalbt','1Sam 16,13','Bethlehem',31.705,35.200,'Bethlehem, Westjordanland'),
+E('David besiegt Goliath','1Sam 17,49','Tal Ela bei Socho',31.690,34.960,'Elah-Tal, Israel','Der Ort liegt zwischen Socho und Aseka (1Sam 17,1).'),
+E('David in der Höhle Adullam','1Sam 22,1','Adullam',31.651,35.004,'Tel Adullam, Israel'),
+E('David verschont Saul','1Sam 24,3','En-Gedi',31.461,35.392,'En Gedi am Toten Meer'),
+E('Saul bei der Totenbeschwörerin','1Sam 28,7','Endor',32.636,35.388,'bei Indur, Israel','Lage nicht ganz sicher.'),
+E('Saul und Jonathan fallen','1Sam 31,1','Gebirge Gilboa',32.46,35.42,'Gilboa-Gebirge, Israel'),
+E('David erobert Jerusalem','2Sam 5,7','Burg Zion',31.773,35.236,'Davidsstadt südlich der Altstadt'),
+E('Salomo baut den Tempel','1Kön 6,1','Jerusalem',31.778,35.2354,'Tempelberg in Jerusalem'),
+E('Elia und das Feuer vom Himmel','1Kön 18,38','Karmel',32.670,35.085,'Muhraka am Karmelgebirge, Israel','Überlieferter Ort'),
+E('Elia hört das leise Säuseln','1Kön 19,12','Horeb',28.539,33.975,'Dschebel Musa, Ägypten','Überlieferter Ort'),
+E('Elia fährt zum Himmel','2Kön 2,11','am Jordan bei Jericho',31.84,35.55,'Ostufer des Jordan, Jordanien'),
+E('Naaman wird im Jordan geheilt','2Kön 5,14','Jordan',31.84,35.55,'Jordan bei Jericho','Die genaue Stelle ist nicht bekannt.'),
+E('Samaria fällt an Assyrien','2Kön 17,6','Samaria',32.276,35.197,'Sebastia, Westjordanland'),
+E('Jona predigt in Ninive','Jona 3,4','Ninive',36.359,43.153,'Ruinen bei Mossul, Irak'),
+E('Jerusalem wird zerstört','2Kön 25,9','Jerusalem',31.778,35.235,'Altstadt von Jerusalem'),
+E('Daniel in der Löwengrube','Dan 6,16','Babylon',32.536,44.421,'Ruinen bei Hilla, Irak','Der Königshof ist hier unter Darius genannt; die Stadt ist nicht ausdrücklich angegeben.'),
+E('Esther tritt vor den König','Est 4,16','Susa',32.19,48.25,'Schusch, Iran'),
+E('Die Mauern Jerusalems werden vollendet','Neh 6,15','Jerusalem',31.778,35.235,'Altstadt von Jerusalem')
+];
+const EVENTS_NT = [
+E('Der Engel kommt zu Maria','Lk 1,26','Nazareth',32.702,35.297,'Verkündigungsbasilika, Nazareth','Überlieferter Ort'),
+E('Geburt Jesu','Lk 2,7','Bethlehem',31.7043,35.2078,'Geburtskirche in Bethlehem, Westjordanland','Überlieferter Ort'),
+E('Die Hirten auf dem Feld','Lk 2,8','Hirtenfelder',31.705,35.226,'Beit Sahur bei Bethlehem','Überlieferter Ort'),
+E('Flucht nach Ägypten','Mt 2,14','Ägypten',30.0,31.2,'Ägypten','Die Bibel nennt keinen bestimmten Ort.'),
+E('Der zwölfjährige Jesus im Tempel','Lk 2,46','Tempel in Jerusalem',31.778,35.2354,'Tempelberg in Jerusalem'),
+E('Die Taufe Jesu','Mt 3,13','Jordan',31.837,35.550,'Taufstelle Bethabara am Jordan','Überlieferter Ort (Joh 1,28).'),
+E('Die Versuchung in der Wüste','Mt 4,1','Wüste Juda',31.866,35.43,'Berg der Versuchung bei Jericho','Überlieferter Ort'),
+E('Die Hochzeit zu Kana','Joh 2,1','Kana',32.747,35.339,'Kafr Kanna, Israel','Lage nicht sicher.'),
+E('Jesus und die Frau am Jakobsbrunnen','Joh 4,6','Sichar',32.209,35.285,'Jakobsbrunnen bei Nablus'),
+E('Jesus predigt in Nazareth','Lk 4,16','Nazareth',32.702,35.297,'Nazareth, Israel'),
+E('Jesus wohnt in Kapernaum','Mt 4,13','Kapernaum',32.881,35.575,'Kfar Nachum am See Genezareth'),
+E('Die Bergpredigt','Mt 5,1','Berg der Seligpreisungen',32.881,35.556,'oberhalb von Tabgha am See Genezareth','Überlieferter Ort'),
+E('Speisung der Fünftausend','Lk 9,10','bei Bethsaida',32.873,35.548,'Tabgha am See Genezareth','Überlieferter Ort; Lukas nennt die Gegend von Bethsaida.'),
+E('Jesus geht auf dem Wasser','Mt 14,25','See Genezareth',32.82,35.59,'See Genezareth, Israel'),
+E('Petrus bekennt: Du bist Christus','Mt 16,16','Cäsarea Philippi',33.248,35.694,'Banias auf den Golanhöhen'),
+E('Die Verklärung','Mt 17,2','Berg Tabor',32.687,35.390,'Berg Tabor, Israel','Überlieferter Ort; manche denken an den Hermon.'),
+E('Lazarus wird auferweckt','Joh 11,43','Bethanien',31.771,35.261,'al-Eizariya, Westjordanland'),
+E('Zachäus auf dem Baum','Lk 19,4','Jericho',31.856,35.459,'Jericho, Westjordanland'),
+E('Einzug in Jerusalem','Mt 21,1','Bethphage am Ölberg',31.785,35.250,'Ölberg, Jerusalem'),
+E('Das letzte Abendmahl','Lk 22,12','Obersaal in Jerusalem',31.7717,35.2290,'Abendmahlssaal auf dem Zionsberg','Überlieferter Ort'),
+E('Jesus betet in Gethsemane','Mt 26,36','Gethsemane',31.7794,35.2397,'Am Fuß des Ölbergs, Jerusalem','Überlieferter Ort'),
+E('Die Kreuzigung','Joh 19,17','Golgatha',31.7785,35.2296,'Grabeskirche in Jerusalem','Überlieferter Ort'),
+E('Das leere Grab','Joh 20,1','Grab Jesu',31.7785,35.2296,'Grabeskirche in Jerusalem','Überlieferter Ort'),
+E('Die Emmausjünger','Lk 24,13','Emmaus',31.839,34.989,'Emmaus Nikopolis, Israel','Lage nicht sicher, mehrere Orte werden vermutet.'),
+E('Die Himmelfahrt','Apg 1,9','Ölberg',31.778,35.244,'Ölberg, Jerusalem','Apg 1,12 nennt den Ölberg.'),
+E('Pfingsten: Der Geist kommt','Apg 2,1','Jerusalem',31.778,35.235,'Altstadt von Jerusalem'),
+E('Stephanus wird gesteinigt','Apg 7,59','Jerusalem',31.778,35.235,'vor den Toren Jerusalems'),
+E('Philippus tauft den Kämmerer','Apg 8,38','Straße nach Gaza',31.6,34.8,'zwischen Jerusalem und Gaza','Die genaue Stelle ist nicht bekannt.'),
+E('Paulus wird vor Damaskus bekehrt','Apg 9,3','vor Damaskus',33.511,36.306,'Damaskus, Syrien'),
+E('Petrus’ Vision vom Tuch','Apg 10,11','Joppe',32.054,34.752,'Jaffa, Tel Aviv-Jaffa'),
+E('Kornelius wird getauft','Apg 10,48','Cäsarea',32.500,34.892,'Caesarea am Mittelmeer, Israel'),
+E('Die Jünger heißen zuerst Christen','Apg 11,26','Antiochien',36.202,36.160,'Antakya, Türkei'),
+E('Das Apostelkonzil','Apg 15,6','Jerusalem',31.778,35.235,'Jerusalem'),
+E('Lydia, erste Christin Europas','Apg 16,14','Philippi',41.013,24.284,'Ausgrabungen bei Kavala, Griechenland'),
+E('Paulus’ Rede auf dem Areopag','Apg 17,22','Athen',37.9721,23.7236,'Areopag-Hügel, Athen'),
+E('Aufruhr der Silberschmiede','Apg 19,24','Ephesus',37.941,27.342,'Ausgrabungen bei Selçuk, Türkei'),
+E('Schiffbruch des Paulus','Apg 28,1','Melite',35.95,14.40,'Paulusbucht, Malta','Überlieferter Ort'),
+E('Paulus in Rom','Apg 28,16','Rom',41.893,12.483,'Rom, Italien'),
+E('Johannes empfängt die Offenbarung','Offb 1,9','Patmos',37.31,26.55,'Insel Patmos, Griechenland')
+];
+function eventsHTML(){
+  const row = e => { const r = parseLoose(e.ref);
+    return `<div class="evrow" data-txt="${esc((e.title + ' ' + e.place + ' ' + e.modern + ' ' + e.ref).toLowerCase())}"><div class="ev-title">${esc(e.title)}</div>
+      <div class="ev-place"><strong>${esc(e.place)}</strong>, heute: ${esc(e.modern)}</div>${e.note ? `<div class="hint">${esc(e.note)}</div>` : ''}
+      <div class="btns">${r ? `<button class="small" data-goto="${r.b},${r.c},${r.v}">${esc(e.ref)}</button>` : ''}<a class="small" href="${mapsUrl(e.lat, e.lon, e.place, 12)}" target="_blank" rel="noopener">Karte</a></div></div>`; };
+  return `<input id="evq" class="search" type="search" placeholder="Ort oder Ereignis suchen, z. B. Goliath" autocomplete="off" aria-label="Orte durchsuchen">
+    <h3 class="grp at">Altes Testament</h3>${EVENTS_AT.map(row).join('')}
+    <h3 class="grp nt">Neues Testament</h3>${EVENTS_NT.map(row).join('')}
+    <p class="hint" id="evnone" hidden>Nichts gefunden.</p>`;
+}
+
 
 /* ---------- Entdecken ---------- */
 let moreView = 'time';
@@ -32565,6 +32673,7 @@ function setMore(v){ moreView = v; document.querySelectorAll('#moreSeg button').
 function renderMore(){
   let h = '';
   if (moreView === 'notes'){ $('#moreBody').innerHTML = renderNotesList(); return; }
+  if (moreView === 'events'){ $('#moreBody').innerHTML = eventsHTML(); return; }
   if (moreView === 'time'){
     const cur = LOADED ? epochOf(st.b, st.c) : -1;
     h += `<p class="hint">Alle Angaben sind ungefähr. Besonders für die frühe Zeit gibt es unterschiedliche Datierungen.</p><ol class="tl">`;
@@ -32847,7 +32956,7 @@ function openLink(li, ti){
 }
 
 /* Einstellungen */
-const ABOUT_TEXT = 'Offline-Version: Die App funktioniert ohne Internet und ohne Konto. Markierungen und Notizen werden nur in diesem Browser auf diesem Gerät gespeichert. Für Karten- und Bibleserver-Links brauchst du Internet.';
+const ABOUT_TEXT = 'Markierungen und Notizen werden nur in diesem Browser auf diesem Gerät gespeichert. Für Karten- und Bibleserver-Links brauchst du Internet. Mit „Teilen“ und „Zum Home-Bildschirm“ in Safari bekommt die App ein eigenes Symbol.';
 function renderData(){
   let h = `<div class="card"><h3>JHWH Das Wort</h3><p>Bibeltext: Schlachter-Bibel 1951${B.length ? ', ' + B.length.toLocaleString('de-DE') + ' Verse' : ''}. © 1951 Genfer Bibelgesellschaft, Lizenz CC BY 4.0 (creativecommons.org/licenses/by/4.0). Quelle: eBible.org; Markierungen der Verszählung wurden entfernt.</p></div>`;
   h += `<div class="card"><h3>Markierungen im Text</h3><p>Angetippte Wörter zeigen Erklärungen. Hier kannst du einzelne Arten ausblenden.</p>
@@ -32953,6 +33062,12 @@ $('#nextBtn').addEventListener('click', () => step(1));
   }, { passive:true });
 })();
 $('#file').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if (f) importFile(f); });
+document.addEventListener('input', e => {
+  if (e.target.id !== 'evq') return;
+  const q = e.target.value.trim().toLowerCase(); let n = 0;
+  document.querySelectorAll('.evrow').forEach(r => { const ok = !q || r.dataset.txt.includes(q); r.hidden = !ok; if (ok) n++; });
+  const none = $('#evnone'); if (none) none.hidden = n > 0;
+});
 let qt; $('#q').addEventListener('input', () => { clearTimeout(qt); qt = setTimeout(runSearch, 250); });
 $('#q').addEventListener('keydown', e => { if (e.key === 'Enter'){ clearTimeout(qt); runSearch(); e.target.blur(); } });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
