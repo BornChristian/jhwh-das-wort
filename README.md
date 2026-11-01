@@ -1,0 +1,2 @@
+# jhwh-das-wort
+BibelApp
