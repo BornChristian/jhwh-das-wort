@@ -104,7 +104,9 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .markui textarea{width:100%;font:inherit;font-size:16px;padding:.6rem .7rem;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);resize:vertical;margin-bottom:.5rem}
 .dot{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;margin-right:.4rem;vertical-align:-.05em;border:1px solid var(--line)}
 .notetxt{display:block;margin-top:.35rem;padding:.4rem .6rem;border-left:3px solid var(--at);background:var(--at-soft);border-radius:0 6px 6px 0;font-size:.95rem}
-.small-seg button{font-size:.76rem;padding:.5rem .05rem}
+.small-seg{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.small-seg::-webkit-scrollbar{display:none}
+.small-seg button{flex:0 0 auto;font-size:.85rem;padding:.5rem .75rem}
 #reader.swipe-l{animation:inL .22s ease-out}
 #reader.swipe-r{animation:inR .22s ease-out}
 @keyframes inL{from{transform:translateX(28px);opacity:.3}to{transform:none;opacity:1}}
@@ -173,6 +175,22 @@ button.t-p{text-decoration:underline dotted;text-decoration-color:var(--at);text
 .t-s.plain{color:var(--muted)}
 .lg{display:inline-block;width:.8rem;height:.55rem;border-radius:2px;margin:0 .3rem 0 .5rem;vertical-align:.05em;opacity:.8}
 .lg.at{background:var(--at);margin-left:0}.lg.nt{background:var(--nt)}
+.chip.glc{background:var(--at-soft);color:var(--at);cursor:pointer}
+.para{margin:.4rem 0 .6rem}
+.para dt{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:.7rem}
+.para dd{margin:.15rem 0 0;line-height:1.5}
+.para dd.kern{font-weight:700;color:var(--at)}
+.para-src{font-size:.82rem;margin-top:.8rem}
+.cm-links{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:.6rem 0 .2rem}
+.cm-links .hint{width:100%;font-size:.85rem}
+.cm-ref{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;width:100%;padding:.35rem 0;border-top:1px solid var(--line)}
+.cm-ref strong{min-width:4.2rem;font-size:.9rem;color:var(--nt)}
+.cm-box{margin-top:.8rem}
+.cm-row{padding:.5rem 0;border-top:1px solid var(--line)}
+.cm-row a{font-weight:700;color:var(--nt)}
+.cm-row p{margin:.15rem 0 0;font-size:.9rem}
+.gl-kern{display:block;font-size:.9rem;color:var(--at)!important}
+.glrow .btns{margin-bottom:.8rem}
 .pl-now{font-size:1.05rem;margin:.5rem 0 .2rem}
 a.primary{text-decoration:none}
 a.small{display:inline-block;color:var(--nt);text-decoration:none}
@@ -340,7 +358,7 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 .05em}
     <header class="bar"><h2>Entdecken</h2></header>
     <div class="wrap">
       <div class="seg small-seg" id="moreSeg" style="margin-top:1rem">
-        <button data-m="notes">Notizen</button><button data-m="time" class="on">Zeit</button><button data-m="events">Orte</button><button data-m="routes">Reisen</button><button data-m="persons">Personen</button><button data-m="words">Begriffe</button>
+        <button data-m="notes">Notizen</button><button data-m="time" class="on">Zeit</button><button data-m="parables">Gleichnisse</button><button data-m="events">Orte</button><button data-m="routes">Reisen</button><button data-m="persons">Personen</button><button data-m="words">Begriffe</button>
       </div>
       <div id="moreBody"></div>
     </div>
@@ -32782,6 +32800,130 @@ function treeHTML(){
   return h + `</div>`;
 }
 
+/* ---------- Gleichnisse Jesu ---------- */
+// title | refs (erste = Hauptstelle) | Bild | Deutung | Kernaussage | Hinweis
+const GL = (title, refs, bild, deutung, kern, hinweis) => ({ title, refs:refs.split(';').map(x => x.trim()), bild, deutung, kern, hinweis: hinweis || '' });
+const PARABLES = [
+GL('Vom Sämann','Mt 13,3; Mk 4,3; Lk 8,5','Ein Bauer sät großzügig. Ein Teil der Saat fällt auf den Weg, auf Felsen und unter Dornen, ein Teil auf gute Erde und bringt reiche Frucht.','Der Same ist Gottes Wort. Die Böden stehen für Menschen, die es hören: Bei manchen wird es sofort weggenommen, bei anderen hält es Druck oder Sorgen nicht stand. Wo es aufgenommen und bewahrt wird, wächst es weit über Erwarten. Ausleger betonen: Trotz vieler Verluste ist die Ernte am Ende überreich.','Wie höre ich Gottes Wort?','Jesus erklärt dieses Gleichnis selbst (Mt 13,18–23).'),
+GL('Vom Unkraut unter dem Weizen','Mt 13,24','Ein Feind sät nachts Unkraut in einen Weizenacker. Der Bauer lässt beides bis zur Ernte wachsen, damit der Weizen nicht mit ausgerissen wird.','Gut und Böse wachsen in der Welt bis zum Ende nebeneinander. Die Trennung ist Gottes Sache beim Gericht, nicht die Aufgabe der Menschen jetzt. Viele Ausleger lesen darin eine Warnung vor vorschnellem Richten und zugleich Trost: Gott hat das letzte Wort.','Geduld bis zur Ernte; das Urteil gehört Gott.','Jesus erklärt es selbst (Mt 13,36–43).'),
+GL('Vom Senfkorn','Mt 13,31; Mk 4,30; Lk 13,18','Das winzige Senfkorn wird zu einer großen Staude, in der Vögel nisten.','Das Reich Gottes beginnt unscheinbar, mit Jesus und wenigen Jüngern, und wächst zu etwas Großem, das vielen Raum bietet. Manche Ausleger sehen in den Vögeln die Völker der Welt.','Kleine Anfänge, großes Ziel.','Einige Ausleger deuten das ungewöhnlich große Wachstum auch kritisch, als Bild für äußerliches Wachstum der Kirche.'),
+GL('Vom Sauerteig','Mt 13,33; Lk 13,20','Eine Frau mengt etwas Sauerteig unter eine große Menge Mehl, bis alles durchsäuert ist.','Das Reich Gottes wirkt verborgen von innen heraus und durchdringt nach und nach alles. Die Menge (drei Scheffel, rund 25 kg Mehl) zeigt die gewaltige Wirkung.','Verborgen, aber durchdringend.','Sauerteig steht in der Bibel sonst oft für Böses (z. B. 1Kor 5,6); hier ist er meist positiv gedeutet.'),
+GL('Vom Schatz im Acker','Mt 13,44','Ein Mann findet einen Schatz in einem Acker, verkauft voller Freude alles und kauft den Acker.','Wer das Reich Gottes entdeckt, erkennt seinen unvergleichlichen Wert. Der Einsatz von allem ist kein Opfer, sondern geschieht „vor Freude“.','Das Reich Gottes ist alles wert.'),
+GL('Von der kostbaren Perle','Mt 13,45','Ein Kaufmann sucht schöne Perlen. Als er eine besonders kostbare findet, verkauft er alles und kauft sie.','Ähnlich wie beim Schatz, aber hier ist es ein Suchender. Wer Gott sucht, findet in Jesus das Wertvollste.','Suchen lohnt sich.'),
+GL('Vom Fischnetz','Mt 13,47','Ein Netz fängt Fische aller Art; am Ufer werden die guten von den schlechten getrennt.','Das Reich Gottes sammelt jetzt viele Menschen. Die endgültige Scheidung geschieht am Ende der Welt durch Gott.','Am Ende kommt die Scheidung.','Jesus erklärt es selbst (Mt 13,49–50).'),
+GL('Von der selbstwachsenden Saat','Mk 4,26','Ein Bauer sät und schläft; die Saat wächst, ohne dass er weiß wie, bis zur Ernte.','Das Wachstum des Reiches Gottes ist Gottes Werk, nicht menschliches Machen. Der Mensch sät, Gott schenkt das Gedeihen.','Gott lässt wachsen.'),
+GL('Vom verlorenen Schaf','Lk 15,4; Mt 18,12','Ein Hirte lässt 99 Schafe zurück, sucht das eine verlorene und trägt es voller Freude heim.','Erzählt für Pharisäer, die sich über Jesu Umgang mit Sündern empörten. Gott sucht aktiv nach dem Verlorenen, und im Himmel ist Freude über jeden, der umkehrt.','Gott sucht jeden Einzelnen.'),
+GL('Von der verlorenen Drachme','Lk 15,8','Eine Frau sucht gründlich nach einer verlorenen Münze und feiert mit Nachbarinnen, als sie sie findet.','Wie beim Schaf: Gott sucht mit Sorgfalt, und das Finden löst Freude aus. Eine Drachme war etwa ein Tageslohn.','Freude über das Gefundene.'),
+GL('Vom verlorenen Sohn','Lk 15,11','Ein jüngerer Sohn verprasst sein Erbe, kehrt reumütig heim und wird vom Vater mit offenen Armen empfangen. Der ältere Bruder ärgert sich darüber.','Der Vater steht für Gott, der Umkehrende mit überschwänglicher Liebe aufnimmt. Viele Ausleger sehen den eigentlichen Höhepunkt beim älteren Bruder: Er steht für die Selbstgerechten, die nicht mitfeiern wollen. Das Ende bleibt offen und lädt die Zuhörer ein.','Gottes Liebe wartet und vergibt.','Man nennt es auch „Gleichnis vom barmherzigen Vater“.'),
+GL('Vom Schalksknecht','Mt 18,23','Einem Knecht wird eine riesige Schuld erlassen. Danach würgt er einen Mitknecht wegen einer kleinen Schuld und wird bestraft.','Antwort auf Petrus’ Frage, wie oft man vergeben soll. Wer von Gott unermessliche Vergebung empfangen hat, soll selbst vergeben. 10 000 Talente waren eine unvorstellbar große Summe.','Empfangene Vergebung will weitergegeben werden.'),
+GL('Von den Arbeitern im Weinberg','Mt 20,1','Arbeiter, die zu verschiedenen Stunden angefangen haben, erhalten alle denselben Lohn. Die Ersten murren.','Gottes Güte richtet sich nicht nach Leistung. Wer spät zu Gott findet, ist nicht weniger angenommen. Die Frage an die Murrenden lautet: „Siehst du scheel, weil ich gütig bin?“','Gnade statt Lohnrechnung.'),
+GL('Von den zwei Söhnen','Mt 21,28','Ein Sohn sagt Nein zur Arbeit, geht aber doch; der andere sagt Ja und geht nicht.','Gerichtet an die religiösen Führer: Zöllner und Huren, die umkehren, gehen ihnen ins Reich Gottes voran. Entscheidend ist das Tun, nicht das Lippenbekenntnis.','Taten zählen mehr als Worte.'),
+GL('Von den bösen Weingärtnern','Mt 21,33; Mk 12,1; Lk 20,9','Pächter misshandeln die Knechte des Besitzers und töten schließlich seinen Sohn.','Ein Bild für Israels Geschichte: Gott sandte Propheten, die abgelehnt wurden, und zuletzt seinen Sohn. Die Zuhörer verstanden, dass Jesus von ihnen sprach (Mt 21,45). Anspielung auf Jesaja 5.','Die Ablehnung des Sohnes hat Folgen.'),
+GL('Von der königlichen Hochzeit','Mt 22,1','Geladene Gäste schlagen die Einladung zur Hochzeit des Königssohnes aus; nun werden alle von den Straßen geholt. Einer kommt ohne Festkleid.','Gottes Einladung ergeht an alle, auch an die, mit denen niemand rechnete. Das Festkleid wird oft als Bild für die Gerechtigkeit gedeutet, die Gott schenkt, oder für ein verändertes Leben.','Die Einladung ernst nehmen.'),
+GL('Vom großen Abendmahl','Lk 14,16','Die Geladenen entschuldigen sich mit Acker, Ochsen und Hochzeit; der Herr lädt Arme, Krüppel, Blinde und Lahme ein.','Ähnlich wie die königliche Hochzeit, betont hier aber die Armen und Ausgestoßenen. Alltägliche Ausreden können die wichtigste Einladung verdrängen.','Nichts ist wichtiger als Gottes Einladung.'),
+GL('Von den zehn Jungfrauen','Mt 25,1','Zehn Brautjungfrauen warten auf den Bräutigam. Fünf haben Öl mitgenommen, fünf nicht; als er spät kommt, sind die Törichten ausgeschlossen.','Es geht um die Wiederkunft Jesu: Man soll bereit sein, auch wenn es länger dauert. Das Öl wird verschieden gedeutet, etwa als Glaube, Heiliger Geist oder gute Werke. Klar ist: Bereitschaft kann man sich nicht von anderen leihen.','Wachet, ihr kennt Tag und Stunde nicht.'),
+GL('Von den anvertrauten Talenten','Mt 25,14','Ein Herr vertraut Knechten Geld an. Zwei vermehren es, einer vergräbt es aus Angst.','Gott vertraut Menschen Gaben an und erwartet, dass sie damit treu wirtschaften. Der dritte Knecht wird nicht für Verlust, sondern für Angst und Untätigkeit getadelt. Unser Wort „Talent“ für Begabung stammt von diesem Gleichnis.','Gaben sind zum Einsetzen da.'),
+GL('Von den anvertrauten Pfunden','Lk 19,12','Ein Adliger reist fort, um König zu werden, und gibt zehn Knechten je ein Pfund. Bei seiner Rückkehr fordert er Rechenschaft.','Ähnlich wie die Zentner, aber jeder erhält dasselbe. Erzählt, weil man meinte, das Reich Gottes komme sofort (Lk 19,11): Bis dahin gilt es, treu zu sein.','Treue in der Wartezeit.'),
+GL('Vom Weltgericht','Mt 25,31','Der Menschensohn scheidet die Völker wie ein Hirte die Schafe von den Böcken.','Eher eine Bildrede als ein Gleichnis. Jesus identifiziert sich mit den Hungrigen, Fremden, Kranken und Gefangenen: „Was ihr getan habt einem unter diesen meinen geringsten Brüdern, das habt ihr mir getan.“','Barmherzigkeit gegenüber den Geringsten.'),
+GL('Vom barmherzigen Samariter','Lk 10,30','Ein Überfallener wird von Priester und Levit übersehen; ein Samariter hilft ihm und sorgt für ihn.','Antwort auf die Frage „Wer ist mein Nächster?“. Jesus dreht die Frage um: Wem werde ich zum Nächsten? Dass ausgerechnet ein verachteter Samariter hilft, war für Zuhörer anstößig. Kirchenväter deuteten den Samariter auch auf Jesus selbst.','Geh hin und tu desgleichen.'),
+GL('Vom bittenden Freund','Lk 11,5','Ein Mann weckt nachts seinen Freund und bittet um Brot; wegen seiner Beharrlichkeit bekommt er es.','Teil der Lehre über das Gebet nach dem Vaterunser. Wenn schon ein verschlafener Freund hilft, wie viel mehr Gott. Daran schließt an: „Bittet, so wird euch gegeben.“','Mutig und beharrlich beten.'),
+GL('Vom reichen Kornbauern','Lk 12,16','Ein reicher Bauer baut größere Scheunen und will es sich gut gehen lassen; in derselben Nacht stirbt er.','Warnung vor Habsucht. Leben besteht nicht im Besitz. Der Bauer redet nur mit sich selbst und plant ohne Gott.','Reich sein bei Gott.'),
+GL('Von den wachsamen Knechten','Lk 12,35','Knechte warten mit brennenden Lampen auf ihren Herrn, der von der Hochzeit kommt.','Bereitschaft für die Wiederkunft Jesu. Überraschend: Der Herr bedient dann selbst die treuen Knechte.','Bereit sein.'),
+GL('Vom treuen und klugen Verwalter','Lk 12,42; Mt 24,45','Ein Verwalter versorgt die Hausgenossen treu, während ein anderer die Abwesenheit des Herrn ausnutzt.','Besonders an Verantwortliche gerichtet: Wem viel anvertraut ist, von dem wird viel gefordert (Lk 12,48).','Treue in der Verantwortung.'),
+GL('Vom unfruchtbaren Feigenbaum','Lk 13,6','Ein Feigenbaum bringt seit drei Jahren keine Frucht. Der Gärtner bittet um ein weiteres Jahr.','Ruf zur Umkehr: Gott gibt Zeit und Geduld, aber die Gnadenfrist ist nicht endlos. Oft auf Israel und auf jeden Einzelnen bezogen.','Gottes Geduld nutzen.'),
+GL('Vom Platz beim Gastmahl','Lk 14,7','Gäste suchen sich die besten Plätze; Jesus rät, den untersten zu nehmen.','Mehr als Tischmanieren: Im Reich Gottes gilt Demut. Wer sich selbst erhöht, wird erniedrigt.','Demut statt Ehrsucht.'),
+GL('Vom Turmbau und vom Kriegführen','Lk 14,28','Wer einen Turm bauen oder Krieg führen will, überschlägt vorher die Kosten.','Nachfolge Jesu will bewusst entschieden werden. Sie kann alles kosten.','Die Kosten der Nachfolge überschlagen.'),
+GL('Vom ungerechten Verwalter','Lk 16,1','Ein Verwalter, dem gekündigt wird, erlässt den Schuldnern seines Herrn Teile ihrer Schuld, um Freunde zu gewinnen. Der Herr lobt seine Klugheit.','Eines der schwierigsten Gleichnisse. Gelobt wird nicht der Betrug, sondern die Weitsicht. Ausleger verstehen es so: Setzt Geld klug für das Ewige ein, z. B. für Menschen in Not.','Mit Besitz für die Ewigkeit vorsorgen.','Die Auslegungen gehen hier weit auseinander.'),
+GL('Vom reichen Mann und armen Lazarus','Lk 16,19','Ein Reicher lebt im Luxus, der arme Lazarus liegt vor seiner Tür. Nach dem Tod ist Lazarus bei Abraham, der Reiche in Qual.','Warnung an die, die Besitz über Barmherzigkeit stellen. Schluss: Wer Mose und den Propheten nicht glaubt, lässt sich auch durch einen Auferstandenen nicht überzeugen.','Jetzt auf Gottes Wort hören.','Ob es ein Gleichnis oder eine Begebenheit ist, wird diskutiert; Lazarus ist als einzige Gleichnisfigur mit Namen genannt.'),
+GL('Von den unnützen Knechten','Lk 17,7','Ein Knecht, der seine Pflicht getan hat, erwartet keinen besonderen Dank.','Gegen Leistungsdenken vor Gott: Auch treuer Dienst begründet keinen Anspruch.','Dienen ohne Anspruch.'),
+GL('Vom ungerechten Richter','Lk 18,1','Eine Witwe bedrängt einen gottlosen Richter so lange, bis er ihr Recht verschafft.','Jesus nennt den Zweck selbst: allezeit beten und nicht nachlassen. Wenn schon ein ungerechter Richter hilft, wie viel mehr Gott.','Nicht aufhören zu beten.'),
+GL('Vom Pharisäer und Zöllner','Lk 18,9','Ein Pharisäer zählt im Tempel seine Frömmigkeit auf; ein Zöllner bittet nur um Gnade. Der Zöllner geht gerechtfertigt heim.','An die gerichtet, die sich selbst für gerecht hielten. Vor Gott zählt nicht die eigene Leistung, sondern das Angewiesensein auf Gnade.','Gott ist dem Demütigen gnädig.'),
+GL('Von den zwei Schuldnern','Lk 7,41','Zwei Schuldnern wird erlassen, dem einen viel, dem anderen wenig. Wer wird den Gläubiger mehr lieben?','Erzählt im Haus eines Pharisäers, als eine Sünderin Jesus die Füße salbte. Wem viel vergeben ist, der liebt viel.','Vergebung weckt Liebe.'),
+GL('Vom Haus auf Fels und Sand','Mt 7,24; Lk 6,47','Ein kluger Mann baut auf Fels, ein törichter auf Sand; im Sturm bleibt nur das erste Haus stehen.','Schluss der Bergpredigt: Es genügt nicht, Jesu Worte zu hören. Wer sie tut, hat ein Fundament, das in Krisen trägt.','Hören und tun.'),
+GL('Vom neuen Flicken auf altem Kleid','Mt 9,16; Mk 2,21; Lk 5,36','Niemand setzt ein Stück neuen, ungewalkten Stoff auf ein altes Kleid; der Riss würde nur größer.','Mit Jesus kommt etwas grundlegend Neues, das sich nicht einfach in alte Formen pressen lässt.','Das Neue braucht neue Gefäße.'),
+GL('Vom Licht unter dem Scheffel','Mt 5,15; Mk 4,21','Niemand stellt eine Lampe unter ein Gefäß, sondern auf den Leuchter.','Jünger sind das Licht der Welt; ihr Glaube soll sichtbar werden, damit Menschen Gott preisen.','Lass dein Licht leuchten.'),
+GL('Vom guten Hirten','Joh 10,11','Der gute Hirte kennt seine Schafe, ruft sie mit Namen und lässt sein Leben für sie.','Eine Bildrede im Johannesevangelium. Jesus knüpft an Psalm 23 und Hesekiel 34 an und stellt sich als der verheißene Hirte vor.','Jesus gibt sein Leben für die Seinen.'),
+GL('Vom Weinstock und den Reben','Joh 15,1','Reben bringen nur Frucht, wenn sie am Weinstock bleiben.','Bildrede aus Jesu Abschiedsreden: Die Verbindung mit ihm ist die Quelle des geistlichen Lebens. „Ohne mich könnt ihr nichts tun.“','Bleibt in mir.'),
+GL('Vom Feigenbaum als Zeichen','Mt 24,32; Mk 13,28; Lk 21,29','Wenn der Feigenbaum Blätter treibt, weiß man, dass der Sommer nahe ist.','Teil der Endzeitrede: Man soll die Zeichen der Zeit beachten und wachsam sein.','Die Zeichen erkennen.')
+];
+const BW = (title, refs, bild, deutung, kern, hinweis) => Object.assign(GL(title, refs, bild, deutung, kern, hinweis), { kind:'B' });
+PARABLES.push(
+GL('Vom neuen Wein in alten Schläuchen','Mt 9,17; Mk 2,22; Lk 5,37','Neuer, noch gärender Wein würde alte, spröde Lederschläuche zerreißen; er gehört in neue Schläuche.','Zusammen mit dem Bild vom Flicken die Antwort auf die Frage nach dem Fasten: Das Neue, das mit Jesus kommt, sprengt die alten religiösen Formen. Lukas fügt hinzu, dass viele den alten Wein lieber mögen (Lk 5,39), also am Gewohnten festhalten.','Neues braucht neue Formen.'),
+GL('Vom Salz','Mt 5,13; Mk 9,50; Lk 14,34','Salz, das seine Kraft verliert, taugt zu nichts mehr und wird weggeworfen.','Salz würzt und bewahrt vor Fäulnis. Jünger sollen in der Welt diese Wirkung haben. In Lukas steht das Bild am Ende der Rede über die Kosten der Nachfolge: Halbherzige Nachfolge verliert ihre Kraft.','Bleibt salzig.','Antikes Salz war oft mit anderen Mineralien vermischt und konnte tatsächlich „fade“ werden.'),
+BW('Von der Stadt auf dem Berg','Mt 5,14','Eine Stadt auf einem Berg kann nicht verborgen bleiben.','Die Gemeinde Jesu ist von außen sichtbar. Ihr Leben soll auf Gott hinweisen.','Sichtbar leben.'),
+BW('Vom Auge als Licht des Leibes','Mt 6,22; Lk 11,34','Ist das Auge klar, ist der ganze Leib hell; ist es schlecht, ist alles finster.','Worauf ein Mensch seinen Blick richtet, prägt sein ganzes Leben. Im Zusammenhang geht es um Schätze im Himmel statt auf Erden.','Worauf schaue ich?'),
+BW('Von den zwei Herren','Mt 6,24; Lk 16,13','Ein Knecht kann nicht zwei Herren gleichzeitig dienen.','Man kann nicht Gott und dem Mammon dienen. Geld wird hier als Macht gesehen, die den ganzen Menschen beansprucht.','Ungeteilte Hingabe.'),
+BW('Vom Splitter und Balken','Mt 7,3; Lk 6,41','Jemand will einen Splitter aus dem Auge des Bruders ziehen und übersieht den Balken im eigenen.','Bewusst übertriebenes Bild gegen Heuchelei und vorschnelles Richten. Erst die eigene Schuld sehen, dann kann man dem anderen wirklich helfen.','Zuerst bei sich selbst anfangen.'),
+BW('Vom Vater, der gute Gaben gibt','Mt 7,9; Lk 11,11','Kein Vater gibt seinem Kind einen Stein statt Brot oder eine Schlange statt eines Fisches.','Wenn schon fehlerhafte menschliche Eltern ihren Kindern Gutes geben, wie viel mehr der Vater im Himmel. Lukas nennt als größte Gabe den Heiligen Geist.','Gott gibt gern.'),
+BW('Von der engen Pforte','Mt 7,13; Lk 13,24','Der Weg zum Leben führt durch eine enge Pforte, der breite Weg ins Verderben.','Nachfolge ist eine bewusste Entscheidung, nicht der Weg der Masse. Lukas betont das Ringen darum.','Den schmalen Weg wählen.'),
+BW('Vom Baum und seinen Früchten','Mt 7,17; Lk 6,43','Ein guter Baum bringt gute Früchte, ein fauler Baum schlechte.','An den Früchten, also am Leben und Handeln, erkennt man, wie ein Mensch innerlich ist; bei Matthäus besonders auf falsche Propheten bezogen.','An den Früchten erkennen.'),
+BW('Vom Blinden, der Blinde führt','Lk 6,39; Mt 15,14','Wenn ein Blinder einen Blinden führt, fallen beide in die Grube.','Warnung vor Lehrern ohne eigenes Verständnis; bei Matthäus auf die Pharisäer bezogen. Wer andere leiten will, muss selbst sehen lernen.','Gute Führung braucht Klarsicht.'),
+BW('Vom Arzt und den Kranken','Mt 9,12; Mk 2,17; Lk 5,31','Nicht die Gesunden brauchen einen Arzt, sondern die Kranken.','Antwort auf die Kritik, dass Jesus mit Zöllnern und Sündern isst. Er ist gekommen, um Sünder zur Umkehr zu rufen.','Jesus kommt zu den Bedürftigen.'),
+BW('Von den Hochzeitsgästen','Mt 9,15; Mk 2,19; Lk 5,34','Solange der Bräutigam da ist, fasten die Hochzeitsgäste nicht.','Jesus ist der Bräutigam; seine Gegenwart ist eine Zeit der Freude. Er kündigt zugleich an, dass er weggenommen wird.','Freude in der Gegenwart Jesu.'),
+BW('Von der großen Ernte','Mt 9,37; Lk 10,2','Die Ernte ist groß, aber es gibt wenige Arbeiter.','Viele Menschen sind bereit für Gottes Botschaft. Die Jünger sollen um Mitarbeiter bitten und selbst gehen.','Bittet um Arbeiter.'),
+BW('Von den Kindern auf dem Markt','Mt 11,16; Lk 7,31','Kinder spielen Hochzeit und Begräbnis, doch die anderen machen weder beim einen noch beim anderen mit.','Die Zeitgenossen lehnten Johannes den Täufer als zu streng und Jesus als zu fröhlich ab. Wer nicht will, findet immer einen Vorwand.','Keine Ausreden gegenüber Gott.'),
+BW('Vom Starken und dem Stärkeren','Mt 12,29; Mk 3,27; Lk 11,21','Nur wer den Starken bindet, kann sein Haus ausrauben.','Antwort auf den Vorwurf, Jesus treibe Dämonen mit Satans Hilfe aus. Jesus ist der Stärkere, der den Satan besiegt.','Jesus ist stärker.'),
+BW('Von der Rückkehr des unreinen Geistes','Mt 12,43; Lk 11,24','Ein ausgetriebener Geist findet das Haus leer und kehrt mit sieben schlimmeren zurück.','Es reicht nicht, Böses loszuwerden; das „Haus“ muss mit Gott gefüllt werden. Bei Matthäus auf die damalige Generation bezogen.','Leere füllt sich.'),
+BW('Vom Hausherrn mit Neuem und Altem','Mt 13,52','Ein Hausherr holt aus seinem Schatz Neues und Altes hervor.','Abschluss der Gleichnisrede: Wer das Reich Gottes verstanden hat, verbindet die alten Schriften mit dem Neuen, das Jesus bringt.','Altes und Neues zusammen.'),
+BW('Was den Menschen verunreinigt','Mt 15,11; Mk 7,15','Nicht was in den Mund hineingeht, verunreinigt, sondern was aus dem Herzen herauskommt.','Die Jünger nennen es ausdrücklich ein Gleichnis (Mt 15,15). Unreinheit ist eine Sache des Herzens, nicht der Speisen.','Es kommt auf das Herz an.'),
+BW('Von der Pflanze, die der Vater nicht gepflanzt hat','Mt 15,13','Jede Pflanze, die Gott nicht gepflanzt hat, wird ausgerissen.','Über die Pharisäer gesagt: Was nicht von Gott kommt, hat keinen Bestand.','Nur Gottes Werk bleibt.'),
+BW('Vom Türhüter','Mk 13,34','Ein verreisender Herr gibt jedem Knecht seine Aufgabe und befiehlt dem Türhüter zu wachen.','Teil der Endzeitrede: Jeder hat seinen Auftrag, und alle sollen wachen, weil niemand weiß, wann der Herr kommt.','Wachet!'),
+BW('Vom Dieb in der Nacht','Mt 24,43; Lk 12,39','Wüsste der Hausherr, wann der Dieb kommt, würde er wachen.','Die Wiederkunft Jesu kommt unerwartet. Das Bild greifen auch Paulus und Petrus auf (1Thess 5,2; 2Petr 3,10).','Jederzeit bereit sein.'),
+BW('Von den Feldern, reif zur Ernte','Joh 4,35','Man sagt, in vier Monaten kommt die Ernte; doch die Felder sind schon weiß zur Ernte.','Gesprochen in Samaria, als die Leute aus Sichar herbeikamen. Die Zeit für Gottes Ernte ist jetzt.','Die Zeit ist jetzt.'),
+BW('Vom Brot des Lebens','Joh 6,35','Jesus sagt: Ich bin das Brot des Lebens.','Nach der Speisung der Fünftausend: Wie Brot den Leib erhält, stillt Jesus den tiefsten Hunger des Menschen. Anspielung auf das Manna in der Wüste.','Jesus stillt den Lebenshunger.'),
+BW('Vom Licht der Welt','Joh 8,12','Jesus sagt: Ich bin das Licht der Welt.','Gesprochen vermutlich zum Laubhüttenfest, bei dem große Leuchter im Tempel brannten. Wer ihm folgt, wandelt nicht in der Finsternis.','Jesus nachfolgen heißt im Licht gehen.'),
+BW('Vom Weizenkorn','Joh 12,24','Ein Weizenkorn bringt nur Frucht, wenn es in die Erde fällt und stirbt.','Jesus deutet damit seinen eigenen Tod, der viel Frucht bringt, und ruft die Jünger, ihr Leben nicht festzuhalten.','Leben durch Hingabe.'),
+BW('Von der gebärenden Frau','Joh 16,21','Eine Frau hat bei der Geburt Schmerzen, freut sich danach aber über das Kind.','Aus Jesu Abschiedsreden: Die Trauer der Jünger über seinen Tod wird sich in bleibende Freude verwandeln.','Aus Trauer wird Freude.')
+);
+
+PARABLES.forEach(p => { if (!p.kind) p.kind = ['Vom Weltgericht','Vom guten Hirten','Vom Weinstock und den Reben','Vom Licht unter dem Scheffel'].includes(p.title) ? 'B' : 'G'; });
+const PARA_AT = new Map();
+PARABLES.forEach((p, i) => p.refs.forEach(r => { const x = parseLoose(r); if (x) PARA_AT.set(vkey(x.b, x.c, x.v), i); }));
+const CM_BK = { 40:'matthaeus', 41:'markus', 42:'lukas', 43:'johannes' }, CM_MH = { 40:'mat', 41:'mar', 42:'luk', 43:'joh' };
+function commentLinks(refs){
+  const rows = refs.map(ref => {
+    const x = parseLoose(ref); if (!x || !CM_BK[x.b]) return '';
+    const c3 = String(x.c).padStart(3, '0');
+    return `<div class="cm-ref"><strong>${esc(ref)}</strong>
+      <a class="small" href="https://www.bibelkommentare.de/bibel/luther1912/${CM_BK[x.b]}/${x.c}" target="_blank" rel="noopener">Kommentare zum Kapitel</a>
+      <a class="small" href="https://www.bibelkommentare.de/index/bibel/${CM_BK[x.b]}/${x.c}/${x.v}" target="_blank" rel="noopener">Auslegungen zum Vers</a>
+      <a class="small" href="https://sacred-texts.com/bib/cmt/mhcc/${CM_MH[x.b]}${c3}.htm" target="_blank" rel="noopener">Matthew Henry (engl.)</a></div>`;
+  }).join('');
+  return rows ? `<div class="cm-links"><span class="hint">Auslegungen im Internet:</span>${rows}</div>` : '';
+}
+const CM_GENERAL = [
+  ['WiBiLex: Gleichnisse (NT)','https://www.die-bibel.de/ressourcen/wibilex/neues-testament/gleichnisse-nt','Wissenschaftliches Bibellexikon der Deutschen Bibelgesellschaft: Was ein Gleichnis ist und wie man es auslegt.'],
+  ['bibelkommentare.de: Kommentare zu Lukas 15','https://www.bibelkommentare.de/bibel/luther1912/lukas/15','Beispiel: Unter dem Bibeltext stehen unter „Kommentare“ ausführliche Auslegungen zum Kapitel, etwa von F. B. Hole oder W. Kelly. Bei jedem Gleichnis führt ein Link direkt zum passenden Kapitel.'],
+  ['bibelkommentare.de: Bibelstellenindex','https://www.bibelkommentare.de/index/bibel/lukas/15','Sammelt alle Stellen aus Kommentaren, Büchern und Artikeln, in denen ein Vers ausgelegt wird. Deutsch, kostenlos, überwiegend aus der Brüderbewegung.'],
+  ['Matthew Henry (englisch)','https://sacred-texts.com/bib/cmt/mhcc/luk015.htm','Klassischer Kommentar zur ganzen Bibel aus dem 18. Jahrhundert, frei verfügbar.'],
+  ['Catena Bible (englisch)','https://catenabible.com/lk/15','Auslegungen der Kirchenväter, Vers für Vers geordnet.']
+];
+function parableCard(p, first){
+  const order = first ? [first, ...p.refs.filter(r => r !== first)] : p.refs;
+  const refs = order.map(r => { const x = parseLoose(r); return x ? `<button class="small" data-goto="${x.b},${x.c},${x.v}">${esc(r)}</button>` : ''; }).join('');
+  return `<dl class="para"><dt>Das Bild</dt><dd>${esc(p.bild)}</dd><dt>Die Deutung</dt><dd>${esc(p.deutung)}</dd><dt>Kernaussage</dt><dd class="kern">${esc(p.kern)}</dd></dl>
+    ${p.hinweis ? `<p class="hint">${esc(p.hinweis)}</p>` : ''}<div class="btns">${refs}</div>${commentLinks(order)}`;
+}
+function openParable(i, at){
+  const p = PARABLES[i];
+  let first = null;
+  if (at){ const [b, c, v] = at.split(',').map(Number); first = p.refs.find(r => { const x = parseLoose(r); return x && x.b === b && x.c === c && x.v === v; }) || null; }
+  openSheet(`<div class="sh-head"><strong style="font-size:1.2rem">${esc(p.title)}</strong><button class="close" data-act="close">Schließen</button></div>${parableCard(p, first)}
+    <p class="hint para-src">Zusammengefasst nach verbreiteten Auslegungen in Bibelkommentaren, in eigenen Worten.</p>`);
+}
+function parablesHTML(){
+  const row = (p) => { const i = PARABLES.indexOf(p); return `<details class="route glrow" data-txt="${esc((p.title + ' ' + p.refs.join(' ') + ' ' + p.kern).toLowerCase())}"><summary><strong>${esc(p.title)}</strong><span class="hint">${esc(p.refs.join('; '))}</span><span class="hint gl-kern">${esc(p.kern)}</span></summary>${parableCard(p)}</details>`; };
+  const g = PARABLES.filter(p => p.kind === 'G'), b = PARABLES.filter(p => p.kind === 'B');
+  return `<p class="hint" style="margin-top:.6rem">${g.length} Gleichnisse und ${b.length} Bildworte Jesu. Die Erklärungen fassen verbreitete Auslegungen aus Bibelkommentaren in eigenen Worten zusammen; wo sich Ausleger uneinig sind, steht ein Hinweis. Im Lesetext zeigt ein Hinweis beim ersten Vers auf das Gleichnis, in allen Evangelien.</p>
+    <input id="glq" class="search" type="search" placeholder="Suchen, z. B. Salz oder Lk 14" autocomplete="off" aria-label="Gleichnisse durchsuchen">
+    <details class="route cm-box"><summary><strong>Kommentare im Internet</strong><span class="hint">Seiten, auf denen du ausführliche Auslegungen nachlesen kannst</span></summary>
+      ${CM_GENERAL.map(([t, u, d]) => `<div class="cm-row"><a href="${u}" target="_blank" rel="noopener">${esc(t)}</a><p class="hint">${esc(d)}</p></div>`).join('')}
+      <p class="hint" style="font-size:.85rem">Bei jedem Gleichnis findest du außerdem direkte Links zum passenden Kapitel und Vers. Die Seiten sind externe Angebote mit eigener theologischer Prägung.</p></details>
+    <h3 class="grp at">Gleichnisse</h3>${g.map(row).join('')}
+    <h3 class="grp nt">Bildworte und kurze Vergleiche</h3>${b.map(row).join('')}
+    <p class="hint" id="glnone" hidden>Nichts gefunden.</p>`;
+}
+
 
 /* ---------- Entdecken ---------- */
 let moreView = 'time', timeSub = 'epochs';
@@ -32790,6 +32932,7 @@ function renderMore(){
   let h = '';
   if (moreView === 'notes'){ $('#moreBody').innerHTML = renderNotesList(); return; }
   if (moreView === 'events'){ $('#moreBody').innerHTML = eventsHTML(); return; }
+  if (moreView === 'parables'){ $('#moreBody').innerHTML = parablesHTML(); return; }
   if (moreView === 'time'){
     h += `<div class="seg sub-seg"><button data-ts="epochs" class="${timeSub === 'epochs' ? 'on' : ''}">Epochen</button><button data-ts="tree" class="${timeSub === 'tree' ? 'on' : ''}">Stammbaum Jesus</button></div>`;
     if (timeSub === 'tree'){ $('#moreBody').innerHTML = h + treeHTML(); return; }
@@ -32915,6 +33058,8 @@ function renderChapter(){
     const nt0 = NOTES[nkey(b, c, V[i])];
     if (nt0 && nt0.color) cls += ' hl-' + nt0.color;
     const noteMark = nt0 && nt0.note ? '<span class="notei" aria-label="Notiz">✎</span>' : '';
+    const pi = PARA_AT.get(vkey(b, c, V[i]));
+    if (pi != null) chip += `<span class="chip glc" data-gl="${pi}" data-glr="${b},${c},${V[i]}">${PARABLES[pi].kind === 'B' ? 'Bildwort' : 'Gleichnis'}</span>`;
     if (ls){
       const d = ls[0].dir, n = ls.reduce((a,e) => a + e.targets.length, 0);
       cls += ' to-' + d;
@@ -33105,6 +33250,8 @@ function toast(msg, ms = 3000){
 
 let delArmed = false;
 document.addEventListener('click', async e => {
+  const glc = e.target.closest('[data-gl]');
+  if (glc){ openParable(+glc.dataset.gl, glc.dataset.glr); return; }
   const mk = e.target.closest('span.pl, span.ps, span.wd, span.hb');
   if (mk){ const d0 = mk.dataset; if (d0.pl != null) openPlace(+d0.pl); else if (d0.ps != null) openPerson(+d0.ps); else if (d0.hb != null) openHeb(+d0.hb, mk.textContent); else openWord(+d0.wd); return; }
   const el = e.target.closest('button, .vs');
@@ -33182,6 +33329,11 @@ $('#nextBtn').addEventListener('click', () => step(1));
 })();
 $('#file').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if (f) importFile(f); });
 document.addEventListener('input', e => {
+  if (e.target.id === 'glq'){
+    const q = e.target.value.trim().toLowerCase(); let n = 0;
+    document.querySelectorAll('.glrow').forEach(r => { const ok = !q || r.dataset.txt.includes(q); r.hidden = !ok; if (ok) n++; });
+    const none = $('#glnone'); if (none) none.hidden = n > 0; return;
+  }
   if (e.target.id !== 'evq') return;
   const q = e.target.value.trim().toLowerCase(); let n = 0;
   document.querySelectorAll('.evrow').forEach(r => { const ok = !q || r.dataset.txt.includes(q); r.hidden = !ok; if (ok) n++; });
