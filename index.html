@@ -224,11 +224,29 @@ button.t-p{text-decoration:underline dotted;text-decoration-color:var(--at);text
 .qa-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin:.2rem 0 .6rem}
 .qa-q{font-family:"Crimson Pro",Georgia,serif;font-size:1.25rem;font-weight:600}
 .qa-ai{margin-top:.7rem;font-size:.95rem;padding:.6rem 1rem}
+.qa-answer{margin-top:.6rem;border-top:1px solid var(--line);padding-top:.6rem}
+.qa-a-t{font-size:1.25rem;font-weight:700;margin:.15rem 0 .1rem}
+.qa-person{display:block;width:100%;text-align:left;background:var(--at-soft);border:0;border-radius:10px;padding:.5rem .7rem;margin:.5rem 0 0;font-size:.95rem;line-height:1.4}
+.qa-verse{margin:.6rem 0 0;padding:.5rem .8rem;border-left:3px solid var(--at);font-family:"Crimson Pro",Georgia,serif;font-size:1.12rem;line-height:1.5}
+.qa-ref{display:block;margin-top:.35rem;background:none;border:0;padding:0;font-family:"Source Sans 3",system-ui,sans-serif;font-size:.9rem;font-weight:700;color:var(--nt)}
 .qa-ai-ans{margin-top:.8rem;border-top:1px solid var(--line);padding-top:.6rem}
 .qa-ai-h{font-weight:700;color:var(--nt);font-size:.9rem;text-transform:uppercase;letter-spacing:.04em}
 .qa-ai-ans p{margin:.3rem 0}
 span.qgap{color:var(--muted)}
 sup.qv{font-family:"Source Sans 3",system-ui,sans-serif;font-size:.6em;color:var(--muted);font-weight:700;margin-right:.2em}
+.f-row{margin:.55rem 0 0}
+.f-lab{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:.25rem}
+.f-chips{display:flex;flex-wrap:wrap;gap:.35rem}
+.f-chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:.35rem .75rem;font-size:.88rem;font-weight:600;color:var(--ink)}
+.f-chip.on{background:var(--nt);border-color:var(--nt);color:var(--btn-ink)}
+#fres{margin-top:.9rem}
+.fcard{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.7rem .9rem;margin:.5rem 0}
+.f-kind{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.1rem}
+.f-kind.p{color:var(--at)}.f-kind.o{color:var(--nt)}
+.f-name{display:block;font-size:1.08rem;font-weight:700}
+.f-sub{display:block;color:var(--muted);font-size:.93rem;line-height:1.4;margin-top:.1rem}
+.f-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}
+.f-tags span{font-size:.75rem;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:.05rem .5rem;color:var(--muted)}
 .pl-now{font-size:1.05rem;margin:.5rem 0 .2rem}
 a.primary{text-decoration:none}
 a.small{display:inline-block;color:var(--nt);text-decoration:none}
@@ -374,7 +392,10 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 .05em}
   <section id="view-search" class="view" hidden>
     <header class="bar"><h2>Suchen</h2></header>
     <div class="wrap">
-      <input id="q" class="search" type="search" placeholder="Stichwort, Stelle oder Frage" autocomplete="off" autocorrect="off" enterkeyhint="search" aria-label="Suchbegriff">
+      <div class="seg" id="smodeTop" style="margin-top:1rem"><button data-st="text" class="on">Im Bibeltext</button><button data-st="find">Wer oder wo war das?</button></div>
+      <div id="finder" hidden></div>
+      <div id="textsearch">
+      <input id="q" class="search" type="search" placeholder="Stichwort oder Stelle, z. B. Gnade" autocomplete="off" autocorrect="off" enterkeyhint="search" aria-label="Suchbegriff">
       <div class="seg" id="scope">
         <button data-s="all" class="on">Ganze Bibel</button><button data-s="at">Altes Test.</button><button data-s="nt">Neues Test.</button>
       </div>
@@ -388,6 +409,7 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 .05em}
         <p class="hint" style="font-size:.85rem;margin:.2rem 0 0">Wortanfang: „lieb“ findet Liebe, lieben, lieblich. Ganzes Wort: „Gott“ findet nur Gott, nicht Gottes. Ein Minus schließt aus: <em>Hirte -Schafe</em>. Umlaute und ß dürfen auch als ae, oe, ue, ss geschrieben werden.</p>
       </details>
       <div id="results"></div>
+      </div>
     </div>
   </section>
 
@@ -32178,7 +32200,7 @@ P('Lot',[['Lot','Neffe Abrahams, wohnte in Sodom und wurde vor dessen Untergang 
 P('Isaak',[['Isaak','Der verheißene Sohn Abrahams und Saras.','Frau: Rebekka. Söhne: Esau und Jakob.','1Mo 21,3; 1Mo 22,2; 1Mo 24,67; Hebr 11,20']]),
 P('Rebekka',[['Rebekka','Frau Isaaks, Mutter der Zwillinge Esau und Jakob.','Mann: Isaak. Bruder: Laban.','1Mo 24,15; 1Mo 25,21; 1Mo 27,5']]),
 P('Esau',[['Esau','Älterer Zwillingsbruder Jakobs. Verkaufte sein Erstgeburtsrecht; Stammvater der Edomiter.','Eltern: Isaak und Rebekka. Bruder: Jakob.','1Mo 25,25; 1Mo 27,30; 1Mo 33,4; Hebr 12,16']]),
-P('Jakob',[['Jakob','Sohn Isaaks, von Gott Israel genannt. Seine zwölf Söhne wurden die Stammväter der Stämme Israels.','Eltern: Isaak und Rebekka. Frauen: Lea und Rahel (dazu die Mägde Bilha und Silpa). Söhne u. a. Juda, Levi, Joseph und Benjamin.','1Mo 25,26; 1Mo 28,10; 1Mo 32,29; 1Mo 49,1']]),
+P('Jakob',[['Jakob','Sohn Isaaks. Rang am Jabbok mit Gott und wurde von ihm Israel genannt. Seine zwölf Söhne wurden die Stammväter der Stämme Israels.','Eltern: Isaak und Rebekka. Frauen: Lea und Rahel (dazu die Mägde Bilha und Silpa). Söhne u. a. Juda, Levi, Joseph und Benjamin.','1Mo 25,26; 1Mo 28,10; 1Mo 32,29; 1Mo 49,1']]),
 P('Lea',[['Lea','Ältere Tochter Labans, erste Frau Jakobs. Mutter u. a. von Levi und Juda.','Mann: Jakob. Schwester: Rahel.','1Mo 29,16; 1Mo 29,31']]),
 P('Rahel',[['Rahel','Jüngere Tochter Labans, die geliebte Frau Jakobs. Starb bei der Geburt Benjamins.','Mann: Jakob. Söhne: Joseph und Benjamin.','1Mo 29,9; 1Mo 30,22; 1Mo 35,16; Mt 2,18']]),
 P('Joseph,Josef',[['Joseph, Sohn Jakobs','Von seinen Brüdern nach Ägypten verkauft, stieg er zum zweiten Mann nach dem Pharao auf und rettete seine Familie vor der Hungersnot.','Eltern: Jakob und Rahel. Bruder: Benjamin. Söhne: Manasse und Ephraim.','1Mo 37,3; 1Mo 41,41; 1Mo 45,4'],['Joseph, Mann der Maria','Zimmermann aus Nazareth, nach dem Gesetz der Vater Jesu.','Frau: Maria.','Mt 1,18; Mt 2,13; Lk 2,4'],['Joseph von Arimathia','Ratsherr und heimlicher Jünger. Legte Jesus in sein eigenes Grab.','','Mt 27,57; Joh 19,38']]),
@@ -32199,7 +32221,7 @@ P('Saul',[['Saul, König','Erster König Israels (ca. 1050–1010 v. Chr.) aus d
 P('Jonathan',[['Jonathan','Sohn Sauls und enger Freund Davids.','Vater: Saul.','1Sam 18,1; 1Sam 20,17; 2Sam 1,26']]),
 P('Isai',[['Isai','Bauer in Bethlehem, Vater Davids.','Großvater: Boas. Sohn: David.','1Sam 16,1; Jes 11,1']]),
 P('David',[['David','Hirte aus Bethlehem, besiegte Goliath und wurde König Israels (ca. 1010–970 v. Chr.). Machte Jerusalem zur Hauptstadt; viele Psalmen tragen seinen Namen. Jesus wird „Sohn Davids“ genannt.','Vater: Isai. Frauen u. a. Michal und Bathseba. Söhne u. a. Absalom und Salomo.','1Sam 16,13; 1Sam 17,49; 2Sam 5,3; 2Sam 7,12; 2Sam 11,2; Mt 1,1']]),
-P('Goliath',[['Goliath','Riesenhafter Krieger der Philister aus Gath, von David besiegt.','','1Sam 17,4']]),
+P('Goliath',[['Goliath','Riese und Krieger der Philister aus Gath, von David mit einer Schleuder besiegt.','','1Sam 17,4']]),
 P('Bathseba',[['Bathseba','Frau des Uria, dann Davids. Mutter Salomos.','Männer: Uria, später David. Sohn: Salomo.','2Sam 11,3; 1Kön 1,11']]),
 P('Absalom',[['Absalom','Sohn Davids, der sich gegen seinen Vater erhob und dabei umkam.','Vater: David.','2Sam 15,10; 2Sam 18,9']]),
 P('Salomo',[['Salomo','König Israels (ca. 970–930 v. Chr.), berühmt für seine Weisheit. Baute den ersten Tempel in Jerusalem.','Eltern: David und Bathseba. Sohn: Rehabeam.','1Kön 3,9; 1Kön 6,1; 1Kön 10,1; Mt 6,29']]),
@@ -32214,7 +32236,7 @@ P('Jesaja',[['Jesaja','Prophet in Jerusalem im 8. Jh. v. Chr. Kündigte Gericht 
 P('Jeremia',[['Jeremia','Prophet in Juda vor und nach der Zerstörung Jerusalems 587 v. Chr. Verkündete den neuen Bund.','Schreiber: Baruch.','Jer 1,4; Jer 31,31; Jer 38,6']]),
 P('Hesekiel',[['Hesekiel','Priester und Prophet im babylonischen Exil.','','Hes 1,1; Hes 37,1']]),
 P('Daniel',[['Daniel','Junger Jude am babylonischen Königshof, deutete Träume und wurde in der Löwengrube bewahrt.','','Dan 1,6; Dan 2,19; Dan 6,17']]),
-P('Jona',[['Jona','Prophet, der vor Gottes Auftrag floh, im Bauch eines Fisches überlebte und dann in Ninive predigte.','','Jona 1,3; Jona 3,4; Mt 12,40']]),
+P('Jona',[['Jona','Prophet, der vor Gottes Auftrag floh, von einem großen Fisch verschlungen wurde, im Bauch des Fisches überlebte und dann in Ninive predigte.','','Jona 1,3; Jona 3,4; Mt 12,40']]),
 P('Hiob',[['Hiob','Frommer Mann, der alles verlor und mit Gott um den Sinn seines Leidens rang.','','Hiob 1,1; Hiob 19,25; Hiob 42,10; Jak 5,11']]),
 P('Esther,Ester',[['Esther','Jüdin, die Königin am persischen Hof wurde und ihr Volk vor der Vernichtung rettete.','Vetter und Pflegevater: Mardochai.','Est 2,17; Est 4,14; Est 7,3']]),
 P('Esra',[['Esra','Priester und Schriftgelehrter, kehrte aus Babylon zurück und lehrte das Gesetz.','','Esr 7,6; Neh 8,1']]),
@@ -32673,6 +32695,211 @@ function openNumber(i, shown){
 function numbersHTML(){
   return `<details class="sect"><summary><span class="sect-t">Zahlen in der Bibel</span><span class="sect-n">${NUMBERS.length}</span></summary><p class="hint">Im Lesetext sind diese Zahlen grün unterstrichen, jeweils beim ersten Vorkommen im Kapitel.</p>`
     + NUMBERS.map(x => `<details class="route"><summary><strong>${esc(x.n)}: ${esc(x.title)}</strong><span class="hint">${esc(x.mean.split('. ')[0])}.</span></summary>${numberCard(x)}</details>`).join('') + `</details>`;
+}
+
+
+/* ---------- Weitere Personen für den Finder ---------- */
+PERSONS.push(
+P('Seth',[['Seth','Dritter Sohn Adams und Evas, geboren nach Abels Tod. Über ihn führt die Linie zu Noah.','Eltern: Adam und Eva. Sohn: Enos.','1Mo 4,25; 1Mo 5,3']]),
+P('Sem,Ham,Japhet',[['Sem, Ham und Japhet','Die drei Söhne Noahs, die mit ihm in der Arche überlebten. Von ihnen stammen nach 1. Mose 10 alle Völker ab.','Vater: Noah.','1Mo 9,18; 1Mo 10,1']]),
+P('Nimrod',[['Nimrod','Ein gewaltiger Jäger vor dem HERRN, Gründer von Reichen in Babel und Assur.','Vater: Kusch.','1Mo 10,8']]),
+P('Laban',[['Laban','Bruder Rebekkas und Vater von Lea und Rahel. Ließ Jakob für seine Töchter zweimal sieben Jahre dienen und betrog ihn bei der Hochzeit.','Schwester: Rebekka. Töchter: Lea und Rahel.','1Mo 24,29; 1Mo 29,25; 1Mo 31,55']]),
+P('Dina',[['Dina','Tochter Jakobs und Leas, deren Entehrung in Sichem zu einem blutigen Rachezug ihrer Brüder führte.','Eltern: Jakob und Lea.','1Mo 34,1']]),
+P('Tamar',[['Tamar, Schwiegertochter Judas','Verwitwete Frau, die sich als Dirne verkleidete, um von Juda ein Kind zu bekommen. Mutter von Perez, im Stammbaum Jesu genannt.','Söhne: Perez und Serach.','1Mo 38,6; 1Mo 38,26; Mt 1,3'],['Tamar, Tochter Davids','Wurde von ihrem Halbbruder Amnon missbraucht; Absalom rächte sie.','Vater: David. Bruder: Absalom.','2Sam 13,1']]),
+P('Potiphar',[['Potiphar','Ägyptischer Hofbeamter des Pharao, der Joseph kaufte. Seine Frau verleumdete Joseph, der darauf ins Gefängnis kam.','','1Mo 39,1']]),
+P('Jethro',[['Jethro','Priester in Midian und Schwiegervater des Mose. Riet ihm, Richter einzusetzen, um die Last zu verteilen.','Tochter: Zippora.','2Mo 3,1; 2Mo 18,17']]),
+P('Zippora',[['Zippora','Tochter Jethros und Frau des Mose.','Vater: Jethro. Mann: Mose.','2Mo 2,21; 2Mo 4,25']]),
+P('Kaleb',[['Kaleb','Einer der zwölf Kundschafter. Er vertraute mit Josua dem HERRN und erhielt als alter Mann Hebron.','Stamm Juda.','4Mo 13,30; 4Mo 14,24; Jos 14,13']]),
+P('Bileam',[['Bileam','Seher, den der Moabiterkönig Balak holte, um Israel zu verfluchen. Seine Eselin redete mit ihm; statt zu fluchen, segnete er Israel.','','4Mo 22,5; 4Mo 22,28; 4Mo 24,17; 2Petr 2,15']]),
+P('Achan',[['Achan','Nahm bei der Eroberung Jerichos heimlich vom gebannten Gut und brachte damit Unheil über Israel.','Stamm Juda.','Jos 7,1; Jos 7,21']]),
+P('Barak',[['Barak','Heerführer, der auf Deboras Wort hin die Kanaaniter unter Sisera besiegte.','','Ri 4,6; Hebr 11,32']]),
+P('Sisera',[['Sisera','Heerführer des Kanaaniterkönigs Jabin mit 900 eisernen Wagen. Floh nach der Niederlage und wurde von Jael getötet.','','Ri 4,2; Ri 4,21']]),
+P('Jael',[['Jael','Frau, die den fliehenden Heerführer Sisera in ihrem Zelt tötete.','Mann: Heber, der Keniter.','Ri 4,21; Ri 5,24']]),
+P('Jephta',[['Jephta','Richter aus Gilead, der ein unbedachtes Gelübde ablegte, das seine Tochter traf.','','Ri 11,1; Ri 11,30; Hebr 11,32']]),
+P('Delila',[['Delila','Frau aus dem Tal Sorek, die Simson das Geheimnis seiner Kraft entlockte und ihn an die Philister verriet.','','Ri 16,4; Ri 16,19']]),
+P('Naemi',[['Naemi','Schwiegermutter Ruths. Kehrte nach dem Tod ihres Mannes und ihrer Söhne aus Moab nach Bethlehem zurück und nannte sich „Mara“ (bitter).','Schwiegertochter: Ruth.','Rut 1,3; Rut 1,20; Rut 4,16']]),
+P('Eli',[['Eli, der Priester','Priester in Silo, bei dem der junge Samuel aufwuchs. Seine Söhne entehrten das Heiligtum.','Söhne: Hophni und Pinehas.','1Sam 1,9; 1Sam 3,8; 1Sam 4,18'],['„Eli, Eli“','Jesu Ruf am Kreuz, „Mein Gott, mein Gott“ (Ps 22,1).','','Mt 27,46']]),
+P('Abner',[['Abner','Heerführer Sauls, später von Joab ermordet.','Vetter Sauls.','1Sam 14,50; 2Sam 3,27']]),
+P('Michal',[['Michal','Tochter Sauls und erste Frau Davids. Rettete David vor ihrem Vater, verachtete ihn aber später, als er vor der Lade tanzte.','Vater: Saul. Mann: David.','1Sam 18,20; 1Sam 19,12; 2Sam 6,16']]),
+P('Abigail',[['Abigail','Kluge Frau des törichten Nabal, die David mit Gaben besänftigte. Nach Nabals Tod wurde sie Davids Frau.','Männer: Nabal, später David.','1Sam 25,3; 1Sam 25,42']]),
+P('Joab',[['Joab','Heerführer Davids, tapfer, aber rücksichtslos. Tötete Abner und Absalom.','Mutter: Zeruja, Davids Schwester.','2Sam 2,13; 2Sam 18,14; 1Kön 2,28']]),
+P('Uria',[['Uria','Hethiter und treuer Soldat Davids, Mann Batsebas. David ließ ihn im Kampf fallen, um seine Schuld zu verdecken.','Frau: Batseba.','2Sam 11,3; 2Sam 11,15']]),
+P('Hiram',[['Hiram','König von Tyrus, Freund Davids und Salomos. Lieferte Zedernholz und Handwerker für den Tempelbau.','','2Sam 5,11; 1Kön 5,1']]),
+P('Jerobeam',[['Jerobeam','Erster König des Nordreichs Israel nach der Reichsteilung. Ließ goldene Kälber in Bethel und Dan aufstellen.','','1Kön 11,26; 1Kön 12,28']]),
+P('Nabot',[['Nabot','Besaß einen Weinberg neben Ahabs Palast. Isebel ließ ihn durch falsche Zeugen töten.','','1Kön 21,1; 1Kön 21,13']]),
+P('Naaman',[['Naaman','Feldherr des Königs von Aram, aussätzig. Wurde geheilt, als er auf Elisas Wort siebenmal im Jordan untertauchte.','','2Kön 5,1; 2Kön 5,14; Lk 4,27']]),
+P('Jehu',[['Jehu','Feldherr, von Elisa zum König Israels gesalbt. Rottete das Haus Ahabs aus; bekannt für sein wildes Fahren.','','2Kön 9,6; 2Kön 9,20; 2Kön 10,28']]),
+P('Zedekia',[['Zedekia','Letzter König von Juda. Nach dem Fall Jerusalems 587 v. Chr. wurde er geblendet und nach Babel geführt.','','2Kön 24,17; 2Kön 25,7; Jer 39,7']]),
+P('Baruch',[['Baruch','Schreiber und Begleiter des Propheten Jeremia. Schrieb dessen Worte auf eine Buchrolle.','','Jer 36,4; Jer 45,1']]),
+P('Sadrach,Mesach,Abednego',[['Sadrach, Mesach und Abednego','Die drei Freunde Daniels, die sich weigerten, Nebukadnezars Bild anzubeten, und im Feuerofen bewahrt wurden.','Freund: Daniel.','Dan 1,7; Dan 3,19; Dan 3,26']]),
+P('Belsazar',[['Belsazar','König in Babylon. Während eines Gelages erschien eine Schrift an der Wand; in derselben Nacht wurde er getötet.','','Dan 5,1; Dan 5,25; Dan 5,30']]),
+P('Kores',[['Kores (Kyrus)','König von Persien. Erlaubte 538 v. Chr. den Juden die Rückkehr und den Wiederaufbau des Tempels.','','Esr 1,1; Jes 45,1']]),
+P('Darius',[['Darius','Name mehrerer Perserkönige. Unter einem Darius kam Daniel in die Löwengrube; ein anderer förderte den Tempelbau.','','Dan 6,1; Esr 6,1']]),
+P('Ahasveros',[['Ahasveros','Perserkönig, der Esther zur Königin machte.','Frau: Esther.','Est 1,1; Est 2,17']]),
+P('Haman',[['Haman','Hoher Beamter am Perserhof, der alle Juden vernichten wollte. Wurde am Ende an dem Galgen gehängt, den er für Mardochai gebaut hatte.','','Est 3,1; Est 7,10']]),
+P('Mardochai',[['Mardochai','Jude am Perserhof, Vetter und Pflegevater Esthers. Deckte einen Anschlag auf den König auf und wurde später zweiter Mann im Reich.','Pflegetochter: Esther.','Est 2,5; Est 10,3']]),
+P('Herodias',[['Herodias','Frau des Herodes Antipas. Ließ durch ihre Tochter den Kopf Johannes des Täufers fordern.','Mann: Herodes Antipas.','Mk 6,17; Mt 14,8']]),
+P('Salome',[['Salome','Jüngerin, die bei der Kreuzigung dabei war und am Ostermorgen zum Grab ging.','','Mk 15,40; Mk 16,1']]),
+P('Jairus',[['Jairus','Synagogenvorsteher, dessen zwölfjährige Tochter Jesus vom Tod auferweckte.','','Mk 5,22; Lk 8,41']]),
+P('Bartimäus',[['Bartimäus','Blinder Bettler bei Jericho, der Jesus als „Sohn Davids“ anrief und geheilt wurde.','','Mk 10,46']]),
+P('Malchus',[['Malchus','Knecht des Hohenpriesters, dem Petrus bei der Gefangennahme Jesu ein Ohr abschlug.','','Joh 18,10']]),
+P('Kleopas',[['Kleopas','Einer der beiden Jünger, denen der Auferstandene auf dem Weg nach Emmaus begegnete.','','Lk 24,18']]),
+P('Nathanael',[['Nathanael','Jünger aus Kana, den Jesus „einen rechten Israeliten“ nannte. Wird oft mit dem Apostel Bartholomäus gleichgesetzt.','','Joh 1,45; Joh 1,47; Joh 21,2']]),
+P('Matthias',[['Matthias','Wurde nach Jesu Himmelfahrt per Los anstelle von Judas zum Apostel gewählt.','','Apg 1,26']]),
+P('Ananias',[['Ananias und Saphira','Ehepaar in der Jerusalemer Gemeinde, das beim Verkauf eines Ackers log und tot umfiel.','','Apg 5,1'],['Ananias in Damaskus','Jünger, der dem erblindeten Saulus die Hände auflegte.','','Apg 9,10'],['Ananias, der Hohepriester','Ließ Paulus vor dem Hohen Rat auf den Mund schlagen.','','Apg 23,2']]),
+P('Saphira',[['Saphira','Frau des Ananias; log wie ihr Mann über den Erlös eines Ackers.','Mann: Ananias.','Apg 5,1']]),
+P('Gamaliel',[['Gamaliel','Angesehener Pharisäer und Gesetzeslehrer, Lehrer des Paulus. Riet dem Hohen Rat, die Apostel gewähren zu lassen.','','Apg 5,34; Apg 22,3']]),
+P('Tabitha',[['Tabitha','Jüngerin in Joppe, reich an guten Werken, die Petrus vom Tod auferweckte.','','Apg 9,36; Apg 9,40']]),
+P('Felix',[['Felix','Römischer Statthalter in Cäsarea, der Paulus zwei Jahre gefangen hielt.','','Apg 23,24; Apg 24,25']]),
+P('Festus',[['Festus','Nachfolger des Felix. Vor ihm berief sich Paulus auf den Kaiser.','','Apg 25,1; Apg 25,12']]),
+P('Agrippa',[['König Agrippa','Herodes Agrippa II., vor dem Paulus seine Bekehrung schilderte. „Du überredest mich bald, daß ich ein Christ werde!“','','Apg 25,13; Apg 26,28']]),
+P('Apollos',[['Apollos','Redegewandter Jude aus Alexandrien, der in Korinth lehrte. „Ich habe gepflanzt, Apollos hat begossen.“','','Apg 18,24; 1Kor 3,6']]),
+P('Eutychus',[['Eutychus','Junger Mann, der während einer langen Predigt des Paulus einschlief, aus dem Fenster fiel und wieder lebendig wurde.','','Apg 20,9']]),
+P('Titus',[['Titus','Mitarbeiter des Paulus, Leiter der Gemeinden auf Kreta. An ihn ist der Titusbrief gerichtet.','','Gal 2,1; 2Kor 7,6; Tit 1,4']]),
+P('Philemon',[['Philemon','Christ in Kolossä, in dessen Haus sich die Gemeinde traf. Empfänger des Philemonbriefes.','','Phlm 1,1']]),
+P('Onesimus',[['Onesimus','Entlaufener Sklave des Philemon, der bei Paulus zum Glauben kam und zurückgeschickt wurde.','Herr: Philemon.','Phlm 1,10; Kol 4,9']])
+);
+/* Personen ohne Namen: genau die, deren Namen man nicht kennt */
+const U = (title, text, refs) => P(title, [[title, text, '', refs]]);
+PERSONS.push(
+U('Die Samariterin am Brunnen','Frau aus Samaria, die Jesus mittags an einem Brunnen, dem Jakobsbrunnen bei Sichar, ansprach und um Wasser bat. Er sprach mit ihr über das lebendige Wasser; danach erzählte sie ihrer ganzen Stadt von ihm.','Joh 4,7; Joh 4,9; Joh 4,39'),
+U('Die Witwe von Zarpat','Arme Witwe, die den Propheten Elia in der Hungersnot mit ihrem letzten Mehl und Öl versorgte. Mehl und Öl gingen nicht aus; Elia erweckte ihren toten Sohn.','1Kön 17,9; 1Kön 17,22; Lk 4,26'),
+U('Die Königin von Saba','Königin aus dem Süden, die mit großem Gefolge zu Salomo reiste, um seine Weisheit mit Rätseln zu prüfen.','1Kön 10,1; Mt 12,42'),
+U('Lots Frau','Frau Lots, die bei der Flucht aus Sodom zurückschaute und zur Salzsäule erstarrte.','1Mo 19,26; Lk 17,32'),
+U('Die Totenbeschwörerin von Endor','Frau, die für König Saul den toten Samuel heraufholen sollte.','1Sam 28,7'),
+U('Die Weisen aus dem Morgenland','Sterndeuter aus dem Osten, die einem Stern nach Bethlehem folgten und dem Kind Gold, Weihrauch und Myrrhe brachten.','Mt 2,1; Mt 2,11'),
+U('Die Hirten von Bethlehem','Hirten auf dem Feld, denen Engel die Geburt Jesu verkündeten; sie fanden das Kind in der Krippe.','Lk 2,8; Lk 2,16'),
+U('Der Hauptmann von Kapernaum','Römischer Offizier, dessen kranken Knecht Jesus aus der Ferne heilte. Jesus staunte über seinen Glauben: „Sprich nur ein Wort“.','Mt 8,5; Lk 7,2'),
+U('Die Frau mit dem Blutfluss','Frau, die zwölf Jahre an Blutungen litt, heimlich den Saum von Jesu Gewand berührte und geheilt wurde.','Mk 5,25; Lk 8,43'),
+U('Die Sünderin, die Jesus salbte','Frau, die im Haus eines Pharisäers weinend Jesu Füße benetzte, mit ihren Haaren trocknete und salbte. Jesus vergab ihr.','Lk 7,37'),
+U('Die Witwe von Nain','Witwe, deren einzigen Sohn Jesus am Stadttor von Nain vom Tod auferweckte.','Lk 7,12'),
+U('Der reiche Jüngling','Junger, reicher Mann, der Jesus nach dem ewigen Leben fragte, aber traurig wegging, weil er seinen Besitz nicht aufgeben wollte.','Mt 19,20; Lk 18,18'),
+U('Die kanaanäische Frau','Nichtjüdische Frau, die Jesus beharrlich um Heilung ihrer Tochter bat: Auch die Hündlein essen von den Brosamen.','Mt 15,22; Mk 7,26'),
+U('Die Ehebrecherin','Frau, die beim Ehebruch ergriffen und zu Jesus gebracht wurde. „Wer unter euch ohne Sünde ist, der werfe den ersten Stein.“','Joh 8,3; Joh 8,7'),
+U('Der Gelähmte am Teich Bethesda','Mann, der 38 Jahre krank am Teich lag und von Jesus am Sabbat geheilt wurde.','Joh 5,5'),
+U('Der Gelähmte, der durchs Dach kam','Gelähmter, den vier Freunde durch das abgedeckte Dach zu Jesus hinunterließen. Jesus vergab ihm und heilte ihn.','Mk 2,3; Lk 5,19'),
+U('Der Blindgeborene','Mann, blind von Geburt, den Jesus mit einem Brei aus Erde heilte; er wusch sich im Teich Siloah.','Joh 9,1; Joh 9,7'),
+U('Die zehn Aussätzigen','Zehn Kranke, die Jesus heilte; nur einer, ein Samariter, kehrte um und dankte.','Lk 17,12'),
+U('Die Schächer am Kreuz','Zwei Verbrecher, die neben Jesus gekreuzigt wurden. Einer bat: „Herr, gedenke meiner“, und Jesus versprach ihm das Paradies.','Lk 23,39; Lk 23,42'),
+U('Der Kämmerer aus Äthiopien','Hoher Finanzbeamter der äthiopischen Königin, der auf dem Heimweg Jesaja las und von Philippus getauft wurde.','Apg 8,27; Apg 8,38')
+);
+
+// Alternative Schreibweisen der Schlachter
+[['Jonathan','Jonatan'],['Bathseba','Batseba'],['Kaiphas','Kajaphas'],['Hesekiel','Ezechiel'],['Sara','Sarah']].forEach(([a, b]) => { const p = PERSONS.find(x => x.names.includes(a)); if (p && !p.names.includes(b)) p.names.push(b); });
+
+/* ---------- Steckbriefe: Rollen, Geschlecht, Zeit ---------- */
+const ROLE_LABEL = { koenig:'König/in', fremd:'Fremder Herrscher', prophet:'Prophet/in', priester:'Priester', richter:'Richter & Anführer', krieger:'Krieger', erzvater:'Urväter & Erzeltern', ahnen:'Vorfahren Jesu', familie:'Familie Jesu', apostel:'Jünger & Apostel', paulus:'Mitarbeiter des Paulus', feind:'Gegner' };
+const ERA_LABEL = { urz:'Urgeschichte & Erzväter', wueste:'Mose & Josua', richter:'Richterzeit', koenige:'Königszeit', exil:'Exil & Rückkehr', jesus:'Zeit Jesu', apostel:'Zeit der Apostel' };
+const ERA_OF_EPOCH = ['urz','urz','wueste','wueste','wueste','richter','koenige','koenige','koenige','koenige','koenige','exil','exil','exil','jesus','apostel','apostel'];
+const PTYPE_LABEL = { stadt:'Stadt/Dorf', berg:'Berg', wasser:'Fluss/See/Meer', insel:'Insel', region:'Land/Region', staette:'Besondere Stätte' };
+const ROLES_BY_TITLE = {
+'Adam':'erzvater','Eva':'erzvater w','Kain':'erzvater','Abel':'erzvater','Seth':'erzvater','Sem, Ham und Japhet':'erzvater','Henoch':'erzvater','Methusalah':'erzvater','Noah':'erzvater',
+'Abraham (zuerst Abram)':'erzvater ahnen','Sara (zuerst Sarai)':'erzvater w','Hagar':'w','Isaak':'erzvater ahnen','Rebekka':'erzvater w','Jakob':'erzvater ahnen','Lea':'erzvater w','Rahel':'erzvater w','Joseph, Sohn Jakobs':'erzvater','Benjamin':'erzvater','Esau':'erzvater','Dina':'w','Tamar, Schwiegertochter Judas':'ahnen w','Tamar, Tochter Davids':'w','Laban':'','Potiphar':'fremd','Nimrod':'koenig',
+'Mose':'prophet richter','Aaron':'priester','Mirjam':'prophet w','Jethro':'priester','Zippora':'w','Josua':'richter krieger','Kaleb':'richter','Bileam':'prophet feind','Achan':'',
+'Debora':'prophet richter w','Barak':'richter krieger','Sisera':'feind krieger','Jael':'w','Gideon':'richter krieger','Jephta':'richter krieger','Simson':'richter krieger','Delila':'feind w',
+'Rut':'ahnen w','Naemi':'w','Boas':'ahnen','Rahab':'ahnen w','Hanna, Mutter Samuels':'w','Hanna, die Prophetin':'prophet w','Eli, der Priester':'priester richter','Samuel':'prophet richter priester',
+'Saul, König':'koenig krieger','Jonathan':'krieger','Abner':'krieger','Isai':'ahnen','David':'koenig ahnen krieger','Goliath':'feind krieger','Michal':'w','Abigail':'w','Joab':'krieger','Uria':'krieger','Bathseba':'ahnen w','Absalom':'','Natan, der Prophet':'prophet','Natan, Sohn Davids':'ahnen','Hiram':'fremd',
+'Salomo':'koenig ahnen','Rehabeam':'koenig ahnen','Jerobeam':'koenig','Ahab':'koenig','Isebel':'koenig feind w','Nabot':'','Elia':'prophet','Elisa':'prophet','Naaman':'krieger','Jehu':'koenig krieger','Hiskia':'koenig ahnen','Josia':'koenig ahnen','Zedekia':'koenig',
+'Jesaja':'prophet','Jeremia':'prophet','Baruch':'','Hesekiel':'prophet priester','Daniel':'prophet','Sadrach, Mesach und Abednego':'','Nebukadnezar':'fremd feind','Belsazar':'fremd','Kores (Kyrus)':'fremd','Darius':'fremd','Ahasveros':'fremd','Haman':'feind','Mardochai':'','Esther':'koenig w',
+'Esra':'priester','Nehemia':'richter','Serubbabel':'richter ahnen','Jona':'prophet','Amos':'prophet','Hosea':'prophet','Micha, der Prophet':'prophet','Haggai':'prophet','Sacharja, der Prophet':'prophet','Maleachi':'prophet','Hiob':'','Melchisedek':'priester koenig',
+'Maria, die Mutter Jesu':'familie w','Joseph, Mann der Maria':'familie ahnen','Elisabeth':'familie w','Zacharias':'priester familie','Johannes der Täufer':'prophet familie','Simeon im Tempel':'','Hanna':'prophet w',
+'Johannes, der Apostel':'apostel','Simon Petrus':'apostel','Andreas':'apostel','Jakobus, Sohn des Zebedäus':'apostel','Jakobus, Sohn des Alphäus':'apostel','Jakobus, der Bruder Jesu':'familie','Philippus, der Apostel':'apostel','Philippus, der Evangelist':'','Thomas':'apostel','Matthäus':'apostel','Nathanael':'apostel','Matthias':'apostel','Judas Ischariot':'apostel feind','Judas, Sohn des Jakobus':'apostel','Judas, der Bruder Jesu':'familie','Simon der Zelot':'apostel',
+'Maria Magdalena':'apostel w','Maria von Bethanien':'apostel w','Martha':'apostel w','Salome':'apostel w','Lazarus von Bethanien':'','Nikodemus':'','Zachäus':'','Jairus':'','Bartimäus':'','Kleopas':'apostel','Malchus':'',
+'Pontius Pilatus':'fremd feind','Herodes der Große':'koenig feind','Herodes Antipas':'koenig feind','Herodes Agrippa I.':'koenig feind','Herodias':'feind w','Kaiphas':'priester feind','Hannas':'priester feind','Barabbas':'',
+'Stephanus':'','Paulus (Saulus)':'apostel','Barnabas':'paulus','Silas':'paulus','Timotheus':'paulus','Lukas':'paulus','Johannes Markus':'paulus','Priscilla und Aquila':'paulus w','Kornelius':'','Lydia':'paulus w','Tabitha':'w','Ananias und Saphira':'','Saphira':'w','Gamaliel':'','Felix':'fremd','Festus':'fremd','König Agrippa':'koenig','Apollos':'paulus','Eutychus':'','Titus':'paulus','Philemon':'paulus','Onesimus':'paulus','Ananias in Damaskus':'','Ananias, der Hohepriester':'priester feind','Die Samariterin am Brunnen':'w','Die Witwe von Zarpat':'w','Die Königin von Saba':'koenig fremd w','Lots Frau':'w','Die Totenbeschwörerin von Endor':'w','Die Sünderin, die Jesus salbte':'w','Die Witwe von Nain':'w','Die kanaanäische Frau':'w','Die Ehebrecherin':'w','Die Frau mit dem Blutfluss':'w','Der Hauptmann von Kapernaum':'krieger','Die Weisen aus dem Morgenland':'fremd'
+};
+const PLACE_INFO = [["stadt", "an"], ["stadt", "an"], ["stadt", "n"], ["stadt", "n"], ["stadt", "an"], ["stadt", "a"], ["stadt", "a"], ["stadt", "an"], ["stadt", "a"], ["stadt", "a"], ["stadt", "an"], ["region", "an"], ["region", "an"], ["stadt", "an"], ["stadt", "an"], ["stadt", "an"], ["stadt", "a"], ["stadt", "an"], ["region", "an"], ["stadt", "an"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "an"], ["stadt", "n"], ["stadt", "n"], ["stadt", "an"], ["stadt", "an"], ["stadt", "n"], ["stadt", "an"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["staette", "n"], ["staette", "n"], ["berg", "an"], ["berg", "an"], ["berg", "a"], ["berg", "a"], ["berg", "a"], ["berg", "a"], ["wasser", "an"], ["wasser", "an"], ["wasser", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["staette", "an"], ["region", "a"], ["region", "a"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["insel", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["insel", "n"], ["insel", "n"], ["insel", "n"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["staette", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "an"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["staette", "a"], ["staette", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["berg", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["region", "a"], ["region", "a"], ["stadt", "a"], ["wasser", "a"], ["berg", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "n"], ["stadt", "a"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["wasser", "an"], ["wasser", "n"], ["staette", "an"], ["berg", "an"], ["berg", "a"], ["stadt", "a"], ["berg", "a"], ["wasser", "an"], ["wasser", "a"], ["region", "a"], ["stadt", "a"], ["region", "an"], ["region", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "a"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "n"], ["insel", "n"], ["insel", "n"], ["stadt", "n"], ["stadt", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["region", "n"], ["stadt", "n"], ["stadt", "n"], ["stadt", "a"], ["stadt", "a"]];
+let PROFILES = null;
+function buildProfiles(){
+  if (PROFILES) return PROFILES;
+  PROFILES = [];
+  PERSONS.forEach((p, pi) => p.entries.forEach(e => {
+    const r = parseLoose(e.refs.split(';')[0]); const tags = (ROLES_BY_TITLE[e.title] || '').split(' ').filter(Boolean);
+    const sex = tags.includes('w') ? 'w' : 'm'; const roles = tags.filter(t => t !== 'w');
+    const ep = r ? epochOf(r.b, r.c) : -1;
+    PROFILES.push({ kind:'p', pi, title:e.title, names:p.names, text:e.text, family:e.family, ref:r, refStr:e.refs.split(';')[0].trim(),
+      test: r ? (r.b <= 39 ? 'a' : 'n') : '', roles, sex, era: ep >= 0 ? ERA_OF_EPOCH[ep] : '',
+      hay:[e.title, p.names.join(' '), e.text, e.family, roles.map(x => ROLE_LABEL[x] + (x === 'fremd' || x === 'koenig' ? ' König Herrscher' : '')).join(' '), sex === 'w' ? 'Frau' : 'Mann'].join(' ') });
+  }));
+  PLACES.forEach((pl, i) => {
+    const [ty, te] = PLACE_INFO[i] || ['stadt', 'a'];
+    const evs = EVENTS_AT.concat(EVENTS_NT).filter(e => pl.names.some(n => e.place.includes(n)) || e.place.includes(pl.title));
+    PROFILES.push({ kind:'o', i, title:pl.title, names:pl.names, text:pl.modern + (pl.note ? '. ' + pl.note : ''), events:evs.map(e => e.title), ptype:ty, test:te, ref:evs[0] ? parseLoose(evs[0].ref) : null,
+      hay:[pl.title, pl.names.join(' '), pl.modern, pl.note, PTYPE_LABEL[ty], evs.map(e => e.title + ' ' + e.note).join(' ')].join(' ') });
+  });
+  return PROFILES;
+}
+// Namen unscharf vergleichen
+const fz = s => s.toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/th/g, 't').replace(/ph/g, 'f').replace(/ch/g, 'k').replace(/c/g, 'k').replace(/[yj]/g, 'i').replace(/h/g, '').replace(/[^a-z]/g, '').replace(/(.)\1+/g, '$1');
+function lev(a, b){ if (Math.abs(a.length - b.length) > 3) return 9; const d = Array.from({ length:a.length + 1 }, (_, i) => [i]); for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1)); return d[a.length][b.length]; }
+function nameScore(word, names){
+  const w = fz(word); if (w.length < 3) return 0; let best = 0;
+  names.forEach(n => n.split(/[\s,]+/).forEach(part => { const p = fz(part); if (!p) return;
+    let s = 0;
+    if (p === w) s = 1; else if (p.startsWith(w)) s = 0.85; else if (w.length >= 4 && p.includes(w)) s = 0.6;
+    else { const dd = lev(w, p.slice(0, Math.max(w.length, Math.min(p.length, w.length + 2)))); if (w.length >= 4 && dd <= (w.length >= 7 ? 2 : 1)) s = 0.7 - dd * 0.1; }
+    if (s > best) best = s; }));
+  return best;
+}
+let FINDOPEN = false;
+let FIND = { kind:'', test:'', role:'', sex:'', era:'', ptype:'', q:'' };
+function finderResults(){
+  const all = buildProfiles();
+  let list = all.filter(x => (!FIND.kind || x.kind === FIND.kind) && (!FIND.test || x.test.includes(FIND.test))
+    && (x.kind === 'o' || ((!FIND.role || x.roles.includes(FIND.role)) && (!FIND.sex || x.sex === FIND.sex) && (!FIND.era || x.era === FIND.era)))
+    && (x.kind === 'p' || !FIND.ptype || x.ptype === FIND.ptype)
+    && !(x.kind === 'o' && (FIND.role || FIND.sex || FIND.era)) && !(x.kind === 'p' && FIND.ptype));
+  const q = FIND.q.trim();
+  if (!q) return list.map(x => ({ x, s:0 })).sort((a, b) => a.x.title.localeCompare(b.x.title, 'de'));
+  const kws = qKeywords(q), words = q.split(/[\s,.;:?!]+/).filter(w => w.length >= 3);
+  const df = kws.map(k => all.filter(x => k.re.test(x.hay)).length);
+  const idf = df.map(d => Math.log((all.length + 1) / (d + 1)) + 0.5);
+  return list.map(x => {
+    let s = 0, n = 0; kws.forEach((k, j) => { if (k.re.test(x.hay)){ s += idf[j]; n++; } });
+    if (kws.length > 1 && n === kws.length) s += 2;
+    let ns = 0; words.forEach(w => { ns = Math.max(ns, nameScore(w, x.names.concat([x.title]))); });
+    s += ns * (words.length <= 2 ? 8 : 2.5);
+    return { x, s };
+  }).filter(r => r.s > 0.6).sort((a, b) => b.s - a.s).filter((r, k, arr) => r.s >= arr[0].s * 0.35).slice(0, 25);
+}
+function chipRow(key, opts, label){
+  return `<div class="f-row"><span class="f-lab">${label}</span><div class="f-chips">${Object.entries(opts).map(([v, l]) => `<button class="f-chip ${FIND[key] === v ? 'on' : ''}" data-fk="${key}" data-fv="${v}">${esc(l)}</button>`).join('')}</div></div>`;
+}
+function renderFinder(){
+  const box = $('#finder'); if (!box) return;
+  let h = `<p class="hint" style="margin:.2rem 0 .6rem">Du weißt noch, wer oder wo es war, aber nicht den Namen? Wähle aus, was du weißt, und beschreibe es in eigenen Worten.</p>
+    <input id="fq" class="search" type="search" placeholder="z. B. Frau, die die Kundschafter versteckte" autocomplete="off" value="${esc(FIND.q)}" aria-label="Beschreibung oder Namensteil">`;
+  const fl = [FIND.kind && (FIND.kind === 'p' ? 'Person' : 'Ort'), FIND.test && (FIND.test === 'a' ? 'AT' : 'NT'), FIND.sex && (FIND.sex === 'w' ? 'Frau' : 'Mann'), FIND.role && ROLE_LABEL[FIND.role], FIND.era && ERA_LABEL[FIND.era], FIND.ptype && PTYPE_LABEL[FIND.ptype]].filter(Boolean);
+  h += `<details class="sopts" id="fopts" ${FINDOPEN ? 'open' : ''}><summary>Eingrenzen${fl.length ? ': ' + esc(fl.join(', ')) : ' (Person oder Ort, Testament, Rolle, Zeit)'}</summary>`;
+  h += chipRow('kind', { p:'Person', o:'Ort' }, 'Was?');
+  h += chipRow('test', { a:'Altes Testament', n:'Neues Testament' }, 'Wo?');
+  if (FIND.kind !== 'o'){
+    h += chipRow('sex', { m:'Mann', w:'Frau' }, 'Person');
+    h += chipRow('role', ROLE_LABEL, 'Rolle');
+    h += chipRow('era', ERA_LABEL, 'Zeit');
+  }
+  if (FIND.kind === 'o') h += chipRow('ptype', PTYPE_LABEL, 'Art');
+  h += `</details>`;
+  const any = FIND.q || FIND.kind || FIND.test || FIND.role || FIND.sex || FIND.era || FIND.ptype;
+  if (any) h += `<button class="small" data-act="freset" style="margin:.3rem 0 .2rem">Auswahl zurücksetzen</button>`;
+  h += `<div id="fres"></div>`;
+  box.innerHTML = h;
+  renderFinderResults();
+}
+function renderFinderResults(){
+  const out = $('#fres'); if (!out) return;
+  const any = FIND.q.trim() || FIND.kind || FIND.test || FIND.role || FIND.sex || FIND.era || FIND.ptype;
+  if (!any){ out.innerHTML = `<p class="hint">Beispiele: <em>Riese</em>, <em>Stadt mit eingestürzten Mauern</em>, <em>König, der Daniel in die Löwengrube warf</em>, <em>Nebu…</em> oder ein falsch geschriebener Name wie <em>Bathseeba</em>.</p>`; return; }
+  const res = finderResults();
+  if (!res.length){ out.innerHTML = `<p class="count">Nichts gefunden.</p><p class="hint">Versuche weniger Auswahl oder andere Wörter.</p>`; return; }
+  out.innerHTML = `<p class="count">${res.length} Treffer, die besten zuerst</p>` + res.map(({ x }) => {
+    const tags = x.kind === 'p'
+      ? [x.test === 'a' ? 'AT' : x.test === 'n' ? 'NT' : '', ...x.roles.map(r => ROLE_LABEL[r]), x.era ? ERA_LABEL[x.era] : ''].filter(Boolean)
+      : [PTYPE_LABEL[x.ptype], x.test === 'an' ? 'AT und NT' : x.test === 'n' ? 'NT' : 'AT'];
+    const sub = x.kind === 'p' ? x.text.split('. ')[0] + '.' : 'Heute: ' + x.text.split('. ')[0] + (x.events && x.events.length ? '. ' + x.events.slice(0, 2).join('; ') : '');
+    return `<button class="fcard" ${x.kind === 'p' ? `data-ps="${x.pi}"` : `data-fpl="${x.i}"`}><span class="f-kind ${x.kind}">${x.kind === 'p' ? 'Person' : 'Ort'}</span><span class="f-name">${esc(x.title)}</span><span class="f-sub">${esc(sub)}</span><span class="f-tags">${tags.map(t => `<span>${esc(t)}</span>`).join('')}</span></button>`;
+  }).join('');
 }
 
 
@@ -33302,7 +33529,23 @@ function termPattern(t){
 }
 /* ---------- Fragen stellen ---------- */
 const Q_STOP = new Set('wer wen wem wessen wie was wo wann warum wieso weshalb welche welcher welches welchen womit wohin woher hat haben hatte hatten ist war waren wurde wurden wird werden sind bin der die das den dem des ein eine einen einem einer eines und oder mit am an im in auf zu zum zur von vom aus bei nach für über unter vor hinter sich er sie es ihn ihm ihr ihre sein seine seinen seinem gibt gab steht stand bibel stelle stellen vers verse wort nicht auch als dass daß so mal denn man noch schon sehr viel viele alle alles etwas jemand einer gegen durch um bis wieder dort hier da dann wenn doch heißt hieß genannt namens'.split(' '));
-const Q_IRREG = { gerungen:['rang','ringen','gerungen','kämpf','rang'], rang:['rang','ringen'], ringen:['rang','ringen'], gekämpft:['kämpf','stritt','rang'], kämpfte:['kämpf','stritt','rang'], geschlagen:['schlag','schlug'], erschlagen:['schlag','schlug','erschlug'], getötet:['tötet','erschlug','schlug'], tötete:['tötet','erschlug'], gesehen:['seh','sah'], gegangen:['geh','ging'], gestorben:['starb','sterb','tot'], geboren:['geboren','gebar','geburt'], gesprochen:['sprach','sprech','red'], gesagt:['sprach','sag'], gefunden:['find','fand'], gegessen:['aß','ess'], getrunken:['trank','trink'], geworfen:['warf','werf'], gesandt:['sandt','send'], verraten:['verrat','verriet'], gefallen:['fiel','fall'], geflohen:['floh','flieh'], gerufen:['rief','ruf'], erschienen:['erschien'], geschlafen:['schlief'], geträumt:['träum','traum'], besiegt:['sieg','schlug','überwand'], versucht:['versuch'], gekreuzigt:['kreuzig'], begraben:['begrab','grab'], auferstanden:['auferstand','auferweck'], geheilt:['heil','gesund'], getauft:['tauf'], gebaut:['baut'], verkauft:['verkauf'], geopfert:['opfer'], gesegnet:['segn'], gebetet:['betet'], geweint:['weint'], verleugnet:['verleugn'], geschrieben:['schrieb'], verschlungen:['verschl'], geblieben:['blieb'], gefastet:['fastet'], gestohlen:['stahl','stehl'], gelogen:['log','lüg'] };
+const Q_FAMILIES = [
+['ringen','ringt','rang','rangen','gerungen','kämpfen','kämpft','kämpfte','kämpften','gekämpft','streiten','stritt','gestritten'],
+['schlagen','schlägt','schlug','schlugen','geschlagen','erschlagen','erschlug','besiegen','besiegt','besiegte','überwand','überwinden','tötete','getötet','töten','tötet'],
+['sehen','sieht','sah','sahen','gesehen'],['gehen','geht','ging','gingen','gegangen'],
+['sterben','stirbt','starb','starben','gestorben','tot','tod'],['gebären','gebar','geboren','geburt'],
+['sprechen','spricht','sprach','sprachen','gesprochen','sagen','sagt','sagte','gesagt','reden','redete','ansprechen','anspricht','ansprach','sprach an','bitten','bat','gebeten'],
+['finden','fand','gefunden'],['essen','aß','aßen','gegessen'],['trinken','trank','getrunken'],['werfen','warf','geworfen'],
+['senden','sandte','gesandt'],['verraten','verriet','verrat'],['fallen','fiel','fielen','gefallen','einstürzen','eingestürzt','eingestürzten','stürzte','stürzten','umgefallen'],['fliehen','floh','geflohen'],
+['rufen','rief','gerufen'],['erscheinen','erschien','erschienen'],['schlafen','schlief','geschlafen'],['träumen','träumte','geträumt','traum'],
+['versuchen','versuchte','versucht','versuchung'],['kreuzigen','kreuzigten','gekreuzigt'],['begraben','begrub','grab'],
+['auferstehen','auferstand','auferstanden','auferweckt','auferweckte','auferstehung'],['heilen','heilte','geheilt','gesund'],
+['taufen','taufte','getauft','taufe'],['bauen','baute','gebaut'],['verkaufen','verkaufte','verkauft'],['opfern','opferte','geopfert','opfer'],
+['segnen','segnete','gesegnet','segen'],['beten','betete','gebetet','gebet'],['weinen','weinte','geweint'],['verleugnen','verleugnete','verleugnet'],
+['schreiben','schrieb','geschrieben'],['verschlingen','verschlang','verschlungen'],['bleiben','blieb','geblieben'],['fasten','fastete','gefastet'],
+['stehlen','stahl','gestohlen'],['lügen','log','gelogen'],['salben','salbte','gesalbt']
+];
+const Q_IRREG = {}; Q_FAMILIES.forEach(f => f.forEach(w => Q_IRREG[w] = f));
 const Q_SYN = { fluss:['jordan','jabbok','strom','fluß','bach','wasser'], 'fluß':['jordan','jabbok','strom','fluß','bach','wasser'], gott:['gott','herr'], riese:['goliath','ries'], wal:['fisch'], walfisch:['fisch'], schiff:['schiff','arche','kasten'], boot:['schiff','boot'], arche:['arche','kasten'], baby:['kind','knäblein','säugling'], tod:['tod','starb','tot','sterb'], frau:['frau','weib'], meer:['meer','see'], see:['see','meer'], esel:['esel'], löwe:['löwe'], löwen:['löwe'], teufel:['teufel','satan','versucher'], traum:['traum','träum'], hirte:['hirt'], schafe:['schaf'], sturm:['sturm','wind'], krieg:['krieg','streit'], vater:['vater'], mutter:['mutter'], bruder:['bruder','brüder'], sohn:['sohn','söhne'], jünger:['jünger'], wunder:['wunder','zeichen'], gebet:['betet','gebet'], beten:['betet','bete'] };
 function qStems(w){
   w = w.toLowerCase();
@@ -33340,8 +33583,11 @@ function questionSearch(q){
   EVENTS_AT.concat(EVENTS_NT).forEach(e => pool.push({ title:e.title, sub:e.place + ', heute ' + e.modern, ref:e.ref, hay:e.title + ' ' + e.place + ' ' + e.modern + ' ' + e.note }));
   PARABLES.forEach(p => pool.push({ title:p.title, sub:p.kern, ref:p.refs[0], hay:p.title + ' ' + p.bild }));
   PERSONS.forEach(p => p.entries.forEach(e => { const r = e.refs.split(';')[0].trim(); pool.push({ title:e.title, sub:e.text.split('. ')[0], ref:r, hay:e.title + ' ' + e.text }); }));
-  const topics = pool.map(t => { let n = 0, s = 0; kws.forEach((k, j) => { if (k.re.test(t.hay)){ n++; s += idf[j] || 1; } }); return Object.assign({ n, s }, t); })
-    .filter(t => t.n >= Math.min(2, kws.length)).sort((a, b) => b.s - a.s).slice(0, 5);
+  let topics = pool.map(t => { let n = 0, s = 0; kws.forEach((k, j) => { if (k.re.test(t.hay)){ n++; s += idf[j] || 1; } }); return Object.assign({ n, s }, t); })
+    .filter(t => t.n >= 1).sort((a, b) => b.n - a.n || b.s - a.s);
+  const need = Math.min(2, kws.length);
+  const full = topics.filter(t => t.n >= need);
+  topics = (full.length ? full : topics).slice(0, 5);
   const near = topics.map(t => parseLoose(t.ref)).filter(Boolean);
   cands.forEach(c => { if (near.some(r => r.b === B[c.i] && r.c === C[c.i] && Math.abs((r.v || 1) - V[c.i]) <= 6)) c.s += 4; });
   cands.sort((a, b) => b.s - a.s || a.i - b.i);
@@ -33355,13 +33601,32 @@ function questionSearch(q){
 function renderQuestion(q, out){
   const { kws, topics, passages } = questionSearch(q);
   hlRe = kws.length ? new RegExp(kws.map(k => k.re.source).join('|'), 'gi') : null;
-  let h = `<div class="qa-box"><div class="qa-q">„${esc(q)}“</div><p class="hint" style="margin:.2rem 0 0">Gesucht nach: ${kws.map(k => `<strong>${esc(k.word)}</strong>`).join(', ') || '–'}</p><div id="aiBox"></div></div>`;
-  if (topics.length) h += `<h3 class="grp at">Passende Themen</h3>` + topics.map(t => { const r = parseLoose(t.ref); return r ? `<button class="res" data-goto="${r.b},${r.c},${r.v}"><span class="ref ${tst(r.b)}">${esc(t.ref)}</span><span class="t" style="font-family:inherit;font-weight:700">${esc(t.title)}</span><span class="hint">${esc(t.sub)}</span></button>` : ''; }).join('');
+  let h = `<div class="qa-box"><div class="qa-q">„${esc(q)}“</div>`;
+  const top = topics[0];
+  if (top){
+    const strong = top.n === kws.length;
+    const r = parseLoose(top.ref), vi = r ? VIDX.get(vkey(r.b, r.c, r.v || 1)) : null;
+    // Personen im Thema finden
+    const pnames = [...new Set((top.title + ' ' + (top.sub || '')).split(/[\s,.;:()]+/).filter(w => TERMS[w] && TERMS[w][0] === 'ps'))].slice(0, 2);
+    const pinfo = pnames.map(n => { const e = PERSONS[TERMS[n][1]].entries[0]; return `<button class="qa-person" data-ps="${TERMS[n][1]}"><strong>${esc(e.title)}</strong> ${esc(e.text.split('. ')[0])}.</button>`; }).join('');
+    h += `<div class="qa-answer"><div class="qa-ai-h">${strong ? 'Antwort' : 'Vielleicht meinst du'}</div>
+      <div class="qa-a-t">${esc(top.title)}</div>${top.sub && top.sub !== top.title ? `<div class="hint">${esc(top.sub)}</div>` : ''}
+      ${pinfo}
+      ${vi != null ? `<blockquote class="qa-verse">${esc(T[vi])}<button class="qa-ref" data-goto="${r.b},${r.c},${r.v || 1}">${esc(top.ref)} lesen</button></blockquote>` : ''}</div>`;
+  } else if (passages.length){
+    const p0 = passages[0];
+    h += `<div class="qa-answer"><div class="qa-ai-h">Wahrscheinlich hier</div><blockquote class="qa-verse">${p0.hitsIn.map(k => hl(T[k])).join(' … ')}<button class="qa-ref" data-goto="${B[p0.i]},${C[p0.i]},${V[p0.i]}">${esc(BOOKS[B[p0.i]-1][0])} ${C[p0.i]},${V[p0.i]} lesen</button></blockquote></div>`;
+  }
+  h += `<div id="aiBox"></div></div>`;
+  const rest = topics.slice(1);
+  if (rest.length || passages.length) h += `<details class="route"><summary><strong>Weitere mögliche Stellen</strong><span class="hint">gesucht nach: ${kws.map(k => esc(k.word)).join(', ')}</span></summary>`;
+  if (rest.length) h += `<h3 class="grp at">Passende Themen</h3>` + rest.map(t => { const r = parseLoose(t.ref); return r ? `<button class="res" data-goto="${r.b},${r.c},${r.v}"><span class="ref ${tst(r.b)}">${esc(t.ref)}</span><span class="t" style="font-family:inherit;font-weight:700">${esc(t.title)}</span><span class="hint">${esc(t.sub)}</span></button>` : ''; }).join('');
   if (passages.length) h += `<h3 class="grp nt">Mögliche Bibelstellen</h3>` + passages.map(p => {
     const show = p.hitsIn;
     const ref = `${BOOKS[B[p.i]-1][0]} ${C[p.i]},${V[p.i]}${p.end > p.i ? '–' + V[p.end] : ''}`;
     return `<button class="res" data-goto="${B[p.i]},${C[p.i]},${V[p.i]}"><span class="ref ${tst(B[p.i])}">${esc(ref)}</span><span class="t">${show.map((k, n) => (n && V[k] - V[show[n-1]] > 1 ? '<span class="qgap">…</span> ' : '') + `<sup class="qv">${V[k]}</sup>${hl(T[k])}`).join(' ')}</span></button>`;
   }).join('');
+  if (rest.length || passages.length) h += `</details>`;
   if (!topics.length && !passages.length) h += `<p class="hint">Dazu habe ich keine passende Stelle gefunden. Versuche andere Wörter oder eine einfachere Frage, z. B. „Wer baute die Arche?“.</p>`;
   out.innerHTML = h;
   setupAI(q);
@@ -33370,10 +33635,11 @@ async function setupAI(q){
   const box = $('#aiBox'); if (!box) return;
   const sample = await cap('sample');
   if (!sample || !$('#aiBox')) return;
-  $('#aiBox').innerHTML = `<button class="primary qa-ai" data-act="askai">Claude genauer fragen</button>`;
+  $('#aiBox').innerHTML = `<button class="primary qa-ai" data-act="askai">Claude antworten lassen</button>`;
   AIQ = q;
+  if (AI_AUTO){ AI_AUTO = false; askAI(); }
 }
-let AIQ = '', aiCtl = null;
+let AIQ = '', aiCtl = null, AI_AUTO = false;
 function simpleSearch(words){
   const terms = String(words || '').split(/\s+/).filter(w => w.length >= 2).slice(0, 6);
   if (!terms.length) return [];
@@ -33408,7 +33674,7 @@ Höchstens 6 Stellen, die wichtigste zuerst. Verwende nur diese Buchabkürzungen
 function runSearch(){
   const q = $('#q').value.trim(), out = $('#results');
   hits = []; shown = 0; hlRe = null;
-  if (!q){ out.innerHTML = `<p class="hint">Gib ein oder mehrere Stichworte ein, zum Beispiel <em>Gnade Glaube</em>. Eine feste Wortfolge setzt du in Anführungszeichen, z. B. <em>„Reich Gottes“</em>. Eine Bibelstelle wie <em>Joh 3,16</em> öffnet sie direkt. Du kannst auch eine <strong>Frage</strong> stellen, z. B. <em>Wer hat am Fluss mit Gott gerungen?</em> Unter „Suchoptionen“ kannst du ein Buch wählen und einstellen, wie genau gesucht wird.</p>`; return; }
+  if (!q){ out.innerHTML = `<p class="hint">Gib ein oder mehrere Stichworte ein, zum Beispiel <em>Gnade Glaube</em>. Eine feste Wortfolge setzt du in Anführungszeichen, z. B. <em>„Reich Gottes“</em>. Eine Bibelstelle wie <em>Joh 3,16</em> öffnet sie direkt. Weißt du nur noch, wer oder wo es war? Dann nutze oben „Wer oder wo war das?“. Unter „Suchoptionen“ kannst du ein Buch wählen und einstellen, wie genau gesucht wird.</p>`; return; }
   let h = '';
   const ref = parseRefInput(q);
   if (ref && (!LOADED || CHIDX.has(ref.b*1000 + ref.c))){
@@ -33416,7 +33682,6 @@ function runSearch(){
     if (/\d/.test(q)){ out.innerHTML = h; return; }
   }
   if (!LOADED){ out.innerHTML = h; return; }
-  if (isQuestion(q)){ out.innerHTML = h; const d = document.createElement('div'); out.appendChild(d); renderQuestion(q, d); return; }
   const qn = q.replace(/(\d)[\s.'’](?=\d{3}(?!\d))/g, '$1');
   // Begriffe zerlegen: „Wortgruppe“, -ausschließen, normale Wörter
   const inc = [], exc = [];
@@ -33541,6 +33806,9 @@ document.addEventListener('click', async e => {
   if (d.book){ openChapters(+d.book); return; }
   if (d.chap){ const [b,c] = d.chap.split(',').map(Number); closeSheet(); goTo(b, c); return; }
   if (d.li != null){ openLink(+d.li, +d.ti); return; }
+  if (d.st){ document.querySelectorAll('#smodeTop button').forEach(x => x.classList.toggle('on', x === el)); $('#finder').hidden = d.st !== 'find'; $('#textsearch').hidden = d.st === 'find'; if (d.st === 'find') renderFinder(); return; }
+  if (d.fk){ FINDOPEN = true; FIND[d.fk] = FIND[d.fk] === d.fv ? '' : d.fv; if (d.fk === 'kind'){ FIND.role = FIND.sex = FIND.era = FIND.ptype = ''; } const y = window.scrollY; renderFinder(); window.scrollTo(0, y); return; }
+  if (d.fpl != null){ openPlace(+d.fpl); return; }
   if (d.sm){ sMode = d.sm; document.querySelectorAll('#smode button').forEach(x => x.classList.toggle('on', x === el)); runSearch(); return; }
   if (d.sw){ sWord = d.sw; document.querySelectorAll('#sword button').forEach(x => x.classList.toggle('on', x === el)); runSearch(); return; }
   if (d.sb != null){ sBook = +d.sb; $('#sbook').value = String(sBook); runSearch(); window.scrollTo(0, 0); return; }
@@ -33569,6 +33837,7 @@ document.addEventListener('click', async e => {
     case 'books': openBooks(); break;
     case 'import': closeSheet(); $('#file').value = ''; $('#file').click(); break;
     case 'more': showMore(); break;
+    case 'freset': FIND = { kind:'', test:'', role:'', sex:'', era:'', ptype:'', q:'' }; renderFinder(); break;
     case 'askai': askAI(); break;
     case 'stopai': if (aiCtl) aiCtl.abort(); break;
     case 'savenote': case 'delnote': {
@@ -33611,7 +33880,9 @@ $('#nextBtn').addEventListener('click', () => step(1));
   }, { passive:true });
 })();
 $('#file').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; if (f) importFile(f); });
+document.addEventListener('toggle', e => { if (e.target.id === 'fopts') FINDOPEN = e.target.open; }, true);
 document.addEventListener('input', e => {
+  if (e.target.id === 'fq'){ FIND.q = e.target.value; clearTimeout(window._fqt); window._fqt = setTimeout(renderFinderResults, 200); return; }
   if (e.target.id === 'glq'){
     const q = e.target.value.trim().toLowerCase(); let n = 0;
     document.querySelectorAll('.glrow').forEach(r => { const ok = !q || r.dataset.txt.includes(q); r.hidden = !ok; if (ok) n++; });
