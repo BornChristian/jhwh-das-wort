@@ -11,7 +11,7 @@
 :root{
   --bg:#F3F5F7;--surface:#FFFFFF;--bar:#FFFFFF;--ink:#18212B;--muted:#5D6875;--line:#DCE1E7;
   --at:#94650F;--at-soft:#F5EAD3;--nt:#2E5E8C;--nt-soft:#DFEAF5;
-  --mark:#FCE9A8;--flash:#FFF1BD;--hl-y:#FFF0A8;--hl-g:#D4F2C9;--hl-b:#D3E6FA;--hl-r:#F9D6E0;--hb:#7B4FB8;--m-land:#EFE7D6;--m-sea:#CFE2F1;--m-coast:#9DB5C9;--btn-ink:#FFFFFF;--fs:19px;
+  --mark:#FCE9A8;--flash:#FFF1BD;--hl-y:#FFF0A8;--hl-g:#D4F2C9;--hl-b:#D3E6FA;--hl-r:#F9D6E0;--hb:#7B4FB8;--nu:#2E7D4F;--m-land:#EFE7D6;--m-sea:#CFE2F1;--m-coast:#9DB5C9;--btn-ink:#FFFFFF;--fs:19px;
   color-scheme:light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -21,13 +21,13 @@
   :root:not([data-theme="light"]){
     --bg:#0F141A;--surface:#171E26;--bar:#171E26;--ink:#E6EAEE;--muted:#98A3AF;--line:#28323D;
     --at:#D9A441;--at-soft:#3A2E16;--nt:#86B3DE;--nt-soft:#1B2D3F;
-    --mark:#5C4B12;--flash:#3A3416;--btn-ink:#0F141A;--hl-y:#4F4413;--hl-g:#21402A;--hl-b:#1C3652;--hl-r:#512638;--hb:#B79AE6;--m-land:#2A2C26;--m-sea:#152536;--m-coast:#36506A;color-scheme:dark;
+    --mark:#5C4B12;--flash:#3A3416;--btn-ink:#0F141A;--hl-y:#4F4413;--hl-g:#21402A;--hl-b:#1C3652;--hl-r:#512638;--hb:#B79AE6;--nu:#7BC79A;--m-land:#2A2C26;--m-sea:#152536;--m-coast:#36506A;color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0F141A;--surface:#171E26;--bar:#171E26;--ink:#E6EAEE;--muted:#98A3AF;--line:#28323D;
     --at:#D9A441;--at-soft:#3A2E16;--nt:#86B3DE;--nt-soft:#1B2D3F;
-    --mark:#5C4B12;--flash:#3A3416;--btn-ink:#0F141A;--hl-y:#4F4413;--hl-g:#21402A;--hl-b:#1C3652;--hl-r:#512638;--hb:#B79AE6;--m-land:#2A2C26;--m-sea:#152536;--m-coast:#36506A;color-scheme:dark;
+    --mark:#5C4B12;--flash:#3A3416;--btn-ink:#0F141A;--hl-y:#4F4413;--hl-g:#21402A;--hl-b:#1C3652;--hl-r:#512638;--hb:#B79AE6;--nu:#7BC79A;--m-land:#2A2C26;--m-sea:#152536;--m-coast:#36506A;color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
@@ -127,6 +127,21 @@ main{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .hebintro h3,.wordshead{font-size:1.1rem;margin:.2rem 0 .3rem}
 .wordshead{margin-top:1.8rem}
 .hebintro p{margin:0;color:var(--muted)}
+.sect{margin:1rem 0;border:1px solid var(--line);border-radius:14px;background:var(--bg);padding:0 .8rem}
+.sect>summary{display:flex;align-items:center;gap:.6rem;padding:.9rem .2rem;cursor:pointer;list-style:none}
+.sect>summary::-webkit-details-marker{display:none}
+.sect>summary::before{content:"▸";color:var(--muted);transition:transform .15s}
+.sect[open]>summary::before{transform:rotate(90deg)}
+.sect-t{flex:1;font-weight:700;font-size:1.1rem}
+.sect-n{font-size:.85rem;font-weight:700;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:.1rem .55rem}
+.sect[open]{padding-bottom:.6rem}
+.hebfold summary{display:flex;align-items:center;gap:.7rem}
+.hebfold summary::-webkit-details-marker{display:none}
+.heb-s{font-family:"Noto Serif Hebrew","SBL Hebrew","Times New Roman",serif;font-size:1.35rem;min-width:4.2rem;text-align:right}
+.heb-t{flex:1;min-width:0}
+.heb-t strong{margin-right:.3rem}
+.heb-v{font-family:"Crimson Pro",Georgia,serif;font-size:1.25rem;font-weight:600;color:var(--at)}
+.hebfold .hebrow{border:0;padding:0 0 .6rem;margin:0;background:none}
 .hebrow{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin:.7rem 0}
 .hebtop{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
 .heb{font-family:"Noto Serif Hebrew","SBL Hebrew","Times New Roman",serif;font-size:2rem;line-height:1.2;color:var(--ink)}
@@ -191,6 +206,29 @@ button.t-p{text-decoration:underline dotted;text-decoration-color:var(--at);text
 .cm-row p{margin:.15rem 0 0;font-size:.9rem}
 .gl-kern{display:block;font-size:.9rem;color:var(--at)!important}
 .glrow .btns{margin-bottom:.8rem}
+.sopts{margin:0 0 .8rem;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.1rem .9rem}
+.sopts summary{padding:.6rem 0;font-weight:600;cursor:pointer;color:var(--muted)}
+.sopts[open]{padding-bottom:.8rem}
+.sopt-l{display:block;font-size:.85rem;font-weight:600;color:var(--muted);margin:.5rem 0 .3rem}
+.sel{width:100%;font:inherit;font-size:16px;padding:.55rem .6rem;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.sopts .seg{margin-bottom:.2rem}
+.sopts .seg button{font-size:.82rem}
+.bdist{display:flex;flex-wrap:wrap;gap:.35rem;margin:.2rem 0 .6rem}
+.bchip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:.2rem .6rem;font-size:.82rem;font-weight:700}
+.bchip.at{color:var(--at)}.bchip.nt{color:var(--nt)}
+.bchip span{font-weight:400;color:var(--muted)}
+.nu{text-decoration:underline dotted;text-decoration-color:var(--nu);text-underline-offset:3px;text-decoration-thickness:1.5px;cursor:pointer}
+.nu:active{background:var(--line);border-radius:3px}
+.num-big{font-family:"Crimson Pro",Georgia,serif;font-size:3rem;font-weight:600;color:var(--nu);line-height:1;margin:.4rem 0 .2rem}
+.heb-inline{font-family:"Noto Serif Hebrew","SBL Hebrew","Times New Roman",serif;font-size:1.2em}
+.qa-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin:.2rem 0 .6rem}
+.qa-q{font-family:"Crimson Pro",Georgia,serif;font-size:1.25rem;font-weight:600}
+.qa-ai{margin-top:.7rem;font-size:.95rem;padding:.6rem 1rem}
+.qa-ai-ans{margin-top:.8rem;border-top:1px solid var(--line);padding-top:.6rem}
+.qa-ai-h{font-weight:700;color:var(--nt);font-size:.9rem;text-transform:uppercase;letter-spacing:.04em}
+.qa-ai-ans p{margin:.3rem 0}
+span.qgap{color:var(--muted)}
+sup.qv{font-family:"Source Sans 3",system-ui,sans-serif;font-size:.6em;color:var(--muted);font-weight:700;margin-right:.2em}
 .pl-now{font-size:1.05rem;margin:.5rem 0 .2rem}
 a.primary{text-decoration:none}
 a.small{display:inline-block;color:var(--nt);text-decoration:none}
@@ -336,10 +374,19 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 .05em}
   <section id="view-search" class="view" hidden>
     <header class="bar"><h2>Suchen</h2></header>
     <div class="wrap">
-      <input id="q" class="search" type="search" placeholder="Stichwort oder Stelle, z. B. Gnade" autocomplete="off" autocorrect="off" enterkeyhint="search" aria-label="Suchbegriff">
+      <input id="q" class="search" type="search" placeholder="Stichwort, Stelle oder Frage" autocomplete="off" autocorrect="off" enterkeyhint="search" aria-label="Suchbegriff">
       <div class="seg" id="scope">
         <button data-s="all" class="on">Ganze Bibel</button><button data-s="at">Altes Test.</button><button data-s="nt">Neues Test.</button>
       </div>
+      <details class="sopts" id="sopts"><summary>Suchoptionen</summary>
+        <label class="sopt-l" for="sbook">Nur in Buch</label>
+        <select id="sbook" class="sel"><option value="0">Alle Bücher</option></select>
+        <div class="sopt-l">Was soll vorkommen?</div>
+        <div class="seg" id="smode"><button data-sm="all" class="on">Alle Wörter</button><button data-sm="any">Eines der Wörter</button><button data-sm="phrase">Genau so</button></div>
+        <div class="sopt-l">Wie soll ein Wort passen?</div>
+        <div class="seg" id="sword"><button data-sw="start" class="on">Wortanfang</button><button data-sw="whole">Ganzes Wort</button><button data-sw="part">Auch im Wort</button></div>
+        <p class="hint" style="font-size:.85rem;margin:.2rem 0 0">Wortanfang: „lieb“ findet Liebe, lieben, lieblich. Ganzes Wort: „Gott“ findet nur Gott, nicht Gottes. Ein Minus schließt aus: <em>Hirte -Schafe</em>. Umlaute und ß dürfen auch als ae, oe, ue, ss geschrieben werden.</p>
+      </details>
       <div id="results"></div>
     </div>
   </section>
@@ -31651,6 +31698,7 @@ let B=[],C=[],V=[],T=[],LOWER=null,VIDX=new Map(),CHIDX=new Map(),CHAPS={},KJV=f
 let LINKIDX = new Map();
 const st = Object.assign({ b:1, c:1 }, lsGet('pos', {}));
 let fs = lsGet('fs', 19);
+let sMode = 'all', sWord = 'start', sBook = 0;
 let curTab = 'read', scope = 'all', dir = 'nt', hits = [], shown = 0, hlRe = null;
 const scrollPos = {};
 
@@ -32344,9 +32392,10 @@ function openHeb(i, shown){
     ${hebCard(w, i)}`);
 }
 function hebrewHTML(){
-  let h = `<div class="hebintro"><h3>Hebräische Wörter und ihre Zahlen</h3><p>Im Hebräischen ist jeder Buchstabe zugleich eine Zahl: א = 1, ב = 2 … י = 10, כ = 20 … ק = 100 … ת = 400. Die Summe der Buchstaben ergibt den Zahlenwert eines Wortes. Diese Rechenweise (Gematria) ist eine alte jüdische Auslegungstradition. Die Zahlen sind interessante Beobachtungen; die Bibel selbst legt Wörter nicht so aus.</p></div>`;
-  HEBREW.forEach((w, i) => { h += hebCard(w, i); });
-  return h + `<p class="hint" style="margin-top:1rem">Im Lesetext sind diese Wörter violett unterstrichen, jeweils beim ersten Vorkommen im Kapitel.</p>`;
+  let h = `<details class="sect"><summary><span class="sect-t">Hebräische Wörter und ihre Zahlen</span><span class="sect-n">${HEBREW.length}</span></summary>
+    <details class="route"><summary><strong>Was ist Gematria?</strong><span class="hint">Wie die Zahlenwerte entstehen</span></summary><p>Im Hebräischen ist jeder Buchstabe zugleich eine Zahl: א = 1, ב = 2 … י = 10, כ = 20 … ק = 100 … ת = 400. Die Summe der Buchstaben ergibt den Zahlenwert eines Wortes. Diese Rechenweise (Gematria) ist eine alte jüdische Auslegungstradition. Die Zahlen sind interessante Beobachtungen; die Bibel selbst legt Wörter nicht so aus.</p><p class="hint">Im Lesetext sind diese Wörter violett unterstrichen, jeweils beim ersten Vorkommen im Kapitel.</p></details>`;
+  HEBREW.forEach((w, i) => { h += `<details class="route hebfold"><summary><span class="heb-s" lang="he" dir="rtl">${w.heb}</span><span class="heb-t"><strong>${esc(w.tr)}</strong> ${esc(w.mean.split(',')[0])}</span><span class="heb-v">${w.val}</span></summary>${hebCard(w, i)}</details>`; });
+  return h + `</details>`;
 }
 
 
@@ -32576,6 +32625,56 @@ function routeMap(r){
     <polyline points="${pts}" class="m-route"/>${dots}</svg>
     <p class="hint maphint">Vereinfachte Karte: Küsten ungefähr, Wege als gerade Linien zwischen den Stationen.</p>`;
 }
+/* ---------- Zahlen und ihre Bedeutung ---------- */
+// forms | Zahl | Titel | Bedeutung | Verbindungen [Stelle, Stichwort]
+const NU = (forms, n, title, mean, links) => ({ forms:forms.split(','), n, title, mean, links });
+const NUMBERS = [
+NU('drei,dritten,dritte,drittenmal','3','Drei','Steht oft für Vollständigkeit und Bestätigung; was dreimal gesagt oder bezeugt wird, gilt. Besonders wichtig ist der „dritte Tag“ als Tag der Rettung und der Auferstehung.',
+  [['1Mo 22,4','Abraham sieht am dritten Tag den Berg Morija'],['2Mo 19,11','Gott erscheint am dritten Tag am Sinai'],['Hos 6,2','„am dritten Tage wird er uns aufrichten“'],['Jona 1,17','Jona drei Tage und drei Nächte im Fisch'],['Jes 6,3','„Heilig, heilig, heilig“'],['Mt 12,40','Jesus deutet das Zeichen Jonas auf sich'],['Lk 22,61','Petrus verleugnet Jesus dreimal'],['1Kor 15,4','Auferstanden am dritten Tag'],['Joh 21,17','Jesus fragt Petrus dreimal: Hast du mich lieb?']]),
+NU('vier','4','Vier','Steht für die ganze Erde und Schöpfung: vier Himmelsrichtungen, vier Winde, vier Enden der Welt.',
+  [['1Mo 2,10','Vier Flüsse aus dem Garten Eden'],['Hes 1,5','Vier lebendige Wesen'],['Jes 11,12','Gott sammelt von den vier Enden der Erde'],['Mt 24,31','Die Auserwählten aus den vier Winden'],['Offb 7,1','Vier Engel an den vier Ecken der Erde']]),
+NU('sechs,666','6','Sechs','Die Zahl des Menschen, der am sechsten Tag geschaffen wurde. Sie bleibt eins unter der Sieben, der Zahl der Vollendung. 666 gilt als Zahl des Tieres.',
+  [['1Mo 1,31','Der Mensch am sechsten Tag erschaffen'],['2Mo 20,9','Sechs Tage sollst du arbeiten'],['1Sam 17,4','Goliath, sechs Ellen groß'],['Dan 3,1','Nebukadnezars Bild: sechzig Ellen hoch, sechs breit'],['Offb 13,18','Die Zahl des Tieres: 666']]),
+NU('sieben,siebenmal,siebente,siebenten,siebzigmalsiebenmal','7','Sieben','Die Zahl der Vollkommenheit und Vollendung. Gott ruhte am siebten Tag; daraus folgen Sabbat, Sabbatjahr und viele Siebener-Reihen bis in die Offenbarung.',
+  [['1Mo 2,2','Gott ruht am siebten Tag'],['2Mo 20,10','Der siebte Tag ist der Sabbat'],['Jos 6,4','Sieben Priester, sieben Posaunen, sieben Tage um Jericho'],['2Kön 5,14','Naaman taucht siebenmal im Jordan unter'],['Spr 24,16','Der Gerechte fällt siebenmal und steht wieder auf'],['Mt 18,22','Vergeben bis siebzigmal siebenmal'],['Offb 1,4','Sieben Gemeinden'],['Offb 5,1','Das Buch mit sieben Siegeln']]),
+NU('zehn','10','Zehn','Steht für Vollzähligkeit und menschliche Verantwortung vor Gott: zehn Gebote, zehn Plagen, der Zehnte.',
+  [['1Mo 18,32','Sodom würde um zehn Gerechter willen verschont'],['2Mo 34,28','Die Zehn Worte, die Zehn Gebote'],['3Mo 27,30','Der Zehnte gehört dem HERRN'],['Dan 1,12','Daniel bittet um zehn Tage Prüfung'],['Mt 25,1','Zehn Jungfrauen'],['Lk 17,12','Zehn Aussätzige, nur einer dankt']]),
+NU('zwölf','12','Zwölf','Die Zahl des Gottesvolkes: zwölf Stämme Israels im AT, zwölf Apostel im NT. Im neuen Jerusalem kommen beide zusammen.',
+  [['1Mo 49,28','Die zwölf Stämme Israels'],['2Mo 28,21','Zwölf Steine auf dem Brustschild des Hohenpriesters'],['Jos 4,3','Zwölf Steine aus dem Jordan'],['Lk 2,42','Jesus mit zwölf Jahren im Tempel'],['Mt 10,2','Die zwölf Apostel'],['Mt 14,20','Zwölf Körbe übrig nach der Speisung'],['Offb 21,12','Zwölf Tore mit den Namen der Stämme'],['Offb 21,14','Zwölf Grundsteine mit den Namen der Apostel']]),
+NU('dreißig','30','Dreißig','Das Alter, in dem man in den Dienst trat: Priester, Joseph, David und Jesus begannen ihren Auftrag mit etwa dreißig Jahren. Dreißig Silberlinge waren der Preis eines Sklaven.',
+  [['1Mo 41,46','Joseph mit dreißig Jahren vor dem Pharao'],['4Mo 4,3','Priesterdienst ab dreißig Jahren'],['2Sam 5,4','David wird mit dreißig König'],['Lk 3,23','Jesus etwa dreißig Jahre alt'],['2Mo 21,32','Dreißig Schekel Silber für einen Sklaven'],['Sach 11,12','Dreißig Silberlinge als Lohn'],['Mt 26,15','Judas erhält dreißig Silberlinge']]),
+NU('vierzig','40','Vierzig','Die Zahl der Prüfung, Bewährung und Vorbereitung. Auf eine Zeit von vierzig Tagen oder Jahren folgt oft ein Neuanfang. Jesu vierzig Tage in der Wüste spiegeln Israels vierzig Jahre in der Wüste; wo Israel versagte, bestand Jesus die Prüfung.',
+  [['1Mo 7,12','Regen vierzig Tage und vierzig Nächte'],['2Mo 24,18','Mose vierzig Tage auf dem Berg'],['4Mo 13,25','Die Kundschafter erkunden vierzig Tage das Land'],['4Mo 14,34','Israel vierzig Jahre in der Wüste'],['1Sam 17,16','Goliath fordert Israel vierzig Tage heraus'],['1Kön 19,8','Elia vierzig Tage unterwegs zum Horeb'],['Jona 3,4','Noch vierzig Tage, dann wird Ninive zerstört'],['Mt 4,2','Jesus fastet vierzig Tage in der Wüste'],['Apg 1,3','Der Auferstandene erscheint vierzig Tage lang'],['2Sam 5,4','David regiert vierzig Jahre']]),
+NU('fünfzig','50','Fünfzig','Die Zahl der Freiheit und des Neuanfangs: Nach sieben mal sieben Jahren kam das Jubeljahr; fünfzig Tage nach Passa feierte man das Wochenfest, an dem der Heilige Geist kam.',
+  [['3Mo 25,10','Das fünfzigste Jahr ist ein Jubeljahr'],['3Mo 23,16','Fünfzig Tage zählen bis zum Wochenfest'],['Apg 2,1','Pfingsten: der fünfzigste Tag']]),
+NU('siebzig','70','Siebzig','Steht für eine große, vollständige Zahl, oft im Blick auf die Völker der Welt. Siebzig ist auch die Dauer des babylonischen Exils.',
+  [['2Mo 1,5','Siebzig Nachkommen Jakobs ziehen nach Ägypten'],['4Mo 11,16','Siebzig Älteste helfen Mose'],['Ps 90,10','Unser Leben währt siebzig Jahre'],['Jer 25,11','Siebzig Jahre Exil in Babylon'],['Dan 9,24','Siebzig Wochen sind bestimmt'],['Lk 10,1','Jesus sendet siebzig Jünger aus'],['Mt 18,22','Vergeben bis siebzigmal siebenmal']]),
+NU('hundertdreiundfünfzig','153','Hundertdreiundfünfzig','Die genaue Zahl der Fische beim Fischzug nach der Auferstehung. Schon Kirchenväter rätselten darüber; manche sahen darin alle bekannten Fischarten und damit alle Völker, die die Apostel „fischen“ sollten.',
+  [['Joh 21,11','153 große Fische'],['Mt 4,19','„Ich will euch zu Menschenfischern machen“']]),
+NU('zweiundvierzig,tausendzweihundertsechzig','42 Monate','Dreieinhalb Jahre','Zweiundvierzig Monate oder 1260 Tage entsprechen dreieinhalb Jahren, der Hälfte von sieben. Sie stehen in Daniel und der Offenbarung für eine begrenzte Zeit der Bedrängnis.',
+  [['Dan 7,25','Eine Zeit, zwei Zeiten und eine halbe Zeit'],['Offb 11,2','Zweiundvierzig Monate'],['Offb 11,3','1260 Tage'],['Offb 12,6','Die Frau in der Wüste 1260 Tage'],['Offb 13,5','Macht für zweiundvierzig Monate'],['Lk 4,25','Dreieinhalb Jahre Dürre zur Zeit Elias'],['Jak 5,17','Elia betet, es regnet dreieinhalb Jahre nicht']]),
+NU('tausend','1000','Tausend','Steht für eine unermesslich große Zahl und für Gottes Zeit, die nicht unserer gleicht. In der Offenbarung ist vom Tausendjährigen Reich die Rede, dessen Deutung unter Christen umstritten ist.',
+  [['Ps 90,4','Tausend Jahre sind vor dir wie der gestrige Tag'],['2Petr 3,8','Ein Tag wie tausend Jahre'],['Ps 50,10','Das Vieh auf den Bergen zu Tausenden gehört Gott'],['5Mo 7,9','Gott hält Bund bis ins tausendste Geschlecht'],['Offb 20,2','Der Satan gebunden für tausend Jahre']]),
+NU('hundertvierundvierzigtausend','144 000','Hundertvierundvierzigtausend','12 mal 12 mal 1000: Die Zahl des Gottesvolkes (zwölf), mit sich selbst multipliziert und ins Unermessliche gesteigert. Ob sie wörtlich oder symbolisch gemeint ist, wird unterschiedlich ausgelegt.',
+  [['Offb 7,4','144 000 Versiegelte aus den Stämmen Israels'],['Offb 14,1','Die 144 000 mit dem Lamm auf dem Berg Zion']])
+];
+const HEB_LETTER_FOR = { '3':'ג (Gimel)', '4':'ד (Dalet)', '6':'ו (Waw)', '7':'ז (Sajin)', '10':'י (Jod)', '30':'ל (Lamed)', '40':'מ (Mem)', '50':'נ (Nun)', '70':'ע (Ajin)' };
+function numberCard(x){
+  const hb = HEB_LETTER_FOR[x.n];
+  return `<div class="num-big">${esc(x.n)}</div>${hb ? `<p class="hint" style="margin:.1rem 0 .4rem">Im Hebräischen hat der Buchstabe <span class="heb-inline" lang="he">${hb.split(' ')[0]}</span> ${esc(hb.split(' ').slice(1).join(' '))} diesen Zahlenwert.</p>` : ''}
+    <p class="info-text">${esc(x.mean)}</p><h3 class="grp at" style="margin-top:.9rem">Wo diese Zahl wichtig ist</h3>
+    ${x.links.map(([r, t]) => { const p = parseLoose(r); return p ? `<button class="xref" data-goto="${p.b},${p.c},${p.v}"><span class="ref ${tst(p.b)}">${esc(r)}</span><span class="lbl">${esc(t)}</span></button>` : ''; }).join('')}
+    <p class="hint" style="font-size:.85rem;margin-top:.8rem">Zahlensymbolik ist Auslegung: Nicht jede Zahl im Text ist symbolisch gemeint, oft ist sie einfach eine Zahl.</p>`;
+}
+function openNumber(i, shown){
+  const x = NUMBERS[i];
+  openSheet(`<div class="sh-head"><strong style="font-size:1.2rem">Die Zahl ${esc(x.title)}</strong><button class="close" data-act="close">Schließen</button></div>${numberCard(x)}`);
+}
+function numbersHTML(){
+  return `<details class="sect"><summary><span class="sect-t">Zahlen in der Bibel</span><span class="sect-n">${NUMBERS.length}</span></summary><p class="hint">Im Lesetext sind diese Zahlen grün unterstrichen, jeweils beim ersten Vorkommen im Kapitel.</p>`
+    + NUMBERS.map(x => `<details class="route"><summary><strong>${esc(x.n)}: ${esc(x.title)}</strong><span class="hint">${esc(x.mean.split('. ')[0])}.</span></summary>${numberCard(x)}</details>`).join('') + `</details>`;
+}
+
 
 /* ---------- Markierung im Text ---------- */
 const TERMS = {};
@@ -32583,11 +32682,16 @@ PLACES.forEach((p, i) => p.names.forEach(n => TERMS[n] = ['pl', i]));
 PERSONS.forEach((p, i) => p.names.forEach(n => TERMS[n] = ['ps', i]));
 WORDS.forEach((w, i) => w.forms.forEach(n => TERMS[n] = ['wd', i]));
 HEBREW.forEach((w, i) => w.forms.forEach(n => TERMS[n] = ['hb', i]));
+NUMBERS.forEach((x, i) => x.forms.forEach(n => { TERMS[n] = ['nu', i]; const cap = n[0].toUpperCase() + n.slice(1); if (!TERMS[cap]) TERMS[cap] = ['nu', i]; }));
 const TERM_RE = new RegExp('(^|[^A-Za-zÄÖÜäöüß-])(' + Object.keys(TERMS).sort((a,b) => b.length - a.length).map(escRe).join('|') + ')((?:e?s)?)(?![A-Za-zÄÖÜäöüß])', 'g');
-let MARKS = Object.assign({ pl:true, ps:true, wd:true, hb:true }, lsGet('marks', {}));
+let MARKS = Object.assign({ pl:true, ps:true, wd:true, hb:true, nu:true }, lsGet('marks', {}));
 let MARKCTX = null; // { b, seen:Set } für Hebräisch: nur erstes Vorkommen je Kapitel
 const markAll = s => s.replace(TERM_RE, (m, pre, name, suf) => {
   const [t, i] = TERMS[name]; if (!MARKS[t]) return m;
+  if (t === 'nu'){
+    if (!MARKCTX || MARKCTX.seen.has('n' + i)) return m;
+    MARKCTX.seen.add('n' + i);
+  }
   if (t === 'hb'){
     if (!MARKCTX || (HEBREW[i].scope === 'ot' && MARKCTX.b > 39) || MARKCTX.seen.has(i)) return m;
     MARKCTX.seen.add(i);
@@ -32957,7 +33061,7 @@ function renderMore(){
     h += `<div class="chips">${list.map(x => `<button class="chipbtn" data-ps="${x.i}">${esc(x.n)}</button>`).join('')}</div>`;
   } else {
     const list = WORDS.map((w, i) => ({ i, w })).sort((a,b) => a.w.title.localeCompare(b.w.title, 'de'));
-    h += hebrewHTML();
+    h += hebrewHTML() + numbersHTML();
   }
   $('#moreBody').innerHTML = h;
 }
@@ -33151,34 +33255,208 @@ function parseRefInput(q){
   return { b, c:+m[2], v:m[3] ? +m[3] : 0 };
 }
 
+const LET = 'A-Za-zÄÖÜäöüß';
+// Zahlen in Worte: 144000 -> hundertvierundvierzigtausend (so schreibt die Schlachter Zahlen)
+function numWords(n){
+  const O = ['','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun'], OC = ['','ein','zwei','drei','vier','fünf','sechs','sieben','acht','neun'];
+  const TEEN = ['zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'];
+  const TEN = ['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
+  const u100 = (x, end) => x === 0 ? '' : x < 10 ? (end ? O[x] : OC[x]) : x < 20 ? TEEN[x - 10] : (x % 10 ? OC[x % 10] + 'und' : '') + TEN[Math.floor(x / 10)];
+  const u1000 = (x, end, ein) => { const h = Math.floor(x / 100), r = x % 100; return (h ? (h === 1 ? (ein ? 'einhundert' : 'hundert') : OC[h] + 'hundert') : '') + u100(r, end); };
+  if (n === 0) return ['null'];
+  if (n >= 1000000) return [];
+  const out = new Set();
+  [false, true].forEach(ein => {
+    const th = Math.floor(n / 1000), r = n % 1000;
+    let w = '';
+    if (th) w += (th === 1 ? (ein ? 'eintausend' : 'tausend') : u1000(th, false, ein) + 'tausend');
+    w += u1000(r, true, ein);
+    out.add(w);
+  });
+  return [...out];
+}
+function termPattern(t){
+  const pre0 = sWord === 'part' ? '' : `(?<![${LET}0-9])`, post0 = sWord === 'whole' ? `(?![${LET}0-9])` : '';
+  if (/^\d+$/.test(t)){
+    const alts = [t, ...numWords(+t)].filter(Boolean);
+    return pre0 + '(?:' + alts.map(escRe).join('|') + ')' + (sWord === 'part' ? '' : `(?![0-9])`) + post0;
+  }
+  // Umlaute und ß gleichwertig zu ae/oe/ue/ss behandeln
+  let p = '';
+  const low = t.toLowerCase();
+  for (let k = 0; k < low.length; k++){
+    const ch = low[k], two = low.slice(k, k + 2);
+    if (two === 'ae'){ p += '(?:ae|ä)'; k++; }
+    else if (two === 'oe'){ p += '(?:oe|ö)'; k++; }
+    else if (two === 'ue'){ p += '(?:ue|ü)'; k++; }
+    else if (two === 'ss'){ p += '(?:ss|ß)'; k++; }
+    else if (ch === 'ä') p += '(?:ä|ae)';
+    else if (ch === 'ö') p += '(?:ö|oe)';
+    else if (ch === 'ü') p += '(?:ü|ue)';
+    else if (ch === 'ß') p += '(?:ß|ss)';
+    else if (/\s/.test(ch)){ p += '[\\s,;:.!?«»„“"\'’-]+'; while (/\s/.test(low[k + 1] || '')) k++; }
+    else p += escRe(ch);
+  }
+  const pre = sWord === 'part' ? '' : `(?<![${LET}])`, post = sWord === 'whole' ? `(?![${LET}])` : '';
+  return pre + p + post;
+}
+/* ---------- Fragen stellen ---------- */
+const Q_STOP = new Set('wer wen wem wessen wie was wo wann warum wieso weshalb welche welcher welches welchen womit wohin woher hat haben hatte hatten ist war waren wurde wurden wird werden sind bin der die das den dem des ein eine einen einem einer eines und oder mit am an im in auf zu zum zur von vom aus bei nach für über unter vor hinter sich er sie es ihn ihm ihr ihre sein seine seinen seinem gibt gab steht stand bibel stelle stellen vers verse wort nicht auch als dass daß so mal denn man noch schon sehr viel viele alle alles etwas jemand einer gegen durch um bis wieder dort hier da dann wenn doch heißt hieß genannt namens'.split(' '));
+const Q_IRREG = { gerungen:['rang','ringen','gerungen','kämpf','rang'], rang:['rang','ringen'], ringen:['rang','ringen'], gekämpft:['kämpf','stritt','rang'], kämpfte:['kämpf','stritt','rang'], geschlagen:['schlag','schlug'], erschlagen:['schlag','schlug','erschlug'], getötet:['tötet','erschlug','schlug'], tötete:['tötet','erschlug'], gesehen:['seh','sah'], gegangen:['geh','ging'], gestorben:['starb','sterb','tot'], geboren:['geboren','gebar','geburt'], gesprochen:['sprach','sprech','red'], gesagt:['sprach','sag'], gefunden:['find','fand'], gegessen:['aß','ess'], getrunken:['trank','trink'], geworfen:['warf','werf'], gesandt:['sandt','send'], verraten:['verrat','verriet'], gefallen:['fiel','fall'], geflohen:['floh','flieh'], gerufen:['rief','ruf'], erschienen:['erschien'], geschlafen:['schlief'], geträumt:['träum','traum'], besiegt:['sieg','schlug','überwand'], versucht:['versuch'], gekreuzigt:['kreuzig'], begraben:['begrab','grab'], auferstanden:['auferstand','auferweck'], geheilt:['heil','gesund'], getauft:['tauf'], gebaut:['baut'], verkauft:['verkauf'], geopfert:['opfer'], gesegnet:['segn'], gebetet:['betet'], geweint:['weint'], verleugnet:['verleugn'], geschrieben:['schrieb'], verschlungen:['verschl'], geblieben:['blieb'], gefastet:['fastet'], gestohlen:['stahl','stehl'], gelogen:['log','lüg'] };
+const Q_SYN = { fluss:['jordan','jabbok','strom','fluß','bach','wasser'], 'fluß':['jordan','jabbok','strom','fluß','bach','wasser'], gott:['gott','herr'], riese:['goliath','ries'], wal:['fisch'], walfisch:['fisch'], schiff:['schiff','arche','kasten'], boot:['schiff','boot'], arche:['arche','kasten'], baby:['kind','knäblein','säugling'], tod:['tod','starb','tot','sterb'], frau:['frau','weib'], meer:['meer','see'], see:['see','meer'], esel:['esel'], löwe:['löwe'], löwen:['löwe'], teufel:['teufel','satan','versucher'], traum:['traum','träum'], hirte:['hirt'], schafe:['schaf'], sturm:['sturm','wind'], krieg:['krieg','streit'], vater:['vater'], mutter:['mutter'], bruder:['bruder','brüder'], sohn:['sohn','söhne'], jünger:['jünger'], wunder:['wunder','zeichen'], gebet:['betet','gebet'], beten:['betet','bete'] };
+function qStems(w){
+  w = w.toLowerCase();
+  if (Q_IRREG[w]) return Q_IRREG[w];
+  if (Q_SYN[w]) return Q_SYN[w];
+  let s = w;
+  if (s.startsWith('ge') && s.length > 6) s = s.slice(2);
+  for (const suf of ['ungen','ung','ten','en','te','et','st','er','es','e','t','n','s']) if (s.endsWith(suf) && s.length - suf.length >= 3){ s = s.slice(0, -suf.length); break; }
+  return [s];
+}
+const isQuestion = q => /\?\s*$/.test(q) || /^(wer|wen|wem|wessen|wie|was|wo|wann|warum|wieso|weshalb|welche[rsnm]?|womit|wohin|woher|wovon|gibt es)\b/i.test(q.trim());
+function qKeywords(q){
+  const words = q.replace(/[?!.,;:„“"()]/g, ' ').split(/\s+/).filter(w => w.length >= 2 && !Q_STOP.has(w.toLowerCase()));
+  const seen = new Set();
+  return words.filter(w => { const k = w.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; })
+    .map(w => { const alts = [...new Set([w.toLowerCase(), ...qStems(w)])]; return { word:w, re:new RegExp(`(?<![${LET}])(?:${alts.map(escRe).join('|')})(?:e|en|es|s|n|t|te|ten|et|est|st|er|ern|ens|end|ung|ungen)?(?![${LET}])`, 'i') }; });
+}
+function questionSearch(q){
+  const kws = qKeywords(q);
+  if (!kws.length) return { kws, topics:[], passages:[] };
+  const N = T.length, masks = new Uint32Array(N), df = kws.map(() => 0);
+  kws.forEach((k, j) => { if (j > 30) return; for (let i = 0; i < N; i++){ if (scope === 'at' && B[i] > 39) continue; if (scope === 'nt' && B[i] < 40) continue; if (sBook && B[i] !== sBook) continue; if (k.re.test(T[i])){ masks[i] |= (1 << j); df[j]++; } } });
+  const idf = df.map(d => d ? Math.log(N / (d + 1)) + 1 : 0);
+  const scoreMask = m => { let s = 0, n = 0; kws.forEach((_, j) => { if (m & (1 << j)){ s += idf[j]; n++; } }); return { s: s + (n === kws.length && n > 1 ? 4 : 0), n }; };
+  const cands = [];
+  for (let i = 0; i < N; i++){
+    if (!masks[i]) continue;
+    let m = 0, end = i, best = 0; const hitsIn = [];
+    for (let k = i; k < Math.min(N, i + 7) && B[k] === B[i] && C[k] === C[i]; k++){ m |= masks[k]; if (masks[k]){ end = k; hitsIn.push(k); let c = 0, x = masks[k]; while (x){ c += x & 1; x >>>= 1; } if (c > best) best = c; } }
+    const sc = scoreMask(m);
+    if (sc.n >= Math.min(2, kws.length)) cands.push({ i, end, hitsIn, s:sc.s + (best === kws.length && kws.length > 1 ? 3 : 0) + best * 0.5, n:sc.n });
+  }
+  // Themen aus den Listen der App
+  const pool = [];
+  EVENTS_AT.concat(EVENTS_NT).forEach(e => pool.push({ title:e.title, sub:e.place + ', heute ' + e.modern, ref:e.ref, hay:e.title + ' ' + e.place + ' ' + e.modern + ' ' + e.note }));
+  PARABLES.forEach(p => pool.push({ title:p.title, sub:p.kern, ref:p.refs[0], hay:p.title + ' ' + p.bild }));
+  PERSONS.forEach(p => p.entries.forEach(e => { const r = e.refs.split(';')[0].trim(); pool.push({ title:e.title, sub:e.text.split('. ')[0], ref:r, hay:e.title + ' ' + e.text }); }));
+  const topics = pool.map(t => { let n = 0, s = 0; kws.forEach((k, j) => { if (k.re.test(t.hay)){ n++; s += idf[j] || 1; } }); return Object.assign({ n, s }, t); })
+    .filter(t => t.n >= Math.min(2, kws.length)).sort((a, b) => b.s - a.s).slice(0, 5);
+  const near = topics.map(t => parseLoose(t.ref)).filter(Boolean);
+  cands.forEach(c => { if (near.some(r => r.b === B[c.i] && r.c === C[c.i] && Math.abs((r.v || 1) - V[c.i]) <= 6)) c.s += 4; });
+  cands.sort((a, b) => b.s - a.s || a.i - b.i);
+  const passages = [];
+  for (const c of cands){
+    if (passages.some(p => B[p.i] === B[c.i] && C[p.i] === C[c.i] && Math.abs(V[p.i] - V[c.i]) <= 6)) continue;
+    passages.push(c); if (passages.length >= 12) break;
+  }
+  return { kws, topics, passages };
+}
+function renderQuestion(q, out){
+  const { kws, topics, passages } = questionSearch(q);
+  hlRe = kws.length ? new RegExp(kws.map(k => k.re.source).join('|'), 'gi') : null;
+  let h = `<div class="qa-box"><div class="qa-q">„${esc(q)}“</div><p class="hint" style="margin:.2rem 0 0">Gesucht nach: ${kws.map(k => `<strong>${esc(k.word)}</strong>`).join(', ') || '–'}</p><div id="aiBox"></div></div>`;
+  if (topics.length) h += `<h3 class="grp at">Passende Themen</h3>` + topics.map(t => { const r = parseLoose(t.ref); return r ? `<button class="res" data-goto="${r.b},${r.c},${r.v}"><span class="ref ${tst(r.b)}">${esc(t.ref)}</span><span class="t" style="font-family:inherit;font-weight:700">${esc(t.title)}</span><span class="hint">${esc(t.sub)}</span></button>` : ''; }).join('');
+  if (passages.length) h += `<h3 class="grp nt">Mögliche Bibelstellen</h3>` + passages.map(p => {
+    const show = p.hitsIn;
+    const ref = `${BOOKS[B[p.i]-1][0]} ${C[p.i]},${V[p.i]}${p.end > p.i ? '–' + V[p.end] : ''}`;
+    return `<button class="res" data-goto="${B[p.i]},${C[p.i]},${V[p.i]}"><span class="ref ${tst(B[p.i])}">${esc(ref)}</span><span class="t">${show.map((k, n) => (n && V[k] - V[show[n-1]] > 1 ? '<span class="qgap">…</span> ' : '') + `<sup class="qv">${V[k]}</sup>${hl(T[k])}`).join(' ')}</span></button>`;
+  }).join('');
+  if (!topics.length && !passages.length) h += `<p class="hint">Dazu habe ich keine passende Stelle gefunden. Versuche andere Wörter oder eine einfachere Frage, z. B. „Wer baute die Arche?“.</p>`;
+  out.innerHTML = h;
+  setupAI(q);
+}
+async function setupAI(q){
+  const box = $('#aiBox'); if (!box) return;
+  const sample = await cap('sample');
+  if (!sample || !$('#aiBox')) return;
+  $('#aiBox').innerHTML = `<button class="primary qa-ai" data-act="askai">Claude genauer fragen</button>`;
+  AIQ = q;
+}
+let AIQ = '', aiCtl = null;
+function simpleSearch(words){
+  const terms = String(words || '').split(/\s+/).filter(w => w.length >= 2).slice(0, 6);
+  if (!terms.length) return [];
+  const res = terms.map(t => new RegExp(`(?<![${LET}])${escRe(t)}`, 'i')), out = [];
+  for (let i = 0; i < T.length && out.length < 20; i++) if (res.every(r => r.test(T[i]))) out.push(`${BOOKS[B[i]-1][0]} ${C[i]},${V[i]}: ${T[i]}`);
+  return out;
+}
+async function askAI(){
+  const box = $('#aiBox'); if (!box) return;
+  const sample = await cap('sample'); if (!sample){ box.innerHTML = ''; return; }
+  box.innerHTML = `<p class="hint qa-wait">Claude denkt nach … <button class="small" data-act="stopai">Stopp</button></p>`;
+  aiCtl = new AbortController();
+  const abbr = BOOKS.map(b => b[0]).join(', ');
+  const prompt = `Du hilfst in einer deutschen Bibel-App, passende Bibelstellen zu einer Frage zu finden. Die App nutzt die Schlachter-Bibel 1951 (Verszählung wie in englischen Bibeln, z. B. 1Mo 32,24 für Jakobs Ringen).
+Frage: ${AIQ}
+Prüfe deine Stellen mit dem Werkzeug „bibel_suchen“ (Wortanfänge, alle Wörter müssen im Vers stehen; alte Schreibweisen wie „daß“ beachten).
+Antworte NUR mit JSON in dieser Form:
+{"antwort":"kurze sachliche Antwort auf Deutsch in 1 bis 3 Sätzen","stellen":[{"stelle":"1Mo 32,24","grund":"kurzer Grund"}]}
+Höchstens 6 Stellen, die wichtigste zuerst. Verwende nur diese Buchabkürzungen: ${abbr}. Wenn die Bibel die Frage nicht beantwortet, sag das ehrlich.`;
+  try {
+    const data = await sample.json(prompt, { modelTier:'default', signal:aiCtl.signal, tools:[{ name:'bibel_suchen', description:'Sucht in der Schlachter-Bibel 1951. Eingabe: einige Wörter oder Wortanfänge. Gibt bis zu 20 Verse mit Stelle zurück.', inputSchema:{ type:'object', properties:{ woerter:{ type:'string' } }, required:['woerter'] }, execute: ({ woerter }) => { const w = $('.qa-wait'); if (w) w.firstChild.textContent = `Claude sucht nach „${woerter}“ … `; return simpleSearch(woerter); } }] });
+    if (!$('#aiBox')) return;
+    const items = (data && Array.isArray(data.stellen) ? data.stellen : []).map(s => ({ r:parseLoose(String(s.stelle || '')), label:String(s.stelle || ''), why:String(s.grund || '') })).filter(x => x.r && VIDX.has(vkey(x.r.b, x.r.c, x.r.v || 1)));
+    $('#aiBox').innerHTML = `<div class="qa-ai-ans"><div class="qa-ai-h">Antwort von Claude</div><p>${esc(String(data && data.antwort || ''))}</p>${items.map(x => { const i = VIDX.get(vkey(x.r.b, x.r.c, x.r.v || 1)); return `<button class="res" data-goto="${x.r.b},${x.r.c},${x.r.v || 1}"><span class="ref ${tst(x.r.b)}">${esc(x.label)}</span><span class="hint">${esc(x.why)}</span><span class="t">${esc(T[i])}</span></button>`; }).join('')}<p class="hint" style="font-size:.8rem">KI-Antwort; die Verse oben stammen aus deiner Schlachter-Bibel. Bitte selbst nachlesen.</p></div>`;
+  } catch(e){
+    if (!$('#aiBox')) return;
+    const msg = e && e.code === 'not_granted' ? 'Claude wurde nicht erlaubt.' : e && e.code === 'aborted' ? 'Abgebrochen.' : e && e.code === 'rate_limited' ? 'Gerade zu viele Anfragen, bitte später noch einmal.' : 'Claude konnte gerade nicht antworten.';
+    $('#aiBox').innerHTML = `<p class="hint">${msg}</p>` + (e && e.code === 'not_granted' ? '' : `<button class="small" data-act="askai">Noch einmal fragen</button>`);
+  }
+}
+
 function runSearch(){
   const q = $('#q').value.trim(), out = $('#results');
-  hits = []; shown = 0;
-  if (!q){ out.innerHTML = `<p class="hint">Gib ein oder mehrere Stichworte ein, zum Beispiel <em>Gnade Glaube</em>. Alle Wörter müssen im Vers vorkommen. Für eine feste Wortfolge setze sie in Anführungszeichen. Eine Bibelstelle wie <em>Joh 3,16</em> öffnet sie direkt.</p>`; return; }
+  hits = []; shown = 0; hlRe = null;
+  if (!q){ out.innerHTML = `<p class="hint">Gib ein oder mehrere Stichworte ein, zum Beispiel <em>Gnade Glaube</em>. Eine feste Wortfolge setzt du in Anführungszeichen, z. B. <em>„Reich Gottes“</em>. Eine Bibelstelle wie <em>Joh 3,16</em> öffnet sie direkt. Du kannst auch eine <strong>Frage</strong> stellen, z. B. <em>Wer hat am Fluss mit Gott gerungen?</em> Unter „Suchoptionen“ kannst du ein Buch wählen und einstellen, wie genau gesucht wird.</p>`; return; }
   let h = '';
   const ref = parseRefInput(q);
   if (ref && (!LOADED || CHIDX.has(ref.b*1000 + ref.c))){
     h += `<button class="goto" data-goto="${ref.b},${ref.c},${ref.v}">${esc(BOOKS[ref.b-1][1])} ${ref.c}${ref.v ? ',' + ref.v : ''} öffnen</button>`;
     if (/\d/.test(q)){ out.innerHTML = h; return; }
   }
-  if (!LOADED){ out.innerHTML = h + `<p class="hint">Für die Stichwortsuche lade zuerst die Bibeldatei im Reiter „Bibel“.</p>`; return; }
-  const terms = []; q.toLowerCase().replace(/[„“"]([^„“"]+)[„“"]|(\S+)/g, (m, p, w) => { const t = (p || w).trim(); if (t.length >= 2) terms.push(t); return m; });
-  if (!terms.length){ out.innerHTML = h; return; }
-  if (!LOWER) LOWER = T.map(t => t.toLowerCase());
-  for (let i = 0; i < LOWER.length; i++){
+  if (!LOADED){ out.innerHTML = h; return; }
+  if (isQuestion(q)){ out.innerHTML = h; const d = document.createElement('div'); out.appendChild(d); renderQuestion(q, d); return; }
+  const qn = q.replace(/(\d)[\s.'’](?=\d{3}(?!\d))/g, '$1');
+  // Begriffe zerlegen: „Wortgruppe“, -ausschließen, normale Wörter
+  const inc = [], exc = [];
+  if (sMode === 'phrase'){ const t = qn.replace(/[„“"]/g, '').trim(); if (t.length >= 2) inc.push(t); }
+  else qn.replace(/(-?)[„“"]([^„“"]+)[„“"]|(-?)(\S+)/g, (m, n1, ph, n2, w) => { const t = (ph || w || '').trim(), neg = (n1 || n2) === '-'; if (t.length >= 2) (neg ? exc : inc).push(t); return m; });
+  if (!inc.length){ out.innerHTML = h + `<p class="hint">Bitte mindestens ein Wort mit zwei Buchstaben eingeben.</p>`; return; }
+  let incRe, excRe;
+  try { incRe = inc.map(t => new RegExp(termPattern(t), 'i')); excRe = exc.map(t => new RegExp(termPattern(t), 'i')); hlRe = new RegExp(inc.map(termPattern).join('|'), 'gi'); }
+  catch(e){ out.innerHTML = h + `<p class="hint">Diese Suche wird von deinem Browser nicht unterstützt.</p>`; return; }
+  const any = sMode === 'any';
+  for (let i = 0; i < T.length; i++){
     if (scope === 'at' && B[i] > 39) continue;
     if (scope === 'nt' && B[i] < 40) continue;
-    const s = LOWER[i]; let ok = true;
-    for (const t of terms){ if (s.indexOf(t) < 0){ ok = false; break; } }
+    if (sBook && B[i] !== sBook) continue;
+    const t = T[i];
+    let ok = any ? incRe.some(r => r.test(t)) : incRe.every(r => r.test(t));
+    if (ok && excRe.length && excRe.some(r => r.test(t))) ok = false;
     if (ok) hits.push(i);
   }
-  hlRe = new RegExp(terms.map(escRe).join('|'), 'gi');
-  h += `<p class="count">${hits.length ? hits.length.toLocaleString('de-DE') + (hits.length === 1 ? ' Vers' : ' Verse') : 'Keine Verse gefunden. Prüfe die Schreibweise; ältere Übersetzungen nutzen teils alte Formen.'}${verOf(ACTIVE) ? ' in ' + esc(verOf(ACTIVE).name) : ''}</p><div id="hitList"></div>`;
+  let occ = 0; hits.forEach(i => { const m = T[i].match(hlRe); occ += m ? m.length : 0; });
+  const byBook = {}; hits.forEach(i => byBook[B[i]] = (byBook[B[i]] || 0) + 1);
+  const where = (sBook ? BOOKS[sBook-1][1] : scope === 'at' ? 'Altes Testament' : scope === 'nt' ? 'Neues Testament' : 'ganze Bibel');
+  if (!hits.length){
+    h += `<p class="count">Keine Verse gefunden (${esc(where)}).</p><p class="hint">Tipps: Stell unter „Suchoptionen“ auf „Wortanfang“ oder „Auch im Wort“, nimm weniger Wörter oder wähle „Eines der Wörter“. Die Schlachter 1951 nutzt teils ältere Formen, z. B. „daß“ oder „Weib“.</p>`;
+    out.innerHTML = h; return;
+  }
+  h += `<p class="count"><strong>${hits.length.toLocaleString('de-DE')} ${hits.length === 1 ? 'Vers' : 'Verse'}</strong>, ${occ.toLocaleString('de-DE')} Fundstellen (${esc(where)})</p>`;
+  const books = Object.keys(byBook).map(Number).sort((a, b) => a - b);
+  if (!sBook && books.length > 1){
+    h += `<div class="bdist">${books.map(b => `<button class="bchip ${tst(b)}" data-sb="${b}">${esc(BOOKS[b-1][0])} <span>${byBook[b]}</span></button>`).join('')}</div>`;
+  } else if (sBook){
+    h += `<button class="small" data-sb="0" style="margin-bottom:.4rem">Wieder in allen Büchern suchen</button>`;
+  }
+  h += `<div id="hitList"></div>`;
   out.innerHTML = h;
   showMore();
 }
 function hl(t){
-  let out = '', last = 0;
+  if (!hlRe) return esc(t);
+  let out = '', last = 0; hlRe.lastIndex = 0;
   t.replace(hlRe, (m, off) => { out += esc(t.slice(last, off)) + '<mark>' + esc(m) + '</mark>'; last = off + m.length; return m; });
   return out + esc(t.slice(last));
 }
@@ -33223,7 +33501,7 @@ const ABOUT_TEXT = 'Markierungen und Notizen werden nur in diesem Browser auf di
 function renderData(){
   let h = `<div class="card"><h3>JHWH Das Wort</h3><p>Bibeltext: Schlachter-Bibel 1951${B.length ? ', ' + B.length.toLocaleString('de-DE') + ' Verse' : ''}. © 1951 Genfer Bibelgesellschaft, Lizenz CC BY 4.0 (creativecommons.org/licenses/by/4.0). Quelle: eBible.org; Markierungen der Verszählung wurden entfernt.</p></div>`;
   h += `<div class="card"><h3>Markierungen im Text</h3><p>Angetippte Wörter zeigen Erklärungen. Hier kannst du einzelne Arten ausblenden.</p>
-    <div class="btns">${[['pl','Orte'],['ps','Personen'],['wd','Begriffe'],['hb','Hebräisch']].map(([k,l]) => `<button class="toggle ${MARKS[k] ? 'on' : ''}" data-mark="${k}">${l}</button>`).join('')}</div></div>`;
+    <div class="btns">${[['pl','Orte'],['ps','Personen'],['wd','Begriffe'],['hb','Hebräisch'],['nu','Zahlen']].map(([k,l]) => `<button class="toggle ${MARKS[k] ? 'on' : ''}" data-mark="${k}">${l}</button>`).join('')}</div></div>`;
   h += `<div class="card"><h3>Schriftgröße</h3><p>Gilt für den Bibeltext im Lesemodus.</p>
     <div class="fsrow"><button class="secondary" data-act="fs-" aria-label="Kleiner">A−</button><output id="fsOut">${fs}</output><button class="secondary" data-act="fs+" aria-label="Größer">A+</button></div></div>
     <div class="card"><h3>Speicherung</h3><p>${esc(ABOUT_TEXT)}</p></div>`;
@@ -33252,8 +33530,8 @@ let delArmed = false;
 document.addEventListener('click', async e => {
   const glc = e.target.closest('[data-gl]');
   if (glc){ openParable(+glc.dataset.gl, glc.dataset.glr); return; }
-  const mk = e.target.closest('span.pl, span.ps, span.wd, span.hb');
-  if (mk){ const d0 = mk.dataset; if (d0.pl != null) openPlace(+d0.pl); else if (d0.ps != null) openPerson(+d0.ps); else if (d0.hb != null) openHeb(+d0.hb, mk.textContent); else openWord(+d0.wd); return; }
+  const mk = e.target.closest('span.pl, span.ps, span.wd, span.hb, span.nu');
+  if (mk){ const d0 = mk.dataset; if (d0.pl != null) openPlace(+d0.pl); else if (d0.ps != null) openPerson(+d0.ps); else if (d0.hb != null) openHeb(+d0.hb, mk.textContent); else if (d0.nu != null) openNumber(+d0.nu, mk.textContent); else openWord(+d0.wd); return; }
   const el = e.target.closest('button, .vs');
   if (!el){ if (e.target === $('#sheet')) closeSheet(); return; }
   const d = el.dataset;
@@ -33263,6 +33541,9 @@ document.addEventListener('click', async e => {
   if (d.book){ openChapters(+d.book); return; }
   if (d.chap){ const [b,c] = d.chap.split(',').map(Number); closeSheet(); goTo(b, c); return; }
   if (d.li != null){ openLink(+d.li, +d.ti); return; }
+  if (d.sm){ sMode = d.sm; document.querySelectorAll('#smode button').forEach(x => x.classList.toggle('on', x === el)); runSearch(); return; }
+  if (d.sw){ sWord = d.sw; document.querySelectorAll('#sword button').forEach(x => x.classList.toggle('on', x === el)); runSearch(); return; }
+  if (d.sb != null){ sBook = +d.sb; $('#sbook').value = String(sBook); runSearch(); window.scrollTo(0, 0); return; }
   if (d.s){ scope = d.s; document.querySelectorAll('#scope button').forEach(x => x.classList.toggle('on', x === el)); runSearch(); return; }
   if (d.d){ dir = d.d; document.querySelectorAll('#dir button').forEach(x => x.classList.toggle('on', x === el)); renderLinks(); return; }
   if (d.hl != null && SHEETKEY){
@@ -33288,6 +33569,8 @@ document.addEventListener('click', async e => {
     case 'books': openBooks(); break;
     case 'import': closeSheet(); $('#file').value = ''; $('#file').click(); break;
     case 'more': showMore(); break;
+    case 'askai': askAI(); break;
+    case 'stopai': if (aiCtl) aiCtl.abort(); break;
     case 'savenote': case 'delnote': {
       if (!SHEETKEY) break;
       const txt = d.act === 'delnote' ? '' : $('#noteTA').value.trim();
@@ -33339,6 +33622,8 @@ document.addEventListener('input', e => {
   document.querySelectorAll('.evrow').forEach(r => { const ok = !q || r.dataset.txt.includes(q); r.hidden = !ok; if (ok) n++; });
   const none = $('#evnone'); if (none) none.hidden = n > 0;
 });
+$('#sbook').innerHTML = '<option value="0">Alle Bücher</option>' + BOOKS.map((bk, i) => `<option value="${i + 1}">${bk[1]}</option>`).join('');
+$('#sbook').addEventListener('change', e => { sBook = +e.target.value; runSearch(); });
 let qt; $('#q').addEventListener('input', () => { clearTimeout(qt); qt = setTimeout(runSearch, 250); });
 $('#q').addEventListener('keydown', e => { if (e.key === 'Enter'){ clearTimeout(qt); runSearch(); e.target.blur(); } });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
